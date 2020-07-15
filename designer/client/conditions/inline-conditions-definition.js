@@ -166,7 +166,7 @@ class InlineConditionsDefinition extends React.Component {
           }
           {condition.value &&
           <div className='govuk-form-group'>
-            <a href='#' id='save-condition' className='govuk-link' onClick={this.onClickFinalise}>Save condition</a>
+            <a href='#' id='save-condition' className='govuk-link' onClick={this.onClickFinalise}>Add</a>
           </div>
           }
         </div>
