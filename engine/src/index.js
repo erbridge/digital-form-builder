@@ -40,6 +40,22 @@ module.exports = {
       if (previewMode) {
         server.route({
           method: 'post',
+          path: '/calculate-path',
+          handler: (request, h) => {
+            const { id, answers } = request.payload
+            const model = forms[id]
+            const paths = []
+            let nextPage = model.startPage
+            while (nextPage) {
+              paths.push(nextPage.path)
+              nextPage = nextPage.getNextPage(answers)
+            }
+            return h.response({ paths }).code(200)
+          }
+        })
+
+        server.route({
+          method: 'post',
           path: '/publish',
           handler: (request, h) => {
             const { id, configuration } = request.payload

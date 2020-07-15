@@ -58,9 +58,25 @@ class App extends React.Component {
     })
   }
 
+  calculatePath = (answers) => {
+    return window.fetch(`${this.state.id}/api/path`, {
+      method: 'post',
+      body: JSON.stringify(answers),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      return res.json()
+    }).catch(() => {
+      // Not connected to preview environment
+    })
+  }
+
   setFunctions (data) {
     data.save = this.save
     data.getId = this.getId
+    data.calculatePath = this.calculatePath
   }
 
   updateDownloadedAt = (time) => {
