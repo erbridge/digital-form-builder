@@ -8,26 +8,14 @@ class Journeys extends React.Component {
 
   async showJourney (persona) {
     console.log(persona)
-    const { data, highlightJourney } = this.props
-    const formId = await data.getId()
+    const { highlightJourney, data } = this.props
+    const { calculatePath } = data
 
-    const response = await window.fetch(`${formId}/api/path`, {
-      method: 'post',
-      body: JSON.stringify(persona),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
+    const paths = await calculatePath(persona)
+    console.log('paths', paths)
 
-    if (!response.ok) {
-      throw Error(response.statusText)
-    }
-
-    const body = await response.json()
-    console.log('paths', body)
     if (highlightJourney) {
-      highlightJourney(body)
+      highlightJourney(paths)
     }
   }
 
@@ -77,33 +65,12 @@ class Journeys extends React.Component {
 
     console.log('personas', personas)
 
-    // query paths from runner, because that's the best place to eval the journey at the mo
-
-
-    /*
-
-            const availableInputs = data.inputsAccessibleAt(nextPage.path)
-            console.log('available input', availableInputs)
-
-            const input = availableInputs.find(i => i.propertyPath === property)
-
-            console.log('found input', input)
-            if (input) {
-              const list = data.listFor(input)
-              console.log('found list', list)
-              // list.items.value
-
-            }
-
-            console.log('TODO: generate permutations')
-     */
-
     return (
       <div className='govuk-body'>
         <ul className='govuk-list'>
           {personas.map((persona, index) => (
             <li key={index}>
-              <a onClick={this.showJourney(persona)}>Applicant {index + 1}</a>
+              <a href='#' onClick={() => this.showJourney(persona)}>Applicant {index + 1}</a>
             </li>
           ))}
         </ul>
