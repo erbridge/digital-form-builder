@@ -13,6 +13,7 @@ import ConditionsEdit from './conditions-edit'
 import FeeEdit from './fee-edit'
 import NotifyEdit from './notify-edit'
 import DeclarationEdit from './declaration-edit'
+import Journeys from './journeys'
 import OutputsEdit from './outputs-edit'
 import { Data } from './model/data-model'
 
@@ -352,7 +353,7 @@ class Menu extends React.Component {
           {' '}
 
           <button className='govuk-button govuk-!-font-size-14'
-            onClick={() => this.setState({ showSummary: true })}>Summary
+            onClick={() => this.setState({ showJourneys: true })}>Journeys
           </button>
 
           <div className='govuk-!-margin-top-4'>
@@ -412,6 +413,11 @@ class Menu extends React.Component {
           <Flyout title='Edit Summary behaviour' show={this.state.showEditSummaryBehaviour}
             onHide={() => this.setState({ showEditSummaryBehaviour: false })} width='xlarge'>
             <DeclarationEdit data={data} toggleShowState={this.toggleShowState} onCreate={() => this.setState({ showEditSummaryBehaviour: false })} />
+          </Flyout>
+
+          <Flyout title='Journeys' show={this.state.showJourneys}
+            onHide={() => this.setState({ showJourneys: false })} width='xlarge'>
+            <Journeys data={data} highlightJourney={(journey) => console.log('showing journey', journey)} />
           </Flyout>
 
           <Flyout title='Summary' show={this.state.showSummary} width='large'

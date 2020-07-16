@@ -206,3 +206,9 @@ class Condition {
     this.displayName = rawData.displayName || rawData.name
   }
 }
+
+class Page {
+  constructor (rawData) {
+    Object.assign(this, rawData)
+  }
+}
