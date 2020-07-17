@@ -59,6 +59,7 @@ class ListEdit extends React.Component {
     const conditionalNames = formData.getAll('name').map(t => t.trim())
     const conditionalTitles = formData.getAll('title').map(t => t.trim())
     const conditionalHints = formData.getAll('hint').map(t => t.trim())
+    const conditionalOptionals = formData.getAll('options.required').map(t => t.trim())
 
     // remove list name and title
     conditionalNames.shift()
@@ -69,6 +70,7 @@ class ListEdit extends React.Component {
         const name = conditionalNames.shift()
         const title = conditionalTitles.shift()
         const hint = conditionalHints.shift()
+        const optional = conditionalOptionals.shift()
         return {
           components: [
             {
@@ -77,6 +79,7 @@ class ListEdit extends React.Component {
               title,
               hint,
               options: {
+                required: optional === 'on' ? false : undefined,
                 classes: 'govuk-!-width-one-third'
               },
               schema: {}
