@@ -1,6 +1,6 @@
 import React from 'react'
 import { toUrl } from './helpers'
-import { clone } from 'digital-form-builder-model/lib/helpers'
+import { clone } from 'digital-form-builder-model'
 
 class PageEdit extends React.Component {
   state = {}

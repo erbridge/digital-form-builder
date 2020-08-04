@@ -10,9 +10,9 @@ import {
   dateTimeUnits,
   dateUnits,
   RelativeTimeValue,
-  timeUnits
-} from 'digital-form-builder-model/lib/conditions/inline-condition-values'
-import { relativeDateOrTimeOperatorNames } from 'digital-form-builder-model/lib/conditions/inline-condition-operators'
+  timeUnits,
+  relativeDateOrTimeOperatorNames
+} from 'digital-form-builder-model'
 
 const { expect } = Code
 const lab = Lab.script()

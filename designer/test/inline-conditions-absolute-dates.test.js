@@ -6,9 +6,8 @@ import { assertRequiredNumberInput, assertSelectInput } from './helpers/element-
 import sinon from 'sinon'
 import momentTz from 'moment-timezone'
 import {
-  absoluteDateOrTimeOperatorNames
-} from 'digital-form-builder-model/lib/conditions/inline-condition-operators'
-import { ConditionValue } from 'digital-form-builder-model/lib/conditions/inline-condition-values'
+  absoluteDateOrTimeOperatorNames, ConditionValue
+} from 'digital-form-builder-model'
 import {
   AbsoluteDateTimeValues,
   AbsoluteDateValues,

@@ -14,7 +14,7 @@ import FeeEdit from './fee-edit'
 import NotifyEdit from './notify-edit'
 import DeclarationEdit from './declaration-edit'
 import OutputsEdit from './outputs-edit'
-import { Data } from 'digital-form-builder-model/lib/data-model'
+import { Data } from 'digital-form-builder-model'
 
 function getLayout (data, el) {
   // Create a new directed graph

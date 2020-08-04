@@ -4,8 +4,7 @@ import Flyout from './flyout'
 import PageEdit from './page-edit'
 import { Component } from './component'
 import ComponentCreate from './component-create'
-import ComponentTypes from 'digital-form-builder-model/lib/component-types'
-import { clone } from 'digital-form-builder-model/lib/helpers'
+import { ComponentTypes, clone } from 'digital-form-builder-model'
 
 const SortableItem = SortableElement(({ index, page, component, data }) =>
   <div className='component-item'>
