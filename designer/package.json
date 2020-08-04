@@ -27,19 +27,20 @@
     "@hapi/wreck": "17.0.0",
     "digital-form-builder-model": "file:../model",
     "flat": "5.0.0",
-    "moment-timezone": "^0.5.31"
+    "moment-timezone": "^0.5.31",
+    "@babel/runtime": "7.10.3"
   },
   "devDependencies": {
     "@babel/core": "7.10.3",
     "@babel/plugin-proposal-class-properties": "7.10.1",
-    "@babel/plugin-proposal-private-methods": "^7.10.1",
+    "@babel/plugin-proposal-private-methods": "^7.10.4",
+    "@babel/plugin-proposal-private-property-in-object": "^7.10.4",
     "@babel/plugin-transform-modules-amd": "^7.10.1",
     "@babel/plugin-transform-runtime": "7.10.1",
     "@babel/preset-env": "7.10.3",
     "@babel/preset-flow": "^7.10.4",
     "@babel/preset-react": "7.10.1",
     "@babel/register": "7.10.3",
-    "@babel/runtime": "7.10.3",
     "@hapi/code": "^8.0.1",
     "@hapi/inert": "^6.0.1",
     "@hapi/lab": "^22.0.4",

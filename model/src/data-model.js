@@ -1,5 +1,5 @@
-const { clone } = require('./helpers')
-const { ConditionsModel } = require('./conditions/inline-condition-model')
+import { clone } from './helpers'
+import { ConditionsModel } from './conditions/inline-condition-model'
 
 const yesNoList = {
   name: '__yesNo',
@@ -220,5 +220,5 @@ class Condition {
   }
 }
 
-module.exports.Data = Data
-module.exports.Condition = Condition
+export { Data }
+export { Condition }

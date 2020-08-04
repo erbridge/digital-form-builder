@@ -22,7 +22,7 @@ export class AbstractConditionValue {
   toExpression () {}
 }
 
-const valueType = registerValueType('Value', obj => ConditionValue.from(obj))
+export const valueType = registerValueType('Value', obj => ConditionValue.from(obj))
 export class ConditionValue extends AbstractConditionValue {
   constructor (value, display) {
     super(valueType)
@@ -114,7 +114,7 @@ export class RelativeTimeValue extends AbstractConditionValue {
  * Otherwise we can't guarantee they've been registered for deserialization before
  * valueFrom is called
  */
-function registerValueType (type, factory) {
+export function registerValueType (type, factory) {
   return new Registration(type, factory)
 }
 

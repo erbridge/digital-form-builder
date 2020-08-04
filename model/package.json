@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A hapi plugin providing the model for XGov digital form builder based applications",
   "main": "index.js",
-  "module": "src/lib.js",
   "scripts": {
     "fix-lint": "standard --fix",
     "lint": "standard",
@@ -11,7 +10,7 @@
     "build:watch": "babel src -d lib --source-maps inline --watch",
     "test-lab": "lab -T node_modules/@xgovformbuilder/lab-babel -S -v -P 'test' test -r console -o stdout -r html -o unit-test.html -I version",
     "test": "yarn flow && yarn lint && yarn test-lab",
-    "postpack": "flow-typed install --ignoreDeps dev"
+    "postpack": "flow-typed install --ignoreDeps dev && npx build"
   },
   "repository": {
     "type": "git",

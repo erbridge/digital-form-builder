@@ -134,7 +134,7 @@ const outputSchema = joi.object().keys({
   outputConfiguration: joi.alternatives().try(notifySchema, emailSchema, webhookSchema, sheetsSchema)
 })
 
-const schema = joi.object().required().keys({
+export const schema = joi.object().required().keys({
   name: localisedString.optional(),
   startPage: joi.string().required(),
   pages: joi.array().required().items(pageSchema).unique('path'),
@@ -148,5 +148,3 @@ const schema = joi.object().required().keys({
   payApiKey: joi.string().allow('').optional(),
   skipSummary: joi.boolean().default(false)
 })
-
-module.exports = schema

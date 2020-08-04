@@ -16,6 +16,21 @@ export default {
   },
   plugins: [
     resolve(),
+    babel({
+      babelHelpers: 'runtime',
+      include: ['../engine', '../model'],
+      presets: [
+        '@babel/preset-env',
+        '@babel/preset-flow'
+      ],
+      plugins: [
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-syntax-dynamic-import',
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-private-property-in-object',
+        '@babel/plugin-proposal-private-methods'
+      ]
+    }),
     commonjs({
       include: ['node_modules/**', '../engine/**', '../model/**']
     }),
@@ -24,13 +39,16 @@ export default {
       babelHelpers: 'runtime',
       exclude: ['node_modules/**'],
       presets: [
+        '@babel/preset-env',
         '@babel/react',
         '@babel/preset-flow'
       ],
       plugins: [
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-syntax-dynamic-import',
-        '@babel/plugin-transform-runtime'
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-private-property-in-object',
+        '@babel/plugin-proposal-private-methods'
       ]
     }),
     json()

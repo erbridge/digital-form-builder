@@ -1,6 +1,6 @@
 import ComponentTypes from './component-types'
 import ConditionalComponentTypes from './conditional-component-types'
-import Schema from './schema'
+import { schema as Schema } from './schema'
 import { Data } from './data-model'
 import { clone } from './helpers'
 import { ConditionValue, timeUnits, valueFrom, dateDirections, RelativeTimeValue, dateTimeUnits, dateUnits } from './conditions/inline-condition-values'
@@ -16,8 +16,25 @@ import {
 } from './conditions/inline-condition-model'
 
 export {
-  ComponentTypes, ConditionalComponentTypes, Schema, Data, clone, ConditionValue, timeUnits,
-  absoluteDateOrTimeOperatorNames, getOperatorConfig, relativeDateOrTimeOperatorNames, Condition, Field,
-  valueFrom, getOperatorNames, getExpression, GroupDef, ConditionsModel, dateDirections, RelativeTimeValue,
-  dateTimeUnits, dateUnits
+  ComponentTypes,
+  ConditionalComponentTypes,
+  Schema,
+  Data,
+  clone,
+  ConditionValue,
+  timeUnits,
+  absoluteDateOrTimeOperatorNames,
+  getOperatorConfig,
+  relativeDateOrTimeOperatorNames,
+  Condition,
+  Field,
+  valueFrom,
+  getOperatorNames,
+  getExpression,
+  GroupDef,
+  ConditionsModel,
+  dateDirections,
+  RelativeTimeValue,
+  dateTimeUnits,
+  dateUnits
 }
