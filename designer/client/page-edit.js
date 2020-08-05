@@ -9,6 +9,7 @@ class PageEdit extends React.Component {
     const form = e.target
     const formData = new window.FormData(form)
     const title = formData.get('title').trim()
+    const isLooping = formData.get('is-looping')
     const newPath = toUrl(title)
     const section = formData.get('section').trim()
     const pageType = formData.get('page-type').trim()
@@ -35,6 +36,7 @@ class PageEdit extends React.Component {
     }
 
     copyPage.title = title
+    copyPage.isLooping = isLooping
 
     if (section) {
       copyPage.section = section
@@ -136,7 +138,7 @@ class PageEdit extends React.Component {
         <div className='govuk-checkboxes govuk-form-group'>
           <div className='govuk-checkboxes__item'>
             <input className='govuk-checkboxes__input' id='page-is-looping'
-                name='is-looping' type='checkbox' value defaultChecked={isLooping} onChange={this.onChangeLooping}
+                name='is-looping' type='checkbox' value defaultChecked={page.isLooping} onChange={this.onChangeLooping}
               />
               <label className='govuk-label govuk-checkboxes__label'
                 htmlFor='is-looping'>Is Looping</label>
