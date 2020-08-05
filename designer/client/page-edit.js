@@ -134,6 +134,16 @@ class PageEdit extends React.Component {
         </div>
 
         <div className='govuk-form-group'>
+          <label>
+            Is Looping:
+          <input
+              name="is-looping"
+              type="checkbox"
+              checked={page.isLooping} />
+          </label>
+        </div>
+
+        <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='page-title'>Title</label>
           <input className='govuk-input' id='page-title' name='title' type='text' defaultValue={page.title}
             aria-describedby='page-title-hint' required />
