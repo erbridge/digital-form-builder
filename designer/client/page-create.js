@@ -83,7 +83,6 @@ class PageCreate extends React.Component {
               />
               <label className='govuk-label govuk-checkboxes__label'
                 htmlFor='is-looping'>Is Looping</label>
-              <span className='govuk-hint'>&quot;Add another&quot; funcionality</span>
           </div>
         </div>
 

@@ -133,14 +133,14 @@ class PageEdit extends React.Component {
           </select>
         </div>
 
-        <div className='govuk-form-group'>
-          <label>
-            Is Looping:
-          <input
-              name="is-looping"
-              type="checkbox"
-              checked={page.isLooping} />
-          </label>
+        <div className='govuk-checkboxes govuk-form-group'>
+          <div className='govuk-checkboxes__item'>
+            <input className='govuk-checkboxes__input' id='page-is-looping'
+                name='is-looping' type='checkbox' value defaultChecked={isLooping} onChange={this.onChangeLooping}
+              />
+              <label className='govuk-label govuk-checkboxes__label'
+                htmlFor='is-looping'>Is Looping</label>
+          </div>
         </div>
 
         <div className='govuk-form-group'>
