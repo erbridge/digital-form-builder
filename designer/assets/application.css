@@ -6062,3 +6062,7 @@ polyline :after {
 .govuk-checkboxes__input.disabled + .govuk-checkboxes__label {
   opacity: 0.5;
 }
+
+.looping {
+  border: 5px solid pink !important;
+}
