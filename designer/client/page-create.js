@@ -20,6 +20,7 @@ class PageCreate extends React.Component {
     const value = {
       path,
       title,
+      isLooping,
       components: [],
       next: []
     }
