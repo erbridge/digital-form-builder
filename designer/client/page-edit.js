@@ -9,6 +9,7 @@ class PageEdit extends React.Component {
     const form = e.target
     const formData = new window.FormData(form)
     const title = formData.get('title').trim()
+    const isLooping = formData.get('is-looping')
     const newPath = toUrl(title)
     const section = formData.get('section').trim()
     const pageType = formData.get('page-type').trim()
@@ -35,6 +36,7 @@ class PageEdit extends React.Component {
     }
 
     copyPage.title = title
+    copyPage.isLooping = isLooping
 
     if (section) {
       copyPage.section = section
