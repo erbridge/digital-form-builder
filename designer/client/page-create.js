@@ -15,6 +15,7 @@ class PageCreate extends React.Component {
     const pageType = this.state.pageType?.trim()
     const selectedCondition = this.state.selectedCondition?.trim()
     const path = this.generatePath(title, data)
+    const isLooping = this.state.isLooping;
 
     const value = {
       path,
@@ -61,7 +62,7 @@ class PageCreate extends React.Component {
   render () {
     const { data } = this.props
     const { sections, pages } = data
-    const { pageType, linkFrom, title, section } = this.state
+    const { pageType, isLooping, linkFrom, title, section } = this.state
 
     return (
       <form onSubmit={e => this.onSubmit(e)} autoComplete='off'>
@@ -72,6 +73,17 @@ class PageCreate extends React.Component {
             <option value='./pages/start.js'>Start Page</option>
             <option value='./pages/summary.js'>Summary Page</option>
           </select>
+        </div>
+
+        <div className='govuk-form-group'>
+        <label>
+          Is Looping:
+          <input
+            name="is-looping"
+            type="checkbox"
+            checked={isLooping}
+            onChange={this.onChangeLooping} />
+        </label>
         </div>
 
         <div className='govuk-form-group'>
@@ -122,6 +134,13 @@ class PageCreate extends React.Component {
     const input = e.target
     this.setState({
       title: input.value
+    })
+  }
+
+  onChangeLooping = e => {
+    const input = e.target
+    this.setState({
+      isLooping: input.value
     })
   }
 
