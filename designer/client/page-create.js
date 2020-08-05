@@ -141,7 +141,7 @@ class PageCreate extends React.Component {
   onChangeLooping = e => {
     const input = e.target
     this.setState({
-      isLooping: input.value
+      isLooping: input.checked
     })
   }
 
