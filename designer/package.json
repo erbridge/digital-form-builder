@@ -33,6 +33,8 @@
     "hapi-pino": "^8.0.1",
     "moment-timezone": "^0.5.31",
     "schmervice": "^1.5.0"
+    "hoek": "^6.1.3",
+    "moment-timezone": "^0.5.31"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
