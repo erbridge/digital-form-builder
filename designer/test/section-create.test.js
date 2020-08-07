@@ -95,7 +95,7 @@ suite('Section create', () => {
     expect(clonedData.addSection.firstCall.args[1]).to.equal('My badgers')
   })
 
-  test('Submitting without changing the name should use generated name with integer if needed', flags => {
+  test.only('Submitting without changing the name should use generated name with integer if needed', async flags => {
     const clonedData = {
       addSection: sinon.stub()
     }
@@ -110,15 +110,17 @@ suite('Section create', () => {
     data.save.resolves(savedData)
 
     const onCreate = data => {
-      expect(data).to.equal(savedData)
+      return data
     }
-    const wrappedOnCreate = flags.mustCall(onCreate, 1)
 
-    const wrapper = shallow(<SectionCreate data={data} onCreate={wrappedOnCreate} />)
+    let onCreateSpy = sinon.spy(onCreate)
+
+    const wrapper = shallow(<SectionCreate data={data} onCreate={onCreateSpy} />)
 
     wrapper.find('#section-title').simulate('change', { target: { value: ' Awesome Badgers ' } })
     const preventDefault = sinon.spy()
-    wrapper.instance().onSubmit({ preventDefault })
+    await wrapper.instance().onSubmit({ preventDefault })
+    expect(onCreateSpy.callCount).to.equal(1)
 
     expect(data.save.callCount).to.equal(1)
     expect(data.save.firstCall.args[0]).to.equal(updatedData)
