@@ -7,18 +7,6 @@
     {
       "name": "doesntHaveUKPassport",
       "value": "checkBeforeYouStart.ukPassport==false"
-    },
-    {
-      "name": "moreThanOneApplicant",
-      "value": "applicantDetails.numberOfApplicants > 1"
-    },
-    {
-      "name": "moreThanTwoApplicants",
-      "value": "applicantDetails.numberOfApplicants > 2"
-    },
-    {
-      "name": "moreThanThreeApplicants",
-      "value": "applicantDetails.numberOfApplicants > 3"
     }
   ],
   "startPage": "/uk-passport",
@@ -35,7 +23,7 @@
       "section": "checkBeforeYouStart",
       "next": [
         {
-          "path": "/how-many-people"
+          "path": "/applicant-repeatable"
         },
         {
           "path": "/no-uk-passport",
@@ -56,32 +44,11 @@
       "next": []
     },
     {
-      "path": "/how-many-people",
-      "section": "applicantDetails",
-      "components": [
-        {
-          "options": {
-            "list": "numberOfApplicants",
-            "classes": "govuk-input--width-10"
-          },
-          "type": "SelectField",
-          "name": "numberOfApplicants",
-          "title": "How many applicants are there?"
-        }
-      ],
-      "next": [
-        {
-          "path": "/applicant-repeatable"
-        }
-      ],
-      "title": "How many applicants are there?"
-    },
-    {
       "path": "/applicant-repeatable",
       "title": "Applicant",
       "section": "applicant",
-      "repeatField": "applicantDetails.numberOfApplicants",
-      "components": [
+      "isRepeatable": true,
+"components": [
         {
           "type": "Para",
           "content": "Provide the details as they appear on your passport."
@@ -109,32 +76,14 @@
       ],
       "next": [
         {
-          "path": "/applicant-address"
+          "path": "/contact-details"
         }
       ]
     },
     {
-      "path": "/applicant-address",
-      "section": "applicant",
-      "repeatField": "applicantDetails.numberOfApplicants",
-      "components": [
-        {
-          "type": "UkAddressField",
-          "name": "address",
-          "title": "Address"
-        }
-      ],
-      "next": [
-        {
-          "path": "/contact-details"
-        }
-      ],
-      "title": "Address"
-    },
-    {
       "path": "/contact-details",
       "section": "applicant",
-      "repeatField": "applicantDetails.numberOfApplicants",
+      "isRepeatable": true,
       "components": [
         {
           "type": "TelephoneNumberField",
@@ -150,10 +99,17 @@
       ],
       "next": [
         {
-          "path": "/summary"
+          "path": "/add-applicant-summary"
         }
       ],
       "title": "Applicant contact details"
+    },
+    {
+      "path": "/add-applicant-summary",
+      "section": "applicant",
+      "controller": "./pages/mini-summary.js",
+      "components": [],
+      "next": []
     },
     {
       "path": "/summary",
@@ -170,27 +126,11 @@
     },
     {
       "name": "applicantDetails",
-      "title": "Applicant details"
+      "title": "How many"
     },
     {
       "name": "applicant",
       "title": "Applicant"
-    },
-    {
-      "name": "applicantOneDetails",
-      "title": "Applicant 1"
-    },
-    {
-      "name": "applicantTwoDetails",
-      "title": "Applicant 2"
-    },
-    {
-      "name": "applicantThreeDetails",
-      "title": "Applicant 3"
-    },
-    {
-      "name": "applicantFourDetails",
-      "title": "Applicant 4"
     }
   ],
   "lists": [
