@@ -4,6 +4,7 @@ import dagre from 'dagre'
 import Page from './page'
 import Flyout from './flyout'
 import DataModel from './data-model'
+import FormDetails from './form-details'
 import PageCreate from './page-create'
 import LinkEdit from './link-edit'
 import LinkCreate from './link-create'
@@ -312,6 +313,11 @@ class Menu extends React.Component {
       <div className='menu'>
         <span className='menu-inner'>
           <button className='govuk-button govuk-!-font-size-14 govuk-!-margin-bottom-1'
+            onClick={() => this.setState({ showFormConfig: true })}>Form details
+          </button>
+          {' '}
+
+          <button className='govuk-button govuk-!-font-size-14 govuk-!-margin-bottom-1'
             onClick={() => this.setState({ showAddPage: true })}>Add Page
           </button>
           {' '}
@@ -363,6 +369,11 @@ class Menu extends React.Component {
               onClick={this.onClickUpload}>Upload JSON</a>{' '}
             <input type='file' id='upload' hidden onChange={this.onFileUpload} />
           </div>
+
+          <Flyout title='Form details' show={this.state.showFormConfig}
+            onHide={() => this.setState({ showFormConfig: false })}>
+            <FormDetails data={data} onCreate={() => this.setState({ showFormConfig: false })} />
+          </Flyout>
 
           <Flyout title='Add Page' show={this.state.showAddPage}
             onHide={() => this.setState({ showAddPage: false })}>
