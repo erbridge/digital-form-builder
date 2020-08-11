@@ -362,12 +362,19 @@ class Menu extends React.Component {
           </button>
 
           <div className='govuk-!-margin-top-4'>
-            <a className='govuk-link govuk-!-font-size-16'
-              onClick={this.onClickDownload} href='#'>
-      Download JSON</a>{' '}
-            <a className='govuk-link govuk-link--no-visited-state govuk-!-font-size-16' href='#'
-              onClick={this.onClickUpload}>Upload JSON</a>{' '}
-            <input type='file' id='upload' hidden onChange={this.onFileUpload} />
+            <div className='govuk-grid-row'>
+              <div className='govuk-grid-column-one-third' >
+                <a className='govuk-link govuk-!-font-size-16'
+                  onClick={this.onClickDownload} href='#'>Download JSON</a>{' '}
+                <a className='govuk-link govuk-link--no-visited-state govuk-!-font-size-16' href='#'
+                  onClick={this.onClickUpload}>Upload JSON</a>{' '}
+                <input type='file' id='upload' hidden onChange={this.onFileUpload} />
+              </div>
+
+              <div className='govuk-grid-column-two-thirds'>
+                <h2 className='govuk-heading-m'>{data.name}</h2>
+              </div>
+            </div>
           </div>
 
           <Flyout title='Form details' show={this.state.showFormConfig}
