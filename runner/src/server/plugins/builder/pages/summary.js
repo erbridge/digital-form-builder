@@ -475,6 +475,7 @@ class SummaryPage extends Page {
         return h.redirect('/status')
       }
 
+      // TODO:- make generic (sorry non FCO)
       const paymentReference = `FCO-${shortid.generate()}`
       const description = payService.descriptionFromFees(summaryViewModel.fees)
       const res = await payService.payRequest(summaryViewModel.fees.total, paymentReference, description, summaryViewModel.payApiKey)

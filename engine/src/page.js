@@ -99,7 +99,7 @@ class Page {
 
   getNextRepeatable (state, suppressRepetition = false) {
     if (!suppressRepetition) {
-      const miniSummary = this.model.pages.filter(page => page.section === this.section && !(page instanceof Page))
+      const miniSummary = this.model.pages.filter(page => page.section === this.section && (page.pageDef.controller !== './pages/mini-summary.js'))
       const otherRepeatPagesInSection = this.model.pages.filter(page => page.section === this.section && (page.isRepeatable || page.repeatField) && (page instanceof Page))
       const sectionState = state[this.section.name] || {}
       if (this.repeatField) {
@@ -113,15 +113,15 @@ class Page {
             }
           }
         }
-      }
-      if (this.isRepeatable) {
-        // if next page is repeatable
-        // go to it
-        // const otherRepeatPagesInSection = this.model.pages.filter(page => page.section === this.section && page.isRepeatable)
-        if (Object.keys(sectionState[sectionState.length - 1]).length === otherRepeatPagesInSection.length) { // iterated all pages at least once
-          const lastIteration = sectionState[sectionState.length - 1]
-          if (otherRepeatPagesInSection.length === this.#objLength(lastIteration)) { // this iteration is 'complete'
-            return miniSummary
+        if (this.isRepeatable) {
+          // if next page is repeatable
+          // go to it
+          // const otherRepeatPagesInSection = this.model.pages.filter(page => page.section === this.section && page.isRepeatable)
+          if (Object.keys(sectionState[sectionState.length - 1]).length === otherRepeatPagesInSection.length) { // iterated all pages at least once
+            const lastIteration = sectionState[sectionState.length - 1]
+            if (otherRepeatPagesInSection.length === this.#objLength(lastIteration)) { // this iteration is 'complete'
+              return miniSummary
+            }
           }
         }
       }
@@ -151,7 +151,7 @@ class Page {
   repeatableQueryString (nextPage, state) {
     const query = { num: 0 }
     let queryString = ''
-    let isRepeatable = nextPage.isRepeatable ?? nextPage.repeatField
+    let isRepeatable = nextPage.isRepeatable ?? nextPage.repeatField ?? nextPage.controller === './pages/mini-summary.js' // this is so ugly
 
     if (!isRepeatable) return queryString
 
@@ -163,9 +163,7 @@ class Page {
 
     if (nextPage.repeatField) {
       const requiredCount = reach(state, nextPage.repeatField)
-      if (query.num <= requiredCount) {
-        queryString = `?${querystring.encode(query)}`
-      }
+      queryString = query.num <= requiredCount ? `${querystring.encode(query)}` : ''
     } else {
       queryString = `?${querystring.encode(query)}`
     }
@@ -379,18 +377,13 @@ class Page {
         if (this.repeatField || this.isRepeatable) {
           const updateValue = { [this.path]: update[this.section.name] }
           const sectionState = state[this.section.name]
-          const numAsIndex = num - 1
+          const numAsIndex = (num || 1) - 1
 
           if (!sectionState) { // add to new section as an array
             update = { [this.section.name]: [updateValue] }
-            /* } else if (!sectionState[numAsIndex]) { // add to current section
-              // sectionState[(merge(sectionState[num - 1] ?? {}, updateValue))
-              sectionState.push(updateValue)
-              update = { [this.section.name]: sectionState } */
           } else {
-            sectionState.splice(numAsIndex, 0, merge(sectionState[numAsIndex] ?? {}, updateValue,
-              { mergeArrays: true }))
-            // sectionState[numAsIndex] = merge(sectionState[numAsIndex] ?? {}, updateValue)
+            let deleteValue = sectionState[numAsIndex] ? 1 : 0
+            sectionState.splice(numAsIndex, deleteValue, merge(sectionState[numAsIndex] ?? {}, updateValue))
             update = { [this.section.name]: sectionState }
           }
         }
