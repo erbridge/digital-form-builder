@@ -57,7 +57,6 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - root-dependencies-{{ checksum "yarn.lock" }}
             - root-dependencies
-            - << parameters.package_name >>/flow-typed
 
       - run: yarn install
 
@@ -66,10 +65,10 @@ jobs:
             - node_modules
           key: root-dependencies-{{ checksum "yarn.lock" }}
 
-      - save_cache:
-          paths:
-            - << parameters.package_name >>/flow-typed
-          key: << parameters.package_name >>-flow-typed-{{ checksum "yarn.lock" }}
+#      - save_cache:
+#          paths:
+#            - << parameters.package_name >>/flow-typed
+#          key: << parameters.package_name >>-flow-typed-{{ checksum "yarn.lock" }}
 
       - persist_to_workspace:
           root: ~/project
@@ -165,6 +164,8 @@ workflows:
       - build:
           name: designer-build
           package_name: designer
+          requires:
+            - install-yarn
       - test:
           name: designer-test
           package_name: designer
