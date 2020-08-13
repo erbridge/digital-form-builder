@@ -1,5 +1,6 @@
 version: 2.1
-
+orbs:
+  node: circleci/node@4.0.0
 parameters:
   # This parameter is used to trigger the main workflow
   trigger:
@@ -51,12 +52,14 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-
+      - install-yarn:
+          version: 2.1.1
       - restore_cache:
           keys:
-            - << parameters.package_name >>-dependencies-{{ checksum "package.json" }}
+            - << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
             - << parameters.package_name >>-dependencies-
+            - root-dependencies-{{ checksum "yarn.lock" }}
 
       - run: yarn install
 
@@ -75,8 +78,13 @@ jobs:
       - save_cache:
           paths:
             - node_modules
+          key: dependencies-{{ checksum "yarn.lock" }}
+
+      - save_cache:
+          paths:
+            - node_modules
             - flow-typed
-          key: << parameters.package_name >>-dependencies-{{ checksum "package.json" }}
+          key: << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
 
       - run:
           name: Build
