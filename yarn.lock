@@ -5116,6 +5116,7 @@ __metadata:
     babel-eslint: 11.0.0-beta.2
     eslint-plugin-flowtype: ^5.2.0
     flow-bin: ^0.131.0
+    flow-mono-cli: ^1.5.3
     flow-typed: ^3.2.1
     standard: 14.3.3
     workspace-builder: ^1.0.0
