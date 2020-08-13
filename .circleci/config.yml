@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  yarn: itinerisltd/yarn@2.1.1
+  skip: theodo/skip@0.0.4
 parameters:
   # This parameter is used to trigger the main workflow
   trigger:
@@ -51,6 +51,13 @@ jobs:
 
     steps:
       - checkout
+      - skip/skip_unchanged:
+          paths: << parameters.package_name >>
+          git_base_branch: ${CIRCLE_BRANCH}
+
+      - skip/skip_unchanged:
+          paths: << parameters.package_name >>
+
       - run:
           name: Set yarn 2
           command: |
@@ -113,7 +120,6 @@ workflows:
   # Workflows defined for each package.
 
   model:
-    when: << pipeline.parameters.model >>
     jobs:
       - build:
           name: model-build
@@ -123,23 +129,23 @@ workflows:
           package_name: model
           requires:
             - model-build
-
-  engine:
-    when: << pipeline.parameters.engine >>
-    jobs:
-      - build:
-          name: model-build
-          package_name: model
-      - build:
-          name: engine-build
-          package_name: engine
-          requires:
-            - model-build
-      - test:
-          name: engine-test
-          package_name: engine
-          requires:
-            - engine-build
+#
+#  engine:
+#    when: << pipeline.parameters.engine >>
+#    jobs:
+#      - build:
+#          name: model-build
+#          package_name: model
+#      - build:
+#          name: engine-build
+#          package_name: engine
+#          requires:
+#            - model-build
+#      - test:
+#          name: engine-test
+#          package_name: engine
+#          requires:
+#            - engine-build
 
   designer:
     when: << pipeline.parameters.designer >>
@@ -153,14 +159,14 @@ workflows:
           requires:
             - designer-build
 
-  runner:
-    when: << pipeline.parameters.runner >>
-    jobs:
-      - build:
-          name: runner-build
-          package_name: runner
-      - test:
-          name: runner-test
-          package_name: runner
-          requires:
-            - runner-build
+#  runner:
+#    when: << pipeline.parameters.runner >>
+#    jobs:
+#      - build:
+#          name: runner-build
+#          package_name: runner
+#      - test:
+#          name: runner-test
+#          package_name: runner
+#          requires:
+#            - runner-build
