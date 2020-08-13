@@ -459,7 +459,7 @@
     "@babel/helper-remap-async-to-generator" "^7.10.4"
     "@babel/plugin-syntax-async-generators" "^7.8.0"
 
-"@babel/plugin-proposal-class-properties@^7.10.1":
+"@babel/plugin-proposal-class-properties@7.10.1", "@babel/plugin-proposal-class-properties@^7.10.1":
   version "7.10.1"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.10.1.tgz#046bc7f6550bb08d9bd1d4f060f5f5a4f1087e01"
   integrity sha512-sqdGWgoXlnOdgMXU+9MbhzwFRgxVLeiGBqTrnuS7LC2IBU31wSsESbTUreT2O418obpfPdGUR2GbEufZF1bpqw==
@@ -2413,6 +2413,11 @@ btoa-lite@^1.0.0:
   resolved "https://registry.yarnpkg.com/btoa-lite/-/btoa-lite-1.0.0.tgz#337766da15801210fdd956c22e9c6891ab9d0337"
   integrity sha1-M3dm2hWAEhD92VbCLpxokaudAzc=
 
+btoa@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/btoa/-/btoa-1.2.1.tgz#01a9909f8b2c93f6bf680ba26131eb30f7fa3d73"
+  integrity sha512-SB4/MIGlsiVkMcHmT+pSmIPoNDoHg+7cMzmt3Uxt628MTz2487DKSqK/fuhFBrkuqrYv5UCEnACpF4dTFNKc/g==
+
 buffer-equal-constant-time@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
@@ -3165,6 +3170,25 @@ diff@4.x.x, diff@^4.0.2:
 
 "digital-form-builder-engine@file:../engine":
   version "1.9.0"
+  dependencies:
+    "@babel/runtime" "7.10.4"
+    "@hapi/hoek" "^9.0.4"
+    "@hapi/joi" "17.1.1"
+    boom "7.3.0"
+    btoa "^1.2.1"
+    digital-form-builder-model "file:../../../../Library/Caches/Yarn/v5/npm-digital-form-builder-engine-1.9.0-ca1a4fc2-dc31-43b7-bfea-4206043062b6-1597329911327/node_modules/model"
+    expr-eval "2.0.2"
+    flow-typed "^3.2.1"
+    govuk-frontend "3.6.0"
+    hmpo-components "2.6.5"
+    joi "14.3.1"
+    moment "2.24.0"
+    nunjucks "3.2.1"
+    path "0.12.7"
+    wreck "14.2.0"
+
+"digital-form-builder-model@file:../model":
+  version "1.0.0"
   dependencies:
     "@babel/runtime" "7.10.4"
     "@hapi/hoek" "^9.0.4"
