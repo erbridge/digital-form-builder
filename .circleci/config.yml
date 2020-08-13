@@ -42,10 +42,6 @@ jobs:
           command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
 
   install:
-    parameters:
-      package_name:
-        type: string
-
     executor: node-browsers
     working_directory: ~/project
 
@@ -130,6 +126,10 @@ workflows:
 
   # Workflows defined for each package.
 
+  install:
+    jobs:
+      - install
+
   model:
     jobs:
       - build:
@@ -161,6 +161,7 @@ workflows:
   designer:
     when: << pipeline.parameters.designer >>
     jobs:
+      - install
       - build:
           name: designer-build
           package_name: designer
