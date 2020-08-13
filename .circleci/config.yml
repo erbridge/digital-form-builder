@@ -52,8 +52,6 @@ jobs:
     steps:
       - checkout:
           path: ~/project
-      - node/install-yarn:
-          version: 2.1.1
       - restore_cache:
           keys:
             - << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
