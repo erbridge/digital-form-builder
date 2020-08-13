@@ -61,8 +61,8 @@ jobs:
 
 
       - yarn/install-packages-if-changed:
-        paths:
-          - << parameters.package_name >>
+          paths:
+            - << parameters.package_name >>
 
       - save_cache:
           paths:
