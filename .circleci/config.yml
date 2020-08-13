@@ -62,6 +62,8 @@ jobs:
             - root-dependencies
             - << parameters.package_name >>/flow-typed
 
+      - run: yarn install
+
       - save_cache:
           paths:
             - node_modules
