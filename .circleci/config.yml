@@ -41,7 +41,7 @@ jobs:
           name: Trigger workflows
           command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
 
-  install:
+  install-yarn:
     executor: node-browsers
     working_directory: ~/project
 
@@ -128,7 +128,7 @@ workflows:
 
   install:
     jobs:
-      - install
+      - install-yarn
 
   model:
     jobs:
@@ -161,7 +161,7 @@ workflows:
   designer:
     when: << pipeline.parameters.designer >>
     jobs:
-      - install
+      - install-yarn
       - build:
           name: designer-build
           package_name: designer
