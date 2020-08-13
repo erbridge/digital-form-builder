@@ -107,6 +107,9 @@ fi
 
 echo "Changes detected in ${COUNT} package(s)."
 
+PARAMETERS='"trigger":false, "designer":true'
+
+
 ############################################
 ## 3. CicleCI REST API call
 ############################################
