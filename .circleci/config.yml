@@ -52,16 +52,17 @@ jobs:
     steps:
       - checkout:
           path: ~/project
+
+      - run:
+          name: Set yarn 2
+          command: yarn set version berry
+
       - restore_cache:
           keys:
             # fallback to using the latest cache if no exact match is found
             - root-dependencies-{{ checksum "yarn.lock" }}
             - root-dependencies
             - << parameters.package_name >>/flow-typed
-
-      - run:
-          name: Set yarn 2
-          command: yarn set version berry
 
 
       - yarn/install-packages-if-changed:
