@@ -41,7 +41,7 @@ jobs:
           name: Trigger workflows
           command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
 
-  build:
+  install:
     parameters:
       package_name:
         type: string
@@ -51,11 +51,6 @@ jobs:
 
     steps:
       - checkout
-      - skip/skip_unchanged:
-          paths: << parameters.package_name >>
-      - skip/skip_unchanged:
-          paths: << parameters.package_name >>
-          git_base_branch: ${CIRCLE_BRANCH}
 
       - run:
           name: Set yarn 2
@@ -79,6 +74,23 @@ jobs:
           paths:
             - << parameters.package_name >>/flow-typed
           key: << parameters.package_name >>-flow-typed-{{ checksum "yarn.lock" }}
+
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - .
+
+
+  build:
+    parameters:
+      package_name:
+        type: string
+
+    executor: node-browsers
+    working_directory: ~/project
+
+    steps:
+      - checkout
 
       - run:
           name: Build
