@@ -58,10 +58,9 @@ jobs:
             - root-dependencies-{{ checksum "yarn.lock" }}
             - root-dependencies
             - << parameters.package_name >>/flow-typed
-            - flow-typed
 
 
-      - run: yarn install
+      - yarn/install-packages-if-changeds
 
       - save_cache:
           paths:
