@@ -53,10 +53,9 @@ jobs:
       - checkout
       - skip/skip_unchanged:
           paths: << parameters.package_name >>
-          git_base_branch: ${CIRCLE_BRANCH}
-
       - skip/skip_unchanged:
           paths: << parameters.package_name >>
+          git_base_branch: ${CIRCLE_BRANCH}
 
       - run:
           name: Set yarn 2
