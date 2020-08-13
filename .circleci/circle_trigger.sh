@@ -107,7 +107,7 @@ fi
 
 echo "Changes detected in ${COUNT} package(s)."
 
-PARAMETERS='"trigger":false, "designer":true'
+PARAMETERS='"trigger":false, "designer":true, "runner":true, "engine":true'
 
 
 ############################################
