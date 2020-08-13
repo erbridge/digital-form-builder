@@ -46,9 +46,9 @@ jobs:
     working_directory: ~/project
     steps:
       - run:
-        name: Set yarn 2
-        command: |
-          yarn set version berry
+          name: Set yarn 2
+          command: |
+            yarn set version berry
 
       - persist_to_workspace:
           root: ~/project
