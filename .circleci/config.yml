@@ -54,8 +54,6 @@ jobs:
           name: Set yarn 2
           command: yarn set version berry
 
-      - checkout:
-          path: ~/project
       - restore_cache:
           keys:
             # fallback to using the latest cache if no exact match is found
