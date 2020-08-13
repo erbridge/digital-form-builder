@@ -50,8 +50,7 @@ jobs:
     working_directory: ~/project
 
     steps:
-      - checkout:
-          path: ~/project
+      - checkout
 
       - run:
           name: Set yarn 2
