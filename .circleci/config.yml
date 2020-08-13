@@ -50,6 +50,10 @@ jobs:
     working_directory: ~/project
 
     steps:
+      - run:
+          name: Set yarn 2
+          command: yarn set version berry
+
       - checkout:
           path: ~/project
       - restore_cache:
