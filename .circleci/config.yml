@@ -50,13 +50,11 @@ jobs:
     working_directory: ~/project
 
     steps:
+      - checkout
       - run:
           name: Set yarn 2
           command: |
             yarn set version berry
-
-      - checkout
-
       - restore_cache:
           keys:
             # fallback to using the latest cache if no exact match is found
