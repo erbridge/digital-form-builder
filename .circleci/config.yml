@@ -41,6 +41,19 @@ jobs:
           name: Trigger workflows
           command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
 
+  upgrade-yarn:
+    executor: node
+    steps:
+      - run:
+        name: Set yarn 2
+        command: |
+          yarn set version berry
+          
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - .
+
   build:
     parameters:
       package_name:
@@ -58,12 +71,6 @@ jobs:
             - root-dependencies-{{ checksum "yarn.lock" }}
             - root-dependencies
             - << parameters.package_name >>/flow-typed
-
-      - run:
-          name: Set yarn 2
-          command: |
-            yarn set version berry
-
 
       - yarn/install-packages-if-changed:
           paths: << parameters.package_name >>
