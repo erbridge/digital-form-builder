@@ -1560,7 +1560,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.8.4":
+"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.8.4":
   version: 7.11.2
   resolution: "@babel/runtime@npm:7.11.2"
   dependencies:
@@ -2413,6 +2413,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-babel@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "@rollup/plugin-babel@npm:5.1.0"
+  dependencies:
+    "@babel/helper-module-imports": ^7.7.4
+    "@rollup/pluginutils": ^3.0.8
+  peerDependencies:
+    "@babel/core": ^7.0.0
+    "@types/babel__core": ^7.1.9
+    rollup: ^1.20.0||^2.0.0
+  peerDependenciesMeta:
+    "@types/babel__core":
+      optional: true
+  checksum: dd632594fa1893e1958fee530d52eb3217028fc98580cf3c9beb6f1797eb1f5853c20644e7dd416aa3df1c7fdf1b289d17a38ea5d1b4521a7844fa753de79911
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-commonjs@npm:13.0.0":
   version: 13.0.0
   resolution: "@rollup/plugin-commonjs@npm:13.0.0"
@@ -2680,7 +2697,7 @@ __metadata:
     "@rollup/plugin-json": ^4.1.0
     "@rollup/plugin-node-resolve": 8.1.0
     "@workspace-builder/rollup": ^1.0.0
-    "@xgovformbuilder/lab-babel": 2.1.0
+    "@xgovformbuilder/lab-babel": 2.1.1
     "@xgovformbuilder/model": 1.0.0
     acorn: 7.2.0
     aws-sdk: ^2.723.0
@@ -2763,12 +2780,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xgovformbuilder/lab-babel@npm:2.1.0":
-  version: 2.1.0
-  resolution: "@xgovformbuilder/lab-babel@npm:2.1.0"
+"@xgovformbuilder/lab-babel@npm:2.1.1":
+  version: 2.1.1
+  resolution: "@xgovformbuilder/lab-babel@npm:2.1.1"
   peerDependencies:
     "@babel/core": 7.1.2
-  checksum: 576eeaef9856a00f420d4394cfb5dcdf632e854bc7c2a90014031791b4931374f94a41a50fa794f77756c417c5b4914bec732af06f13dda427b809d87355957b
+  checksum: 4f1d028fd143d3f7b42af44c161a750fbd7ab13eed19e45645625b6f02f9fe6b5f2d8f25d8fdc605f7f0393016e82bf3a49798d5bce68b4b5b4952cb15a47960
   languageName: node
   linkType: hard
 
@@ -2834,7 +2851,7 @@ __metadata:
     "@hapi/scooter": 6.0.0
     "@hapi/wreck": 17.0.0
     "@xgovformbuilder/engine": 1.9.0
-    "@xgovformbuilder/lab-babel": 2.1.0
+    "@xgovformbuilder/lab-babel": 2.1.1
     accept-language-parser: 1.5.0
     accessible-autocomplete: ^2.0.2
     acorn: 7.1.1
@@ -5091,16 +5108,17 @@ __metadata:
     "@babel/plugin-transform-runtime": ^7.11.0
     "@babel/preset-env": ^7.11.0
     "@babel/preset-flow": ^7.10.4
+    "@babel/runtime": ^7.11.2
     "@hapi/code": ^8.0.1
     "@hapi/lab": ^22.0.4
+    "@rollup/plugin-babel": ^5.1.0
     "@xgovformbuilder/lab-babel": 2.0.0
     babel-eslint: 11.0.0-beta.2
     eslint-plugin-flowtype: ^5.2.0
-    flow-bin: ^0.130.0
+    flow-bin: ^0.131.0
     flow-typed: ^3.2.1
     standard: 14.3.3
     workspace-builder: ^1.0.0
-    yarn: ^1.22.4
   languageName: unknown
   linkType: soft
 
@@ -6588,6 +6606,15 @@ __metadata:
   bin:
     flow: cli.js
   checksum: 720c430c71dfe9274bf26aba61abea39a43cc9173fc155dad07e43e610f2c7af3583c3138d6f4ecffc3b0ecd5739a8af22b4d02de61dbe6ea6417973b5a2bc66
+  languageName: node
+  linkType: hard
+
+"flow-bin@npm:^0.131.0":
+  version: 0.131.0
+  resolution: "flow-bin@npm:0.131.0"
+  bin:
+    flow: cli.js
+  checksum: 7d0d157a6a6372772c08d8d7425d8dd8b115ad25abf0cbc2b72b2ea6b4edb3c727b32141d1d3e310697cc3ce2a5390ee08269bf9d63c3d8ed1f8d761f4cc09af
   languageName: node
   linkType: hard
 
@@ -13945,15 +13972,5 @@ typescript@^3.4:
     y18n: ^3.2.1
     yargs-parser: 5.0.0-security.0
   checksum: 62bb2345031bbb3dd99626a62fd94caa0c13610c53b3d914792f387432c7c7d49432d85ea9eb6339092aca5788a2f1184507826f98c3af277e1e2202ae1d9341
-  languageName: node
-  linkType: hard
-
-"yarn@npm:^1.22.4":
-  version: 1.22.4
-  resolution: "yarn@npm:1.22.4"
-  bin:
-    yarn: ./bin/yarn.js
-    yarnpkg: ./bin/yarn.js
-  checksum: 6c37d4ef69eae55f4543dfd28b81cb0aa5d742aa4505ef591214de262afe358cbb116c4e8238b5a1c43d8c86d7437c101b65248f037852a8b677927ba42629bf
   languageName: node
   linkType: hard

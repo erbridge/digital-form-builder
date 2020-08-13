@@ -54,24 +54,11 @@ jobs:
           path: ~/project
       - restore_cache:
           keys:
-            - << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - << parameters.package_name >>-dependencies-
             - root-dependencies-{{ checksum "yarn.lock" }}
+            - root-dependencies
 
       - run: yarn install
-
-      - run:
-          name: Re-link model
-          command: |
-            rm -fr node_modules/digital-form-builder-model
-            yarn --check-files
-
-      - run:
-          name: Re-link engine
-          command: |
-            rm -fr node_modules/digital-form-builder-engine
-            yarn --check-files
 
       - save_cache:
           paths:
@@ -80,14 +67,13 @@ jobs:
 
       - save_cache:
           paths:
-            - node_modules
-            - flow-typed
-          key: << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
+            - << parameters.package_name >>/flow-typed
+          key: << parameters.package_name >>-flow-typed-{{ checksum "yarn.lock" }}
 
       - run:
           name: Build
           command: |
-            yarn build
+            yarn workspace @xgovformbuilder/<< parameters.package_name >> run build
 
       - persist_to_workspace:
           root: ~/project
@@ -107,20 +93,8 @@ jobs:
           at: ~/project
 
       - run:
-          name: Re-link model
-          command: |
-            rm -fr node_modules/digital-form-builder-model
-            yarn --check-files
-
-      - run:
-          name: Re-link engine
-          command: |
-            rm -fr node_modules/digital-form-builder-engine
-            yarn --check-files
-
-      - run:
           name: Test
-          command: yarn test
+          command: yarn workspace @xgovformbuilder/<< parameters.package_name >> run test
 
 workflows:
   version: 2
@@ -168,9 +142,6 @@ workflows:
     when: << pipeline.parameters.designer >>
     jobs:
       - build:
-          name: model-build
-          package_name: model
-      - build:
           name: designer-build
           package_name: designer
           requires:
@@ -184,9 +155,6 @@ workflows:
   runner:
     when: << pipeline.parameters.runner >>
     jobs:
-      - build:
-          name: model-build
-          package_name: model
       - build:
           name: engine-build
           package_name: engine

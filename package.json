@@ -13,6 +13,10 @@
     "runner"
   ],
   "scripts": {},
+  "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "@rollup/plugin-babel": "^5.1.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
@@ -28,10 +32,9 @@
     "@xgovformbuilder/lab-babel": "2.0.0",
     "babel-eslint": "11.0.0-beta.2",
     "eslint-plugin-flowtype": "^5.2.0",
-    "flow-bin": "^0.130.0",
+    "flow-bin": "^0.131.0",
     "flow-typed": "^3.2.1",
     "standard": "14.3.3",
-    "workspace-builder": "^1.0.0",
-    "yarn": "^1.22.4"
+    "workspace-builder": "^1.0.0"
   }
 }
