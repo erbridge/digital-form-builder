@@ -41,20 +41,6 @@ jobs:
           name: Trigger workflows
           command: chmod +x .circleci/circle_trigger.sh && .circleci/circle_trigger.sh
 
-  upgrade-yarn:
-    executor: node
-    working_directory: ~/project
-    steps:
-      - run:
-          name: Set yarn 2
-          command: |
-            yarn set version berry
-
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - .
-
   build:
     parameters:
       package_name:
