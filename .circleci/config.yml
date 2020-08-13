@@ -60,7 +60,7 @@ jobs:
             - << parameters.package_name >>/flow-typed
 
 
-      - yarn/install-packages-if-changeds
+      - yarn/install-packages-if-changed
 
       - save_cache:
           paths:
