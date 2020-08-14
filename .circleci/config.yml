@@ -61,6 +61,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
+            - .yarn
           key: root-dependencies-{{ checksum "yarn.lock" }}
 
       - save_cache:
