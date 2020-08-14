@@ -39,5 +39,15 @@
     "rollup": "^2.25.0",
     "standard": "14.3.3",
     "workspace-builder": "^1.0.0"
+  },
+  "standard": {
+    "ignore": [
+      "lib",
+      "flow-typed"
+    ],
+    "parser": "babel-eslint",
+    "plugins": [
+      "flowtype"
+    ]
   }
 }
