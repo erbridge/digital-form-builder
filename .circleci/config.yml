@@ -210,6 +210,7 @@ workflows:
 #            - designer-build
 
   build-test:
+    when: << pipeline.parameters.build-test >>
     jobs:
       - install-yarn
       - build:
