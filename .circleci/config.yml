@@ -60,8 +60,7 @@ jobs:
       - restore_cache:
           keys:
             # fallback to using the latest cache if no exact match is found
-            - invalidate-this-damn-cache-root-dependencies-{{ checksum "yarn.lock" }}
-            - root-dependencies
+            - all-dependencies-{{ checksum "yarn.lock" }}
 
       - run: yarn install
 
@@ -77,7 +76,7 @@ jobs:
             - model/flow-typed
             - designer/flow-typed
             - runner/flow-typed
-          key: dependencies-{{ checksum "yarn.lock" }}
+          key: all-dependencies-{{ checksum "yarn.lock" }}
 
 #      - save_cache:
 #          paths:
@@ -103,7 +102,7 @@ jobs:
       - run:
           name: Skip << parameters.package_name >>, no changes made
           command: |
-            if [[ ! ${<< parameters.should_build >>} ]]; then
+            if [ ! "${<< parameters.should_build >>}" = 'true' ]; then
               circleci-agent step halt
             fi
 
@@ -141,7 +140,7 @@ jobs:
       - run:
           name: Skip << parameters.package_name >>, no changes made
           command: |
-            if [ ! ${<< parameters.should_build >>} ]; then
+            if [ ! "${<< parameters.should_build >>}" = 'true' ]; then
               circleci-agent step halt
             fi
 
