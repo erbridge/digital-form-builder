@@ -60,7 +60,7 @@ jobs:
       - restore_cache:
           keys:
             # fallback to using the latest cache if no exact match is found
-            - root-dependencies-{{ checksum "yarn.lock" }}
+            - invalidate-this-damn-cache-root-dependencies-{{ checksum "yarn.lock" }}
             - root-dependencies
 
       - run: yarn install
