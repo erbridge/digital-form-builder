@@ -102,7 +102,7 @@ jobs:
       - run:
           name: Skip << parameters.package_name >>, no changes made
           command: |
-            if [ ! "${<< parameters.should_build >>}" = 'true' ]; then
+            if [ ! '<< parameters.should_build >>' = 'true' ]; then
               circleci-agent step halt
             fi
 
@@ -140,7 +140,7 @@ jobs:
       - run:
           name: Skip << parameters.package_name >>, no changes made
           command: |
-            if [ ! "${<< parameters.should_build >>}" = 'true' ]; then
+            if [ ! '<< parameters.should_build >>' = 'true' ]; then
               circleci-agent step halt
             fi
 
