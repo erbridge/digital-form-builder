@@ -57,6 +57,7 @@ jobs:
           keys:
             # fallback to using the latest cache if no exact match is found
             - all-dependencies-{{ checksum "yarn.lock" }}
+            - all-dependencies
       - run: yarn install
       - save_cache:
           paths:
