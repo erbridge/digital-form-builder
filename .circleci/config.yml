@@ -131,8 +131,8 @@ workflows:
 
   # Workflows defined for each package.
 
-  install:
-    jobs:
+#  install:
+#    jobs:
     #  - install-yarn
 
 #  model:
