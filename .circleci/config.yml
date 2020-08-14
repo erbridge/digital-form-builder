@@ -124,12 +124,21 @@ jobs:
     parameters:
       package_name:
         type: string
+      should_build:
+        type: boolean
 
     executor: node-browsers
 
     steps:
       - attach_workspace:
           at: ~/project
+
+      - run:
+          name: Skip << parameters.package_name >>, no changes made
+          command: |
+            if [ ! ${<< parameters.should_build >>} ]; then
+              circleci-agent step halt
+            fi
 
       - run:
           name: Test
@@ -207,6 +216,7 @@ workflows:
       - test:
           name: model-test
           package_name: model
+          should_build: << pipeline.parameters.model >>
           requires:
             - model-build
 
@@ -219,6 +229,7 @@ workflows:
       - test:
           name: engine-test
           package_name: engine
+          should_build: << pipeline.parameters.engine >>
           requires:
             - engine-build
 
@@ -231,6 +242,7 @@ workflows:
       - test:
           name: runner-test
           package_name: runner
+          should_build: << pipeline.parameters.runner >>
           requires:
             - runner-build
 
@@ -239,10 +251,11 @@ workflows:
           package_name: designer
           should_build: << pipeline.parameters.designer >>
           requires:
-            - model-build
+            - model-test
       - test:
           name: designer-test
           package_name: designer
+          should_build: << pipeline.parameters.designer >>
           requires:
             - designer-build
 
