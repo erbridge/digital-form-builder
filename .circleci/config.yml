@@ -19,6 +19,8 @@ parameters:
     type: boolean
     default: false
 
+
+
 executors:
   node:
     docker:
@@ -62,29 +64,44 @@ jobs:
           paths:
             - node_modules
             - .yarn
-          key: root-dependencies-{{ checksum "yarn.lock" }}
+            - engine/node_modules
+            - model/node_modules
+            - designer/node_modules
+            - runner/node_modules
+            - engine/flow-typed
+            - model/flow-typed
+            - designer/flow-typed
+            - runner/flow-typed
+          key: dependencies-{{ checksum "yarn.lock" }}
 
-      - save_cache:
-          paths:
-#            - << parameters.package_name >>/flow-typed
-            - << parameters.package_name >>/node_modules
-          key: << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
+#      - save_cache:
+#          paths:
+##            - << parameters.package_name >>/flow-typed
+#          key: << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
 
       - persist_to_workspace:
           root: ~/project
           paths:
             - .
 
-
   build:
     parameters:
       package_name:
         type: string
+      should_build:
+        type: boolean
 
     executor: node-browsers
     working_directory: ~/project
 
     steps:
+      - run:
+          name: Skip << parameters.package_name >>, no changes made
+          command: |
+            if [ ! ${<< parameters.should_build >>} ]; then
+              circleci-agent step halt
+            fi
+
       - attach_workspace:
           at: ~/project
 
@@ -163,20 +180,72 @@ workflows:
 #          requires:
 #            - engine-build
 
-  designer:
-    when: << pipeline.parameters.designer >>
+#  designer:
+#    when: << pipeline.parameters.designer >>
+#    jobs:
+#      - install-yarn
+#      - build:
+#          name: designer-build
+#          package_name: designer
+#          requires:
+#            - install-yarn
+#      - test:
+#          name: designer-test
+#          package_name: designer
+#          requires:
+#            - designer-build
+
+  build-test:
     jobs:
       - install-yarn
       - build:
-          name: designer-build
-          package_name: designer
+          name: model-build
+          package_name: model
+          should_build: << pipeline.parameters.model >>
           requires:
             - install-yarn
+      - test:
+          name: model-test
+          package_name: model
+          requires:
+            - model-build
+
+      - build:
+          name: engine-build
+          package_name: engine
+          should_build: << pipeline.parameters.engine >>
+          requires:
+            - model-test
+      - test:
+          name: engine-test
+          package_name: engine
+          requires:
+            - engine-build
+
+      - build:
+          name: runner-build
+          package_name: runner
+          should_build: << pipeline.parameters.runner >>
+          requires:
+            - engine-build
+      - test:
+          name: runner-test
+          package_name: runner
+          requires:
+            - runner-build
+
+      - build:
+          name: designer-build
+          package_name: designer
+          should_build: << pipeline.parameters.designer >>
+          requires:
+            - model-build
       - test:
           name: designer-test
           package_name: designer
           requires:
-            - designer-build
+            - model-build
+
 
 #  runner:
 #    when: << pipeline.parameters.runner >>
