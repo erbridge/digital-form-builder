@@ -24,8 +24,6 @@ parameters:
     type: boolean
     default: false
 
-
-
 executors:
   node:
     docker:
@@ -49,10 +47,8 @@ jobs:
   install-yarn:
     executor: node-browsers
     working_directory: ~/project
-
     steps:
       - checkout
-
       - run:
           name: Set yarn 2
           command: |
@@ -61,9 +57,7 @@ jobs:
           keys:
             # fallback to using the latest cache if no exact match is found
             - all-dependencies-{{ checksum "yarn.lock" }}
-
       - run: yarn install
-
       - save_cache:
           paths:
             - node_modules
@@ -77,12 +71,6 @@ jobs:
             - designer/flow-typed
             - runner/flow-typed
           key: all-dependencies-{{ checksum "yarn.lock" }}
-
-#      - save_cache:
-#          paths:
-##            - << parameters.package_name >>/flow-typed
-#          key: << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
-
       - persist_to_workspace:
           root: ~/project
           paths:
@@ -103,27 +91,19 @@ jobs:
           name: Skip << parameters.package_name >>, no changes made
           command: |
             if [ ! '<< parameters.should_build >>' = 'true' ]; then
+              echo "no changes made, skipping!";
               circleci-agent step halt
             fi
-
       - attach_workspace:
           at: ~/project
-
-      - restore_cache:
-          keys:
-            # fallback to using the latest cache if no exact match is found
-            - << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
-            - << parameters.package_name >>-dependencies
       - run:
           name: Build
           command: |
             yarn workspace @xgovformbuilder/<< parameters.package_name >> run build
-
       - persist_to_workspace:
           root: ~/project
           paths:
             - .
-
   test:
     parameters:
       package_name:
@@ -136,17 +116,17 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-
       - run:
-          name: Skip << parameters.package_name >>, no changes made
+          name: Should << parameters.package_name >> build?
           command: |
             if [ ! '<< parameters.should_build >>' = 'true' ]; then
+              echo "no changes made, skipping!";
               circleci-agent step halt
             fi
-
       - run:
           name: Test
           command: yarn workspace @xgovformbuilder/<< parameters.package_name >> run test
+
 
 workflows:
   version: 2
@@ -157,56 +137,6 @@ workflows:
     when: << pipeline.parameters.trigger >>
     jobs:
       - trigger-workflows
-
-
-  # Workflows defined for each package.
-
-#  install:
-#    jobs:
-    #  - install-yarn
-
-#  model:
-#    jobs:
-#      - build:
-#          name: model-build
-#          package_name: model
-#      - test:
-#          name: model-test
-#          package_name: model
-#          requires:
-#            - model-build
-#
-#  engine:
-#    when: << pipeline.parameters.engine >>
-#    jobs:
-#      - build:
-#          name: model-build
-#          package_name: model
-#      - build:
-#          name: engine-build
-#          package_name: engine
-#          requires:
-#            - model-build
-#      - test:
-#          name: engine-test
-#          package_name: engine
-#          requires:
-#            - engine-build
-
-#  designer:
-#    when: << pipeline.parameters.designer >>
-#    jobs:
-#      - install-yarn
-#      - build:
-#          name: designer-build
-#          package_name: designer
-#          requires:
-#            - install-yarn
-#      - test:
-#          name: designer-test
-#          package_name: designer
-#          requires:
-#            - designer-build
 
   build-test:
     when: << pipeline.parameters.build-test >>
@@ -263,16 +193,3 @@ workflows:
           should_build: << pipeline.parameters.designer >>
           requires:
             - designer-build
-
-
-#  runner:
-#    when: << pipeline.parameters.runner >>
-#    jobs:
-#      - build:
-#          name: runner-build
-#          package_name: runner
-#      - test:
-#          name: runner-test
-#          package_name: runner
-#          requires:
-#            - runner-build

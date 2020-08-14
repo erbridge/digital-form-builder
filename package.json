@@ -29,12 +29,14 @@
     "@babel/preset-flow": "^7.10.4",
     "@hapi/code": "^8.0.1",
     "@hapi/lab": "^22.0.4",
-    "@xgovformbuilder/lab-babel": "2.0.0",
+    "@xgovformbuilder/lab-babel": "2.1.2",
     "babel-eslint": "11.0.0-beta.2",
+    "eslint": "^7.6.0",
     "eslint-plugin-flowtype": "^5.2.0",
     "flow-bin": "^0.131.0",
     "flow-mono-cli": "^1.5.3",
     "flow-typed": "^3.2.1",
+    "rollup": "^2.25.0",
     "standard": "14.3.3",
     "workspace-builder": "^1.0.0"
   }
