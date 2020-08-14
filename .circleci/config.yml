@@ -63,10 +63,11 @@ jobs:
             - node_modules
           key: root-dependencies-{{ checksum "yarn.lock" }}
 
-#      - save_cache:
-#          paths:
+      - save_cache:
+          paths:
 #            - << parameters.package_name >>/flow-typed
-#          key: << parameters.package_name >>-flow-typed-{{ checksum "yarn.lock" }}
+            - << parameters.package_name >>/node_modules
+          key: << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
 
       - persist_to_workspace:
           root: ~/project
@@ -85,6 +86,12 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
+
+      - restore_cache:
+          keys:
+            # fallback to using the latest cache if no exact match is found
+            - << parameters.package_name >>-dependencies-{{ checksum "yarn.lock" }}
+            - << parameters.package_name >>-dependencies
       - run:
           name: Build
           command: |
@@ -125,18 +132,18 @@ workflows:
 
   install:
     jobs:
-      - install-yarn
+    #  - install-yarn
 
-  model:
-    jobs:
-      - build:
-          name: model-build
-          package_name: model
-      - test:
-          name: model-test
-          package_name: model
-          requires:
-            - model-build
+#  model:
+#    jobs:
+#      - build:
+#          name: model-build
+#          package_name: model
+#      - test:
+#          name: model-test
+#          package_name: model
+#          requires:
+#            - model-build
 #
 #  engine:
 #    when: << pipeline.parameters.engine >>
