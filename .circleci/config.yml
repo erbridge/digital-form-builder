@@ -238,7 +238,7 @@ workflows:
           package_name: runner
           should_build: << pipeline.parameters.runner >>
           requires:
-            - engine-build
+            - engine-test
       - test:
           name: runner-test
           package_name: runner
