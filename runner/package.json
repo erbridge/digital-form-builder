@@ -76,7 +76,7 @@
     "schmervice": "1.5.0",
     "shortid": "2.2.15",
     "sinon": "9.0.2",
-    "standard": "14.3.3",
+    "standard": "^14.3.4",
     "tmp": "0.1.0",
     "uuid": "7.0.3",
     "vision": "5.4.4",
@@ -85,6 +85,7 @@
   "devDependencies": {
     "@babel/cli": "7.10.3",
     "@babel/core": "7.10.3",
+    "@babel/eslint-plugin": "^7.11.3",
     "@babel/plugin-transform-classes": "^7.10.1",
     "@babel/plugin-transform-modules-commonjs": "7.10.1",
     "@babel/plugin-transform-runtime": "7.10.3",
@@ -92,9 +93,10 @@
     "@babel/preset-flow": "^7.10.4",
     "@babel/register": "7.10.3",
     "@xgovformbuilder/lab-babel": "2.1.0",
-    "babel-eslint": "^10.1.0",
+    "babel-eslint": "^11.0.0-beta.2",
     "cheerio": "1.0.0-rc.3",
     "code": "5.2.4",
+    "eslint": "^7.6.0",
     "eslint-plugin-flowtype": "^5.2.0",
     "flow-bin": "^0.130.0",
     "lab": "18.0.2",
@@ -114,7 +116,8 @@
     ],
     "parser": "babel-eslint",
     "plugins": [
-      "flowtype"
+      "flowtype",
+      "@babel"
     ]
   },
   "eslint": "babel-eslint"
