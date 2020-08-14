@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  skip: theodo/skip@0.0.4
 parameters:
   # This parameter is used to trigger the main workflow
   trigger:
@@ -85,8 +83,8 @@ jobs:
     working_directory: ~/project
 
     steps:
-      - checkout
-
+      - attach_workspace:
+          at: ~/project
       - run:
           name: Build
           command: |
