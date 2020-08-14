@@ -23,7 +23,6 @@
     "@hapi/hoek": "^9.0.4",
     "@hapi/joi": "17.1.1",
     "boom": "7.3.0",
-    "btoa": "^1.2.1",
     "digital-form-builder-model": "file:../model",
     "expr-eval": "2.0.2",
     "flow-typed": "^3.2.1",
