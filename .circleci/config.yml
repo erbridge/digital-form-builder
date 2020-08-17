@@ -114,7 +114,10 @@ jobs:
 
       - run:
           name: Test
-          command: yarn test
+          command: yarn test-cov
+
+      - store_test_results:
+          path: test-results
 
 workflows:
   version: 2
