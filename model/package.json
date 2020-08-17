@@ -11,6 +11,8 @@
     "build:watch": "babel src -d lib --source-maps inline --watch",
     "test-lab": "lab -T node_modules/@xgovformbuilder/lab-babel -S -v -P 'test' test -r console -o stdout -r html -o unit-test.html -I version",
     "test": "yarn flow && yarn lint && yarn test-lab",
+    "test-lab-cov": "lab -T node_modules/@xgovformbuilder/lab-babel -S -v -P 'test' test/cases -r console -o stdout -r junit -o test-results/junit/unit-test.xml -I version",
+    "test-cov": "yarn flow && yarn lint && yarn test-lab-cov",
     "postpack": "flow-typed install --ignoreDeps dev"
   },
   "repository": {
