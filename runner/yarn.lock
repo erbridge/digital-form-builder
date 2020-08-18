@@ -1771,6 +1771,22 @@
   resolved "https://registry.yarnpkg.com/@xgovformbuilder/lab-babel/-/lab-babel-2.1.0.tgz#373c529d42349a170ba5d46a9d14dbeb0d55c483"
   integrity sha512-lsRMiGvppN51pBJES8131dsMjMchfKkbNMVfGN3O01G4cXJ0rwlD9amMRlZai/MnZq2uAeGKB0DAIH0fU7Ywmw==
 
+"@xgovformbuilder/model@file:../model":
+  version "1.0.0"
+  dependencies:
+    "@babel/runtime" "7.10.4"
+    "@hapi/hoek" "^9.0.4"
+    "@hapi/joi" "17.1.1"
+    boom "7.3.0"
+    expr-eval "2.0.2"
+    govuk-frontend "3.6.0"
+    hmpo-components "2.6.5"
+    joi "14.3.1"
+    moment "2.24.0"
+    nunjucks "3.2.1"
+    path "0.12.7"
+    wreck "14.2.0"
+
 JSV@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/JSV/-/JSV-4.0.2.tgz#d077f6825571f82132f9dffaed587b4029feff57"
