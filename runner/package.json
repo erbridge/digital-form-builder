@@ -13,7 +13,7 @@
     "unit-test:dev": "lab -v -P 'test' --inspect-brk",
     "test": "NODE_ENV=test yarn run flow && yarn run lint && yarn run unit-test",
     "test-lab-cov": "lab -T node_modules/@xgovformbuilder/lab-babel test/**/*.test.js -S -v -r console -o stdout -r html -o test-coverage/lab/unit-test.html -r junit -o test-results/junit/unit-test.xml -I version -l --coverage-all",
-    "test-cov": "NODE_ENV=test yarn flow && yarn lint && yarn run unit-test",
+    "test-cov": "NODE_ENV=test yarn floww && yarn run unit-test",
     "postinstall": "flow-typed install --ignoreDeps dev && yarn build",
     "a11y": "node test/audit/components && node lighthouse",
     "symlink-env": "./bin/symlink-config",
