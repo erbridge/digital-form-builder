@@ -20,6 +20,8 @@
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
+    "@babel/eslint-parser": "^7.11.3",
+    "@babel/eslint-plugin": "^7.11.3",
     "@babel/plugin-proposal-class-properties": "7.10.1",
     "@babel/plugin-proposal-export-default-from": "^7.10.1",
     "@babel/plugin-proposal-private-methods": "^7.10.1",
@@ -30,24 +32,31 @@
     "@hapi/code": "^8.0.1",
     "@hapi/lab": "^22.0.4",
     "@xgovformbuilder/lab-babel": "2.1.2",
-    "babel-eslint": "11.0.0-beta.2",
+    "babel-eslint": "^10.1.0",
     "eslint": "^7.6.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-workspaces": "^1.0.10",
     "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.0",
     "flow-bin": "^0.131.0",
     "flow-mono-cli": "^1.5.3",
     "flow-typed": "^3.2.1",
     "rollup": "^2.25.0",
-    "standard": "14.3.3",
+    "standard": "^14.3.4",
     "workspace-builder": "^1.0.0"
   },
   "standard": {
     "ignore": [
-      "lib",
-      "flow-typed"
+      "**/dist",
+      "**/public",
+      "**/lib",
+      "**/flow-typed"
     ],
     "parser": "babel-eslint",
     "plugins": [
-      "flowtype"
+      "import",
+      "flowtype",
+      "@babel"
     ]
   }
 }
