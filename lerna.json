@@ -1,0 +1,11 @@
+{
+  "packages": [
+    "model",
+    "designer",
+    "engine",
+    "runner"
+  ],
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true
+}

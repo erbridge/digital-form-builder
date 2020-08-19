@@ -53,7 +53,7 @@
     "@babel/runtime": "7.10.3",
     "@hapi/code": "^8.0.1",
     "@hapi/inert": "^6.0.1",
-    "@hapi/lab": "^22.0.4",
+    "@hapi/lab": "^23.0.0",
     "@rollup/plugin-babel": "5.0.4",
     "@rollup/plugin-commonjs": "13.0.0",
     "@rollup/plugin-json": "^4.1.0",
