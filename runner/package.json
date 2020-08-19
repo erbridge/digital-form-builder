@@ -9,6 +9,7 @@
     "build:css": "bin/build-css",
     "build": "yarn build:css && yarn babel-build",
     "lint": "standard",
+    "fix-lint": "standard --fix",
     "unit-test": "lab -T node_modules/@xgovformbuilder/lab-babel test/**/*.test.js -v -r console -o stdout -r html -o unit-test.html -I version -l",
     "unit-test:dev": "lab -v -P 'test' --inspect-brk",
     "test": "NODE_ENV=test yarn run flow && yarn run lint && yarn run unit-test",

@@ -7,8 +7,6 @@ const { configurePlugins } = require('./plugins/builder')
 const Schmervice = require('schmervice')
 const { NotifyService, PayService, UploadService, CacheService, catboxProvider, EmailService, WebhookService, SheetsService } = require('./lib/services')
 
-
-
 const serverOptions = () => {
   const defaultOptions = {
     debug: { request: `${config.isDev}` },
