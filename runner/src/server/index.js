@@ -7,11 +7,13 @@ const { configurePlugins } = require('./plugins/builder')
 const Schmervice = require('schmervice')
 const { NotifyService, PayService, UploadService, CacheService, catboxProvider, EmailService, WebhookService, SheetsService } = require('./lib/services')
 
-/* eslint-disable */ //TODO:- remove this when implemented properly!
+
 
 const serverOptions = () => {
   const defaultOptions = {
+    /* eslint-disable */
     debug: { request: `${config.isDev}` },
+    /* eslint-enable */
     port: config.port,
     routes: {
       validate: {
