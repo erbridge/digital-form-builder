@@ -53,20 +53,20 @@ jobs:
 #          name: Set yarn 2
 #          command: |
 #            yarn set version berry
-      - restore_cache:
-          keys:
-            # fallback to using the latest cache if no exact match is found
-            - all-dependencies-{{ checksum "yarn.lock" }}
-            - all-dependencies
+#      - restore_cache:
+#          keys:
+#            # fallback to using the latest cache if no exact match is found
+#            - all-dependencies-{{ checksum "yarn.lock" }}
+#            - all-dependencies
       - run: yarn install
       - save_cache:
           paths:
-            - node_modules
+#            - node_modules
             - .yarn
-            - engine/node_modules
-            - model/node_modules
-            - designer/node_modules
-            - runner/node_modules
+#            - engine/node_modules
+#            - model/node_modules
+#            - designer/node_modules
+#            - runner/node_modules
             - engine/flow-typed
             - model/flow-typed
             - designer/flow-typed
