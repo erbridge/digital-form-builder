@@ -26,7 +26,7 @@ executors:
       - image: circleci/node:12
   node-browsers:
     docker:
-      - image: circleci/node:12.18.3-browsers
+      - image: circleci/node:erbium-buster-browsers
 
 jobs:
   trigger-workflows:
