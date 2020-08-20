@@ -111,7 +111,7 @@ jobs:
 
       - run:
           name: Test
-          command: yarn test-cov
+          command: yarn install && yarn test-cov
 
       - store_test_results:
           path: test-results
