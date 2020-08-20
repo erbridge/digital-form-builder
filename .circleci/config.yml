@@ -26,10 +26,7 @@ executors:
       - image: circleci/node:12
   node-browsers:
     docker:
-      - image: circleci/node:12.16-browsers
-  python:
-    docker:
-      - image: circleci/python:2.7-jessie
+      - image: circleci/node:12.18.3-browsers
 
 jobs:
   trigger-workflows:
