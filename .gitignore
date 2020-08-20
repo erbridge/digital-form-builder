@@ -9,3 +9,6 @@ unit-test.html
 /model/lib
 package-lock.json
 */flow-typed/*
+**/tmp.pdf
+**/test-results
+**/test-coverage
