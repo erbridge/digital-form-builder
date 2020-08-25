@@ -315,7 +315,7 @@
     "@babel/helper-remap-async-to-generator" "^7.10.1"
     "@babel/plugin-syntax-async-generators" "^7.8.0"
 
-"@babel/plugin-proposal-class-properties@^7.10.1":
+"@babel/plugin-proposal-class-properties@7.10.1", "@babel/plugin-proposal-class-properties@^7.10.1":
   version "7.10.1"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.10.1.tgz#046bc7f6550bb08d9bd1d4f060f5f5a4f1087e01"
   integrity sha512-sqdGWgoXlnOdgMXU+9MbhzwFRgxVLeiGBqTrnuS7LC2IBU31wSsESbTUreT2O418obpfPdGUR2GbEufZF1bpqw==
@@ -1909,6 +1909,22 @@ diff@4.x.x:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
   integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
+
+"digital-form-builder-model@file:../model":
+  version "1.0.0"
+  dependencies:
+    "@babel/runtime" "7.10.4"
+    "@hapi/hoek" "^9.0.4"
+    "@hapi/joi" "17.1.1"
+    boom "7.3.0"
+    expr-eval "2.0.2"
+    govuk-frontend "3.6.0"
+    hmpo-components "2.6.5"
+    joi "14.3.1"
+    moment "2.24.0"
+    nunjucks "3.2.1"
+    path "0.12.7"
+    wreck "14.2.0"
 
 dir-glob@^3.0.1:
   version "3.0.1"
