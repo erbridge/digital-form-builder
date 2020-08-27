@@ -64,7 +64,6 @@ jobs:
       - run: yarn flow-mono install-types && yarn flow-mono create-stubs
       - save_cache:
           paths:
-            - node_modules
             - .yarn
             - model/lib
             - engine/lib
