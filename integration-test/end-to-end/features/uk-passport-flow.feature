@@ -1,6 +1,6 @@
 Feature: uk-passport-flow
 
-  Ensures the page flow is correct
+  Ensures the page flow of the uk-passport form is correct
 
   Scenario: Ensure 'Do you have a UK passport?' is the default page
     Given form is loaded 'test'
