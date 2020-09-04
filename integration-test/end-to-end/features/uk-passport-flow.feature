@@ -52,10 +52,10 @@ Feature: uk-passport-flow
     And TextField 'Surname' is 'Miley'
     And Button 'Continue' is clicked
     And Page "Address" is loaded
-    And TextField 'Address line 1' is '3 Dumbreeze Grove'
-    And TextField 'Address line 2 (Optional)' is 'Knowsley Village'
-    And TextField 'Town or city' is 'Prescot'
-    And TextField 'Postcode' is 'L34 8HW'
+    And UkAddressField 'Address line 1' is '3 Dumbreeze Grove'
+    And UkAddressField 'Address line 2 (Optional)' is 'Knowsley Village'
+    And UkAddressField 'Town or city' is 'Prescot'
+    And UkAddressField 'Postcode' is 'L34 8HW'
     And Button 'Continue' is clicked
     Then Page "Applicant contact details" is loaded
 
@@ -72,14 +72,14 @@ Feature: uk-passport-flow
     And TextField 'Surname' is 'Miley'
     And Button 'Continue' is clicked
     And Page "Address" is loaded
-    And TextField 'Address line 1' is '3 Dumbreeze Grove'
-    And TextField 'Address line 2 (Optional)' is 'Knowsley Village'
-    And TextField 'Town or city' is 'Prescot'
-    And TextField 'Postcode' is 'L34 8HW'
+    And UkAddressField 'Address line 1' is '3 Dumbreeze Grove'
+    And UkAddressField 'Address line 2 (Optional)' is 'Knowsley Village'
+    And UkAddressField 'Town or city' is 'Prescot'
+    And UkAddressField 'Postcode' is 'L34 8HW'
     And Button 'Continue' is clicked
     And Page "Applicant contact details" is loaded
-    And TextField 'Phone number' is '01515482487'
-    And TextField 'Your email address' is 'dean.miley@gmail.com'
+    And TelephoneNumberField 'Phone number' is '01515482487'
+    And EmailAddressField 'Your email address' is 'dean.miley@gmail.com'
     And Button 'Continue' is clicked
     Then Page "Summary" is loaded
 
@@ -95,17 +95,17 @@ Feature: uk-passport-flow
     And TextField 'Surname' is 'Miley'
     And Button 'Continue' is clicked
     And Page "Address" is loaded
-    And TextField 'Address line 1' is '3 Dumbreeze Grove'
-    And TextField 'Address line 2 (Optional)' is 'Knowsley Village'
-    And TextField 'Town or city' is 'Prescot'
-    And TextField 'Postcode' is 'L34 8HW'
+    And UkAddressField 'Address line 1' is '3 Dumbreeze Grove'
+    And UkAddressField 'Address line 2 (Optional)' is 'Knowsley Village'
+    And UkAddressField 'Town or city' is 'Prescot'
+    And UkAddressField 'Postcode' is 'L34 8HW'
     And Button 'Continue' is clicked
     And Page "Applicant contact details" is loaded
-    And TextField 'Phone number' is '01515482487'
-    And TextField 'Your email address' is 'dean.miley@gmail.com'
+    And TelephoneNumberField 'Phone number' is '01515482487'
+    And EmailAddressField 'Your email address' is 'dean.miley@gmail.com'
     And Button 'Continue' is clicked
     And Page "Summary" is loaded
-    And CheckBox 'declaration-1' is 'Checked'
+    And CheckboxesField 'Confirm' is 'Checked'
     And Button 'Submit' is clicked
     Then Page "undefined - GOV.UK" is loaded
 
@@ -121,16 +121,16 @@ Feature: uk-passport-flow
     And TextField 'Surname' is 'Miley'
     And Button 'Continue' is clicked
     And Page "Address" is loaded
-    And TextField 'Address line 1' is '3 Dumbreeze Grove'
-    And TextField 'Address line 2 (Optional)' is 'Knowsley Village'
-    And TextField 'Town or city' is 'Prescot'
-    And TextField 'Postcode' is 'L34 8HW'
+    And UkAddressField 'Address line 1' is '3 Dumbreeze Grove'
+    And UkAddressField 'Address line 2 (Optional)' is 'Knowsley Village'
+    And UkAddressField 'Town or city' is 'Prescot'
+    And UkAddressField 'Postcode' is 'L34 8HW'
     And Button 'Continue' is clicked
     And Page "Applicant contact details" is loaded
-    And TextField 'Phone number' is '01515482487'
-    And TextField 'Your email address' is 'dean.miley@gmail.com'
+    And TelephoneNumberField 'Phone number' is '01515482487'
+    And EmailAddressField 'Your email address' is 'dean.miley@gmail.com'
     And Button 'Continue' is clicked
     And Page "Summary" is loaded
-    And CheckBox 'declaration-1' is 'Checked'
+    And CheckboxesField 'Confirm' is 'Checked'
     And Button 'Submit' is clicked
     Then Page "undefined - GOV.UK" is loaded

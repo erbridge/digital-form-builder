@@ -6,18 +6,13 @@ Given('Form {string} is loaded', function (form, next) {
 })
 
 Then('Page {string} is loaded', function (expectedPage, next) {
-  this.driver.getTitle().then(function (actualPage) {
+  this.driver.getTitle().then(actualPage => {
     assert.equal(actualPage, expectedPage, 'Expected page (' + expectedPage + '). Actual page (' + actualPage + ').').then(next, next)
   })
 })
 
 When('YesNoField {string} is {string}', function (identifier, value, next) {
   this.driver.findElement({ xpath: `//input[@name='${identifier}' and @id=(//label[contains(.,'${value}')]/@for)]` }).click().then(next)
-  //if (value == 'Yes') {
-  //  this.driver.findElement({ id: identifier }).click().then(next)
-  //} else if (value == 'No') {
-  //  this.driver.findElement({ id: identifier + '-2' }).click().then(next)
-  //}
 })
 
 When('Button {string} is clicked', function (identifier, next) {
@@ -32,8 +27,20 @@ When('TextField {string} is {string}', function (identifier, value, next) {
   this.driver.findElement({ xpath: `//input[@id=(//label[contains(.,'${identifier}')]/@for)]` }).sendKeys(value).then(next)
 })
 
-When('CheckBox {string} is {string}', function (identifier, value, next) {
-  let checkbox = this.driver.findElement({ id: identifier })
+When('UkAddressField {string} is {string}', function (identifier, value, next) {
+  this.driver.findElement({ xpath: `//input[@id=(//label[contains(.,'${identifier}')]/@for)]` }).sendKeys(value).then(next)
+})
+
+When('TelephoneNumberField {string} is {string}', function (identifier, value, next) {
+  this.driver.findElement({ xpath: `//input[@id=(//label[contains(.,'${identifier}')]/@for)]` }).sendKeys(value).then(next)
+})
+
+When('EmailAddressField {string} is {string}', function (identifier, value, next) {
+  this.driver.findElement({ xpath: `//input[@id=(//label[contains(.,'${identifier}')]/@for)]` }).sendKeys(value).then(next)
+})
+
+When('CheckboxesField {string} is {string}', function (identifier, value, next) {
+  let checkbox = this.driver.findElement({ xpath: `//input[@id=(//label[contains(.,'${identifier}')]/@for)]` })
   checkbox.isSelected().then(selected => {
     if (value == 'Checked' && !selected) {
       checkbox.click().then(next)
