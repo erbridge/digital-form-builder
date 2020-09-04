@@ -11,6 +11,12 @@ Then('Page {string} is loaded', function (expectedPage, next) {
   })
 })
 
+Then('Confirmed with status {string}', function (expectedStatus, next) {
+  this.driver.findElement({ xpath: `//div[@class='govuk-panel govuk-panel--confirmation']/h1` }).getText().then(actualStatus => {
+    assert.equal(actualStatus, expectedStatus, 'Expected status (' + expectedStatus + '). Actual status (' + actualStatus + ').').then(next, next)
+  })
+})
+
 When('YesNoField {string} is {string}', function (identifier, value, next) {
   this.driver.findElement({ xpath: `//input[@name='${identifier}' and @id=(//label[contains(.,'${value}')]/@for)]` }).click().then(next)
 })

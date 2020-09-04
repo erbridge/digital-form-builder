@@ -134,3 +134,4 @@ Feature: uk-passport-flow
     And CheckboxesField 'Confirm' is 'Checked'
     And Button 'Submit' is clicked
     Then Page "undefined - GOV.UK" is loaded
+    And Confirmed with status 'Application complete'
