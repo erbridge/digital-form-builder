@@ -2,11 +2,14 @@
   "name": "@xgovformbuilder/integration-test",
   "version": "1.0.0",
   "scripts": {
-    "cuke": "cucumber-js end-to-end"
+    "cuke-test": "cucumber-js end-to-end -f summary -f json:test/report/cuke.json",
+    "cuke-report": "node cucumber-html-reporter.js"
   },
   "dependencies": {
     "chromedriver": "85.0.0",
     "cucumber": "5.1.0",
+    "cucumber-html-reporter": "5.2.0",
+    "multiple-cucumber-html-reporter": "1.18.0",
     "cucumber-assert": "2.0.1",
     "selenium-webdriver": "4.0.0-alpha.7"
   }

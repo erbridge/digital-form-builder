@@ -11,9 +11,9 @@ Then('Page {string} is loaded', function (expectedPage, next) {
   })
 })
 
-Then('Confirmed with status {string}', function (expectedStatus, next) {
+Then('Confirmation status should be {string}', function (expectedStatus, next) {
   this.driver.findElement({ xpath: `//div[@class='govuk-panel govuk-panel--confirmation']/h1` }).getText().then(actualStatus => {
-    assert.equal(actualStatus, expectedStatus, 'Expected status (' + expectedStatus + '). Actual status (' + actualStatus + ').').then(next, next)
+    assert.equal(actualStatus, expectedStatus, `Confirmation status should be ${expectedStatus}. Actual status ${actualStatus}.`).then(next, next)
   })
 })
 
@@ -53,5 +53,11 @@ When('CheckboxesField {string} is {string}', function (identifier, value, next) 
     } else if (value == 'Unchecked' && selected) {
       checkbox.click().then(next)
     }
+  })
+})
+
+Then('Summary item {string} should be {string}', function (identifier, expectedValue, next) {
+  this.driver.findElement({ xpath: `//dt[contains(., '${identifier}')]/following-sibling::dd` }).getText().then(actualValue => {
+    assert.equal(actualValue, expectedValue, `Summary item ${identifier} should be ${expectedValue}. Actual value ${actualValue}`).then(next, next)
   })
 })

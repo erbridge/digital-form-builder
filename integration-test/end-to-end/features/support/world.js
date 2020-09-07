@@ -1,13 +1,13 @@
 const {setWorldConstructor, setDefaultTimeout} = require('cucumber');
 const {timeout, baseURL} = require('../../config');
 
-class CustomWorld {
-  constructor() {
-    this.formToUrl = function (form) {
-      return `${baseURL}/${form}`
-    }
+function CustomWorld({attach, parameters}) {
+  this.attach = attach
+  this.parameters = parameters
+  this.formToUrl = function (form) {
+    return `${baseURL}/${form}`
   }
+  setDefaultTimeout(timeout)
 }
 
-setDefaultTimeout(timeout);
-setWorldConstructor(CustomWorld);
+setWorldConstructor(CustomWorld)

@@ -134,4 +134,64 @@ Feature: uk-passport-flow
     And CheckboxesField 'Confirm' is 'Checked'
     And Button 'Submit' is clicked
     Then Page "undefined - GOV.UK" is loaded
-    And Confirmed with status 'Application complete'
+    And Confirmation status should be 'Application complete'
+
+  Scenario: All information submitted is captured correctly
+    Given Form 'test/uk-passport' is loaded
+    When YesNoField 'ukPassport' is 'Yes'
+    And Button 'Continue' is clicked
+    And Page "How many applicants are there?" is loaded
+    And SelectField 'How many applicants are there?' is '1'
+    And Button 'Continue' is clicked
+    And Page "Applicant" is loaded
+    And TextField 'First name' is 'Dean'
+    And TextField 'Surname' is 'Miley'
+    And Button 'Continue' is clicked
+    And Page "Address" is loaded
+    And UkAddressField 'Address line 1' is '3 Dumbreeze Grove'
+    And UkAddressField 'Address line 2 (Optional)' is 'Knowsley Village'
+    And UkAddressField 'Town or city' is 'Prescot'
+    And UkAddressField 'Postcode' is 'L34 8HW'
+    And Button 'Continue' is clicked
+    And Page "Applicant contact details" is loaded
+    And TelephoneNumberField 'Phone number' is '01515482487'
+    And EmailAddressField 'Your email address' is 'dean.miley@gmail.com'
+    And Button 'Continue' is clicked
+    And Page "Summary" is loaded
+    Then Summary item 'Do you have a UK passport?' should be 'Yes'
+    And Summary item 'How many applicants are there?' should be '1'
+    And Summary item 'First name' should be 'Dean'
+    And Summary item 'Surname' should be 'Miley'
+    And Summary item 'Address' should be '3 Dumbreeze Grove, Knowsley Village, Prescot, L34 8HW'
+    And Summary item 'Phone number' should be '01515482487'
+    And Summary item 'Your email address' should be 'dean.miley@gmail.com'
+
+  Scenario: All information submitted is not captured correctly
+    Given Form 'test/uk-passport' is loaded
+    When YesNoField 'ukPassport' is 'Yes'
+    And Button 'Continue' is clicked
+    And Page "How many applicants are there?" is loaded
+    And SelectField 'How many applicants are there?' is '1'
+    And Button 'Continue' is clicked
+    And Page "Applicant" is loaded
+    And TextField 'First name' is 'Dean'
+    And TextField 'Surname' is 'Miley'
+    And Button 'Continue' is clicked
+    And Page "Address" is loaded
+    And UkAddressField 'Address line 1' is '3 Dumbreeze Grove'
+    And UkAddressField 'Address line 2 (Optional)' is 'Knowsley Village'
+    And UkAddressField 'Town or city' is 'Prescot'
+    And UkAddressField 'Postcode' is 'L34 8HW'
+    And Button 'Continue' is clicked
+    And Page "Applicant contact details" is loaded
+    And TelephoneNumberField 'Phone number' is '01515482487'
+    And EmailAddressField 'Your email address' is 'dean.miley@gmail.com'
+    And Button 'Continue' is clicked
+    And Page "Summary" is loaded
+    Then Summary item 'Do you have a UK passport?' should be 'Yes'
+    And Summary item 'How many applicants are there?' should be '1'
+    And Summary item 'First name' should be 'Dean'
+    And Summary item 'Surname' should be 'Miley'
+    And Summary item 'Address' should be '3 Dumbreeze Grove, Knowsley Village, Prescot, L34 8HW'
+    And Summary item 'Phone number' should be '01514582487'
+    And Summary item 'Your email address' should be 'dean.miley@gmail.com'
