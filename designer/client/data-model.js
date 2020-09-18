@@ -1,3 +1,14 @@
+import React from 'react'
+
+const listTypes = ['SelectField', 'RadiosField', 'CheckboxesField', 'AutocompleteField']
+
+function componentToString (component) {
+  if (~listTypes.indexOf(component.type)) {
+    return `${component.type}<${component.options.list}>`
+  }
+  return `${component.type}`
+}
+
 function DataModel (props) {
   const { data } = props
   const { sections, pages } = data

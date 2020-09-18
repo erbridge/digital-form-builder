@@ -2593,6 +2593,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/fs-extra@npm:^8.0.1":
+  version: 8.1.1
+  resolution: "@types/fs-extra@npm:8.1.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: 4024be926798d8f686db27739dce4d1a4668b7ce0a4a9c21416a9d7db4db6b34a7dedb70e370f5b4e621aed22fa8003d7d07ca6faa9a7b7073fe0339c45cee89
+  languageName: node
+  linkType: hard
+
 "@types/glob@npm:^7.1.1":
   version: 7.1.3
   resolution: "@types/glob@npm:7.1.3"
@@ -2755,10 +2764,17 @@ __metadata:
     react-simple-code-editor: 0.6.1
     react-sortable-hoc: 0.8.3
     rollup: 2.15.0
+<<<<<<< HEAD
     rollup-plugin-commonjs: ^10.1.0
     rollup-plugin-flow: ^1.1.1
     rollup-plugin-node-globals: 1.4.0
     rollup-plugin-node-resolve: ^5.2.0
+=======
+    rollup-plugin-copy: ^3.3.0
+    rollup-plugin-flow: ^1.1.1
+    rollup-plugin-node-globals: 1.4.0
+    rollup-plugin-scss: ^2.6.0
+>>>>>>> 06f5f4b9b1c1536b6773565bbb9c4fd993d9dd96
     schmervice: ^1.5.0
     sinon: ^9.0.2
     standard: 12.0.1
@@ -4710,6 +4726,13 @@ __metadata:
   version: 1.1.4
   resolution: "color-name@npm:1.1.4"
   checksum: 3e1c9a4dee12eada307436f61614dd11fe300469db2b83f80c8b7a7cd8a1015f0f18dd13403f018927b249003777ff60baba4a03c65f12e6bddc0dfd9642021f
+  languageName: node
+  linkType: hard
+
+"colorette@npm:^1.1.0":
+  version: 1.2.1
+  resolution: "colorette@npm:1.2.1"
+  checksum: 1cc21ad4b84777a424794f78b6bb6a44b614ae17dcea91762199339f8047598e6d981249eeef7ea588c99eaf062be8fcdcd4866c112998922ed854db6dde96f9
   languageName: node
   linkType: hard
 
@@ -7711,6 +7734,22 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"globby@npm:10.0.1":
+  version: 10.0.1
+  resolution: "globby@npm:10.0.1"
+  dependencies:
+    "@types/glob": ^7.1.1
+    array-union: ^2.1.0
+    dir-glob: ^3.0.1
+    fast-glob: ^3.0.3
+    glob: ^7.1.3
+    ignore: ^5.1.1
+    merge2: ^1.2.3
+    slash: ^3.0.0
+  checksum: f17a47eae09c3d1abaddbbb4e0a7e664dce6d24a9ae54c1d5a5b6082e7353eef232ec1059a2f8de7e33f71ef1d93fecda950136209d5f88881cdd0687b205fa3
+  languageName: node
+  linkType: hard
+
 "globby@npm:10.x.x":
   version: 10.0.2
   resolution: "globby@npm:10.0.2"
@@ -8908,6 +8947,13 @@ fsevents@~2.1.2:
   dependencies:
     isobject: ^3.0.1
   checksum: 2f3232267366f3cdf13d53deda1b282ba7959f28ccb2ee8e0ca168f859f0d7126c27c846ebb7c2b9821a09bbda2e1835fd4020337ba666cf3c03dc256aab7ba1
+  languageName: node
+  linkType: hard
+
+"is-plain-object@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "is-plain-object@npm:3.0.1"
+  checksum: 53b6f5b558a494f20304aad4d484739c96826c4a7c89ef9c6479009df89e725d5a355f592ccba2cd9e94c36fda35d2d229d597f5ccd0c9deb8c8ccd0077ec617
   languageName: node
   linkType: hard
 
@@ -10674,6 +10720,33 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"node-sass@npm:4, node-sass@npm:^4.14.1":
+  version: 4.14.1
+  resolution: "node-sass@npm:4.14.1"
+  dependencies:
+    async-foreach: ^0.1.3
+    chalk: ^1.1.1
+    cross-spawn: ^3.0.0
+    gaze: ^1.0.0
+    get-stdin: ^4.0.1
+    glob: ^7.0.3
+    in-publish: ^2.0.0
+    lodash: ^4.17.15
+    meow: ^3.7.0
+    mkdirp: ^0.5.1
+    nan: ^2.13.2
+    node-gyp: ^3.8.0
+    npmlog: ^4.0.0
+    request: ^2.88.0
+    sass-graph: 2.2.5
+    stdout-stream: ^1.4.0
+    true-case-path: ^1.0.2
+  bin:
+    node-sass: bin/node-sass
+  checksum: eac20417c8ce248eaeb5e12c68737f9d59abcca2679053f1fa42453b555ca544850b66b956a90b9e612cd66e8136f896d5d81b5c25f7c9c28830c742df1b819f
+  languageName: node
+  linkType: hard
+
 "node-sass@npm:4.13.1":
   version: 4.13.1
   resolution: "node-sass@npm:4.13.1"
@@ -10698,33 +10771,6 @@ fsevents@~2.1.2:
   bin:
     node-sass: bin/node-sass
   checksum: 13bf3b28bf6897d1eff1d13fd7f220b58ec80ac8be7c360b00d3220920ff14f2ddd2aa6f439f8cca96530af4d1900dc73bbfed5b0b0af5c9f859ab4c0a97f869
-  languageName: node
-  linkType: hard
-
-"node-sass@npm:^4.14.1":
-  version: 4.14.1
-  resolution: "node-sass@npm:4.14.1"
-  dependencies:
-    async-foreach: ^0.1.3
-    chalk: ^1.1.1
-    cross-spawn: ^3.0.0
-    gaze: ^1.0.0
-    get-stdin: ^4.0.1
-    glob: ^7.0.3
-    in-publish: ^2.0.0
-    lodash: ^4.17.15
-    meow: ^3.7.0
-    mkdirp: ^0.5.1
-    nan: ^2.13.2
-    node-gyp: ^3.8.0
-    npmlog: ^4.0.0
-    request: ^2.88.0
-    sass-graph: 2.2.5
-    stdout-stream: ^1.4.0
-    true-case-path: ^1.0.2
-  bin:
-    node-sass: bin/node-sass
-  checksum: eac20417c8ce248eaeb5e12c68737f9d59abcca2679053f1fa42453b555ca544850b66b956a90b9e612cd66e8136f896d5d81b5c25f7c9c28830c742df1b819f
   languageName: node
   linkType: hard
 
@@ -12678,6 +12724,16 @@ fsevents@~2.1.2:
   peerDependencies:
     rollup: ">=1.12.0"
   checksum: 853150cba571df74a3eac03a4352bb6d63fbe05c3438b0702615ba366877e6d2076fa1d695a442cd7910c55641306a2fa54644e022570988441c35a59313decc
+"rollup-plugin-copy@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "rollup-plugin-copy@npm:3.3.0"
+  dependencies:
+    "@types/fs-extra": ^8.0.1
+    colorette: ^1.1.0
+    fs-extra: ^8.1.0
+    globby: 10.0.1
+    is-plain-object: ^3.0.0
+  checksum: 81b04ee7c83af4dae3b76222b7616aa612331708682b96f4fda752d70d277600515e826f5b024bcef5da6d724b599c3a61b1551491e614d305e36078a7fb8ee0
   languageName: node
   linkType: hard
 
@@ -12712,6 +12768,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "rollup-plugin-node-resolve@npm:^5.2.0":
   version: 5.2.0
   resolution: "rollup-plugin-node-resolve@npm:5.2.0"
@@ -12730,19 +12787,38 @@ fsevents@~2.1.2:
 "rollup-pluginutils@npm:^1.5.1":
   version: 1.5.2
   resolution: "rollup-pluginutils@npm:1.5.2"
+=======
+"rollup-plugin-scss@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "rollup-plugin-scss@npm:2.6.0"
+>>>>>>> 06f5f4b9b1c1536b6773565bbb9c4fd993d9dd96
   dependencies:
-    estree-walker: ^0.2.1
-    minimatch: ^3.0.2
-  checksum: 3373aaea6ca34fef1c2e70475293271b2f09f21bd369afb447f51b8ea4c8f9b855c3be4b283562838d143515360b80d61fc95f0350f984eaedafa3132bf3f97c
+    node-sass: 4
+    rollup-pluginutils: 2
+  checksum: 6f59fca63c0ba466ef766ccefeb83edd01cf0306edb5b14a85a57851c9970864ba5f1fe2ddfb60625688090b17595d6ef9adb6a1b25bbffbaf9a65cc43866055
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "rollup-pluginutils@npm:^2.3.1, rollup-pluginutils@npm:^2.8.1":
+=======
+"rollup-pluginutils@npm:2, rollup-pluginutils@npm:^2.3.1":
+>>>>>>> 06f5f4b9b1c1536b6773565bbb9c4fd993d9dd96
   version: 2.8.2
   resolution: "rollup-pluginutils@npm:2.8.2"
   dependencies:
     estree-walker: ^0.6.1
   checksum: 6922c1a26df033cc3da4650106244fb2211b5ddf72a93be5010cbe51a0817c9abcab08f61cbc3f5fc906b2701df123d8c9b0dae0a34e69dd07218e34e5d357b8
+  languageName: node
+  linkType: hard
+
+"rollup-pluginutils@npm:^1.5.1":
+  version: 1.5.2
+  resolution: "rollup-pluginutils@npm:1.5.2"
+  dependencies:
+    estree-walker: ^0.2.1
+    minimatch: ^3.0.2
+  checksum: 3373aaea6ca34fef1c2e70475293271b2f09f21bd369afb447f51b8ea4c8f9b855c3be4b283562838d143515360b80d61fc95f0350f984eaedafa3132bf3f97c
   languageName: node
   linkType: hard
 

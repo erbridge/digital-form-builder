@@ -4,6 +4,7 @@ import { ComponentTypes } from '@xgovformbuilder/model'
 import ComponentValues from './components/component-values'
 import { textAreaGroup } from './govuk-react-components/text'
 import { InputOptions } from './govuk-react-components/helpers'
+import ComponentTypes from '@xgovformbuilder/model/lib/component-types'
 
 function updateComponent (component, modifier, updateModel) {
   modifier(component)
@@ -35,18 +36,20 @@ class FieldEdit extends React.Component {
     const { component } = this.props
 
     const options = component.options || {}
+    this.isFileUploadField = component.type === 'FileUploadField'
+
     this.state = {
       hidden: options.required !== false
     }
   }
 
   checkOptionalBox () {
+    if (this.isFileUploadField) { return }
     this.setState({ hidden: !this.state.hidden })
   }
 
   render () {
     const { component, updateModel } = this.props
-    const isFileUploadField = component.type === 'FileUploadField'
     component.options = component.options || {}
 
     return (
@@ -101,8 +104,8 @@ class FieldEdit extends React.Component {
           <div className='govuk-checkboxes govuk-form-group'>
             <div className='govuk-checkboxes__item'>
               <input
-                className={`govuk-checkboxes__input ${isFileUploadField ? 'disabled' : ''}`} id='field-options-required'
-                name='options.required' type='checkbox' checked={isFileUploadField || component.options.required === false}
+                className={`govuk-checkboxes__input ${this.isFileUploadField ? 'disabled' : ''}`} id='field-options-required'
+                name='options.required' type='checkbox' checked={this.isFileUploadField || component.options.required === false}
                 onChange={(e) => {
                   updateComponent(component, component => { component.options.required = component.options.required === false ? undefined : false }, updateModel)
                   this.checkOptionalBox(e)
@@ -112,9 +115,9 @@ class FieldEdit extends React.Component {
               <label
                 className='govuk-label govuk-checkboxes__label'
                 htmlFor='field-options-required'
-              >Optional
+              >{`Make ${ComponentTypes.find(type => type.name === component.type)?.title ?? ''} optional`}
               </label>
-              {isFileUploadField && (
+              {this.isFileUploadField && (
                 <span className='govuk-hint govuk-checkboxes__label'>All file upload fields are optional to mitigate possible upload errors</span>
               )}
             </div>
@@ -130,7 +133,7 @@ class FieldEdit extends React.Component {
               <label
                 className='govuk-label govuk-checkboxes__label'
                 htmlFor='field-options-optionalText'
-              >Hide '(Optional)' text
+              >Hide &apos;(Optional)&apos; text
               </label>
             </div>
           </div>
