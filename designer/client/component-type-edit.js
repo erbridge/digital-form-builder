@@ -4,7 +4,6 @@ import { ComponentTypes } from '@xgovformbuilder/model'
 import ComponentValues from './components/component-values'
 import { textAreaGroup } from './govuk-react-components/text'
 import { InputOptions } from './govuk-react-components/helpers'
-import ComponentTypes from '@xgovformbuilder/model/lib/component-types'
 
 function updateComponent (component, modifier, updateModel) {
   modifier(component)
