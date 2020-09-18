@@ -2647,6 +2647,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/resolve@npm:0.0.8":
+  version: 0.0.8
+  resolution: "@types/resolve@npm:0.0.8"
+  dependencies:
+    "@types/node": "*"
+  checksum: f54f13e4b6ac46a6c7bde9e609cd730f4369b434aa59c5230478b9262bb75e7349c3247fd2cdb917e98d053a57f5609dd552379c612a720b59a8714914d324ed
+  languageName: node
+  linkType: hard
+
 "@types/resolve@npm:1.17.1":
   version: 1.17.1
   resolution: "@types/resolve@npm:1.17.1"
@@ -2731,7 +2740,7 @@ __metadata:
     eslint-plugin-flowtype: ^5.2.0
     eslint-plugin-import: ^2.22.0
     flat: 5.0.0
-    flow-bin: ^0.130.0
+    flow-bin: ^0.134.0
     flow-typed: ^3.2.1
     govuk-frontend: 3.6.0
     hapi-pino: ^8.0.1
@@ -2746,8 +2755,10 @@ __metadata:
     react-simple-code-editor: 0.6.1
     react-sortable-hoc: 0.8.3
     rollup: 2.15.0
+    rollup-plugin-commonjs: ^10.1.0
     rollup-plugin-flow: ^1.1.1
     rollup-plugin-node-globals: 1.4.0
+    rollup-plugin-node-resolve: ^5.2.0
     schmervice: ^1.5.0
     sinon: ^9.0.2
     standard: 12.0.1
@@ -2785,7 +2796,7 @@ __metadata:
     eslint-plugin-flowtype: ^5.2.0
     eslint-plugin-import: ^2.22.0
     expr-eval: 2.0.2
-    flow-bin: ^0.130.0
+    flow-bin: ^0.134.0
     flow-typed: ^3.2.1
     govuk-frontend: 3.6.0
     hmpo-components: 2.6.5
@@ -2837,7 +2848,7 @@ __metadata:
     eslint-plugin-flowtype: ^5.2.0
     eslint-plugin-import: ^2.22.0
     expr-eval: 2.0.2
-    flow-bin: ^0.130.0
+    flow-bin: ^0.134.0
     flow-mono-cli: ^1.5.3
     flow-typed: ^3.2.1
     govuk-frontend: 3.6.0
@@ -2895,7 +2906,7 @@ __metadata:
     eslint-plugin-flowtype: ^5.2.0
     eslint-plugin-import: ^2.22.0
     flat: 5.0.0
-    flow-bin: ^0.130.0
+    flow-bin: ^0.134.0
     flow-typed: ^3.2.1
     form-data: 3.0.0
     googleapis: 48.0.0
@@ -5496,7 +5507,7 @@ __metadata:
     eslint-plugin-promise: ^4.2.1
     eslint-plugin-react: ^7.20.6
     eslint-plugin-standard: ^4.0.1
-    flow-bin: 0.131.0
+    flow-bin: ^0.134.0
     flow-mono-cli: ^1.5.3
     flow-typed: ^3.2.1
     govuk-frontend: ^3.8.1
@@ -7221,21 +7232,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"flow-bin@npm:0.131.0":
-  version: 0.131.0
-  resolution: "flow-bin@npm:0.131.0"
+"flow-bin@npm:^0.134.0":
+  version: 0.134.0
+  resolution: "flow-bin@npm:0.134.0"
   bin:
     flow: cli.js
-  checksum: 7d0d157a6a6372772c08d8d7425d8dd8b115ad25abf0cbc2b72b2ea6b4edb3c727b32141d1d3e310697cc3ce2a5390ee08269bf9d63c3d8ed1f8d761f4cc09af
-  languageName: node
-  linkType: hard
-
-"flow-bin@npm:^0.130.0":
-  version: 0.130.0
-  resolution: "flow-bin@npm:0.130.0"
-  bin:
-    flow: cli.js
-  checksum: 720c430c71dfe9274bf26aba61abea39a43cc9173fc155dad07e43e610f2c7af3583c3138d6f4ecffc3b0ecd5739a8af22b4d02de61dbe6ea6417973b5a2bc66
+  checksum: 8858ccda62b4e7d30c1672cb48dfcd43c9421c89c692f295224090032573b1488a07abbd7cabdd9d4e2acd8792467d67e7fbeaeb0792191af772e4eae70c4010
   languageName: node
   linkType: hard
 
@@ -12664,6 +12666,21 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"rollup-plugin-commonjs@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "rollup-plugin-commonjs@npm:10.1.0"
+  dependencies:
+    estree-walker: ^0.6.1
+    is-reference: ^1.1.2
+    magic-string: ^0.25.2
+    resolve: ^1.11.0
+    rollup-pluginutils: ^2.8.1
+  peerDependencies:
+    rollup: ">=1.12.0"
+  checksum: 853150cba571df74a3eac03a4352bb6d63fbe05c3438b0702615ba366877e6d2076fa1d695a442cd7910c55641306a2fa54644e022570988441c35a59313decc
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-flow@npm:^1.1.1":
   version: 1.1.1
   resolution: "rollup-plugin-flow@npm:1.1.1"
@@ -12695,6 +12712,21 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"rollup-plugin-node-resolve@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "rollup-plugin-node-resolve@npm:5.2.0"
+  dependencies:
+    "@types/resolve": 0.0.8
+    builtin-modules: ^3.1.0
+    is-module: ^1.0.0
+    resolve: ^1.11.1
+    rollup-pluginutils: ^2.8.1
+  peerDependencies:
+    rollup: ">=1.11.0"
+  checksum: f20dd3e6669b2b888cd41c8e6072f09c95e14559fb7a4634b5756f7f99e0986e9dc36d3b3e651c0a38ca4c192b2b96c3898aec46a81842fd2f186f55701d9cf1
+  languageName: node
+  linkType: hard
+
 "rollup-pluginutils@npm:^1.5.1":
   version: 1.5.2
   resolution: "rollup-pluginutils@npm:1.5.2"
@@ -12705,7 +12737,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"rollup-pluginutils@npm:^2.3.1":
+"rollup-pluginutils@npm:^2.3.1, rollup-pluginutils@npm:^2.8.1":
   version: 2.8.2
   resolution: "rollup-pluginutils@npm:2.8.2"
   dependencies:
