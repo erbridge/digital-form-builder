@@ -1,9 +1,10 @@
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
-import resolve from '@rollup/plugin-node-resolve'
+import resolve from 'rollup-plugin-node-resolve'
 import globals from 'rollup-plugin-node-globals'
 import builtins from '@cautionyourblast/rollup-plugin-node-builtins'
 import json from '@rollup/plugin-json'
+import babelrc from './.babelrc.json'
 
 export default {
   input: 'client/index.js',
@@ -25,25 +26,9 @@ export default {
       include: ['/node_modules/**', /node_modules/]
     }),
     babel({
+      babelrc: false,
       babelHelpers: 'runtime',
-      exclude: ['/node_modules/**', '../node_modules/**', /node_modules/],
-      presets: [
-        '@babel/preset-flow',
-        '@babel/react',
-        [
-          '@babel/preset-env',
-          {
-            targets: 'defaults, ie >= 11',
-            debug: true,
-            modules: false
-          }
-        ]
-      ],
-      plugins: [
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-syntax-dynamic-import',
-        '@babel/plugin-transform-runtime'
-      ]
+      ...babelrc
     }),
     json(),
     globals()
