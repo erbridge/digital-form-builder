@@ -7,6 +7,8 @@ npm-debug.log
 unit-test.html
 /engine/lib
 /model/lib
+/model/dist
+/model/module
 package-lock.json
 */flow-typed/*
 /flow-typed/
