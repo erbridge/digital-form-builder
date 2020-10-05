@@ -56,9 +56,14 @@ class FieldEdit extends React.Component {
   }
 
   render () {
+    // FIXME:- We need to refactor so this is not being driven off mutating the props.
     const { component, updateModel } = this.props
     component.options = component.options || {}
     const { name, nameHasError } = this.state
+
+    if (this.isFileUploadField) {
+      component.options.required = false
+    }
 
     return (
       <div>
@@ -126,7 +131,10 @@ class FieldEdit extends React.Component {
                 className={`govuk-checkboxes__input ${this.isFileUploadField ? 'disabled' : ''}`} id='field-options-required'
                 name='options.required' type='checkbox' checked={this.isFileUploadField || component.options.required === false}
                 onChange={(e) => {
-                  updateComponent(component, component => { component.options.required = component.options.required === false ? undefined : false }, updateModel)
+                  updateComponent(component, component => {
+                    if (this.isFileUploadField) { return }
+                    component.options.required = component.options.required === false ? undefined : false
+                  }, updateModel)
                   this.checkOptionalBox(e)
                 }
                 }
