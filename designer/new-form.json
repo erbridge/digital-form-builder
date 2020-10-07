@@ -1,12 +1,30 @@
 {
-  "metadata": {
-  },
-  "startPage": "/",
+  "metadata": {},
+  "startPage": "/first-page",
   "pages": [
-    { 
-      "title": "Question page",
-      "path": "/question-page",
-      "components": []
+    {
+      "title": "First page",
+      "path": "/first-page",
+      "components": [
+        {
+          "name": "IDDQl4",
+          "title": "abc",
+          "schema": {},
+          "options": {
+            "required": true
+          },
+          "type": "RadiosField",
+          "values": {
+            "type": "static",
+            "valueType": "string",
+            "items": [
+              { "label": "My item", "value": "12", "children": [] },
+              { "label": "Item 2", "hint": "My hint", "value": "11", "condition": "Abcewdad", "children": [] },
+              { "label": "Item 3", "value": "11", "children": [{ "type": "TextField" }] }
+            ]
+          }
+        }
+      ]
     },
     {
       "title": "Summary",
@@ -16,6 +34,17 @@
     }
   ],
   "lists": [
+    {
+      "name": "myList",
+      "title": "My list",
+      "type": "string",
+      "items": [
+        { "text": "a","label": "a", "value": "a", "description": "a","children": [] },
+        { "text": "b","label": "b", "value": "b",
+          "description": "b",
+          "children": [] }
+      ]
+    }
   ],
   "sections": [],
   "conditions": [],

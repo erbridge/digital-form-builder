@@ -19,6 +19,9 @@
     "section": "Section (optional)",
     "sectionHint": "The section title is shown above the page title. If the page and the section title are the same, the section title wont show."
   },
+  "component": {
+    "name": "Component name"
+  },
   "section": {
     "noun": "section",
     "noun_plural": "sections",
@@ -32,6 +35,7 @@
   "save": "Save",
   "duplicate": "Duplicate",
   "optional": "{{noun}} (optional)",
+  "delete": "Delete",
   "name": {
     "hint": "This has been generated automatically, it will not show on the page. You usually wont need to change it unless an integration requires it. It must not contain spaces.",
     "errors": {
@@ -41,5 +45,39 @@
   },
   "error": "Error:",
   "title": "Title",
-  "close": "Close"
+  "close": "Close",
+  "list": {
+    "select": "Select list",
+    "edit": "Edit list",
+    "editingTitle": "Editing {{title}}",
+    "newTitle": "Add a new list",
+    "create": "Create list",
+    "deleteTitle": "Deleting this list?",
+    "deleteWarning": {
+      "title": "Deleting this list?",
+      "message": "If you delete this list, it will be deleted across the entire form",
+      "confirm": "Yes, delete this list",
+      "keep": "No, keep it"
+    },
+    "title": "List title",
+    "titleHint": "This will not show on the page.",
+    "createListItem": "Create list item",
+    "item": {
+      "title": "Item title",
+      "titleHint": "Help text (optional)",
+      "value": "Value",
+      "valueHint": "This will not show on the page. If the list item is answered with words, you can use the item title, for example 'email'. If the list item is answered with a number, use a number with no letters or symbols, for example 1000",
+      "conditions": "Conditions (optional)",
+      "conditionsHint": "The item will only be shown if the selected condition applies",
+      "subComponent": "Sub component (optional)",
+      "subComponentHint": "You need a sub component if the list item answer needs more information, for example an email address. This will only be shown when the user selects this list item.",
+      "createSubComponent": "Create sub component"
+    }
+  },
+  "conditions": {
+  },
+  "wontShow": "This will not show on the page.",
+  "errors": {
+    "required":"This field is required"
+  }
 }

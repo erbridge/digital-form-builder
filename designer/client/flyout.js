@@ -26,7 +26,8 @@ export function useFlyoutEffect (props) {
     })
   }, [offset])
 
-  const onHide = () => {
+  const onHide = (e) => {
+    e?.preventDefault()
     flyoutContext.decrement()
     props.onHide()
   }

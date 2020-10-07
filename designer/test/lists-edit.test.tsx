@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import * as Code from '@hapi/code'
 import * as Lab from '@hapi/lab'
 import { Data } from '@xgovformbuilder/model'
-import ListsEdit from '../client/lists-edit'
+import ListsEdit from '../client/list/lists-edit'
 
 import sinon from 'sinon'
 
