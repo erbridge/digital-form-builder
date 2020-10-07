@@ -150,8 +150,8 @@ export const designerPlugin = {
               if (result.error) {
                 throw new Error('Schema validation failed')
               }
-              await persistenceService.uploadConfiguration(`${id}`, JSON.stringify(result.value))
-              await publish(id, result.value)
+              await persistenceService.uploadConfiguration(`${id}`, JSON.stringify(value))
+              await publish(id, value)
               return h.response({ ok: true }).code(204)
             } catch (err) {
               console.log('Designer Server PUT /{id}/api/data error:', err)
