@@ -12,7 +12,7 @@ class ListEdit extends React.Component {
     }
   }
 
-  onSubmit = e => {
+  onSubmit = async (e) => {
     e.preventDefault()
     const form = e.target
     const formData = new window.FormData(form)

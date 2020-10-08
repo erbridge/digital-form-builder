@@ -3,7 +3,7 @@ import Flyout from './flyout'
 import DataModel from './data-model'
 import PageCreate from './page-create'
 import LinkCreate from './link-create'
-import ListsEdit from './lists-edit'
+import ListsEdit from '../client/list/lists-edit'
 import SectionsEdit from './section/sections-edit'
 import ConditionsEdit from './conditions-edit'
 import FeeEdit from './fee-edit'
@@ -186,7 +186,7 @@ export default class Menu extends React.Component {
           onHide={() => this.setState({ showEditLists: false })}
           width='xlarge'
         >
-          <ListsEdit data={data} onCreate={() => this.setState({ showEditLists: false })} />
+          <ListsEdit data={data}/>
         </Flyout>
 
         <Flyout

@@ -12,6 +12,9 @@ export function useFlyoutEffect (props) {
    */
   useLayoutEffect(() => {
     flyoutContext.increment()
+    return () => {
+      flyoutContext.decrement()
+    }
   }, [])
 
   useLayoutEffect(() => {
@@ -27,7 +30,6 @@ export function useFlyoutEffect (props) {
   }, [offset])
 
   const onHide = () => {
-    flyoutContext.decrement()
     props.onHide()
   }
 
