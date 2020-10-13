@@ -4,6 +4,7 @@ import { clone } from '@xgovformbuilder/model'
 import { withI18n } from '../i18n'
 import { RenderInPortal } from '../components/render-in-portal'
 import Flyout from '../flyout'
+import ListItemEdit from './list-item-edit'
 
 function headDuplicate (arr) {
   for (let i = 0; i < arr.length; i++) {
@@ -106,7 +107,7 @@ class ListItems extends React.Component {
 
   render () {
     const { items, isEditingListItem, selectedListItem } = this.state
-    const { type, conditions, i18n } = this.props
+    const { type, conditions, i18n, data } = this.props
 
     return (
       <div>
@@ -127,11 +128,9 @@ class ListItems extends React.Component {
         <a className="govuk-link" href="#" onClick={this.onCreateClick}>{i18n('list.createListItem')}</a>
         {isEditingListItem &&
           <RenderInPortal>
-            <Flyout title='Add Item' show={isEditingListItem}
+            <Flyout title='Add Item' show={isEditingListItem} width={'xlarge'}
               onHide={this.cancelAddItem}>
-              <form>
-
-              </form>
+              <ListItemEdit data={data} conditions={conditions}/>
             </Flyout>
           </RenderInPortal>
         }

@@ -2,7 +2,8 @@ import React from 'react'
 import ListItems from './list-items'
 import { clone } from '@xgovformbuilder/model'
 import { withI18n } from '../i18n'
-import { Hint } from '@xgovformbuilder/govuk-react-jsx'
+import { Hint } from '@govuk-jsx/hint'
+import { Label } from '@govuk-jsx/label'
 
 class ListEdit extends React.Component {
   constructor (props) {
@@ -124,8 +125,7 @@ class ListEdit extends React.Component {
   render () {
     const state = this.state
     const { list } = this.state
-    const { data, id, i18n } = this.props
-    const { conditions } = data
+    const { data, id, i18n, conditions } = this.props
     return (
       <form onSubmit={e => this.onSubmit(e)} autoComplete='off'>
         <a
@@ -135,7 +135,8 @@ class ListEdit extends React.Component {
         </a>
 
         <div className='govuk-form-group'>
-          <label className='govuk-label govuk-label--s' htmlFor='list-title'>{i18n('list.title')}</label>
+          <Label htmlFor='list-title'>{i18n('list.title')}</Label>
+          <Hint>{i18n('wontShow')}</Hint>
           <input
             className='govuk-input govuk-input--width-20' id='list-title' name='title'
             type='text' defaultValue={list.title} required
