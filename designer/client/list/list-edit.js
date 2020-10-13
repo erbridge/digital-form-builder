@@ -1,6 +1,8 @@
 import React from 'react'
 import ListItems from './list-items'
 import { clone } from '@xgovformbuilder/model'
+import { withI18n } from '../i18n'
+import { Hint } from '@xgovformbuilder/govuk-react-jsx'
 
 class ListEdit extends React.Component {
   constructor (props) {
@@ -122,7 +124,7 @@ class ListEdit extends React.Component {
   render () {
     const state = this.state
     const { list } = this.state
-    const { data, id } = this.props
+    const { data, id, i18n } = this.props
     const { conditions } = data
     return (
       <form onSubmit={e => this.onSubmit(e)} autoComplete='off'>
@@ -133,42 +135,20 @@ class ListEdit extends React.Component {
         </a>
 
         <div className='govuk-form-group'>
-          <label className='govuk-label govuk-label--s' htmlFor='list-title'>Title</label>
+          <label className='govuk-label govuk-label--s' htmlFor='list-title'>{i18n('list.title')}</label>
           <input
             className='govuk-input govuk-input--width-20' id='list-title' name='title'
             type='text' defaultValue={list.title} required
           />
         </div>
 
-        <div className='govuk-form-group'>
-          <label className='govuk-label govuk-label--s' htmlFor='list-name'>Name</label>
-          <span className='govuk-hint'>This is used as the key in the JSON output. Use `camelCasing` e.g. animalTypes or countryNames</span>
-          <input
-            className='govuk-input govuk-input--width-20' id='list-name' name='name'
-            type='text' defaultValue={list.name || id} required pattern='^\S+'
-            onBlur={this.onBlurName}
-          />
-        </div>
-
-        <div className='govuk-form-group'>
-          <label className='govuk-label govuk-label--s' htmlFor='list-type'>Value type</label>
-          <select
-            className='govuk-select govuk-input--width-10' id='list-type' name='type'
-            value={state.type}
-            onChange={e => this.setState({ type: e.target.value })}
-          >
-            <option value='string'>String</option>
-            <option value='number'>Number</option>
-          </select>
-        </div>
-
         <ListItems items={list.items} type={state.type} conditions={conditions} />
 
         <button className='govuk-button' type='submit'>Save</button>{' '}
-        <button className='govuk-button' type='button' onClick={this.onClickDelete}>Delete</button>
+        <a href="#" className='govuk-link' onClick={this.onClickDelete}>{i18n('delete')}</a>
       </form>
     )
   }
 }
 
-export default ListEdit
+export default withI18n(ListEdit)
