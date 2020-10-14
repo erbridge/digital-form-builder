@@ -7,3 +7,8 @@ export const FlyoutContext = React.createContext(
     decrement: () => {}
   }
 )
+
+export const DataContext = React.createContext({
+  data: {},
+  save: async () => {}
+})

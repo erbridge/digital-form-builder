@@ -5,9 +5,10 @@ import Visualisation from './visualisation'
 import NewConfig from './new-config'
 import { Data } from '@xgovformbuilder/model'
 import { customAlphabet } from 'nanoid'
-import { FlyoutContext } from './context'
+import { FlyoutContext, DataContext } from './context'
 import './index.scss'
 import { initI18n, i18n } from './i18n'
+import { DesignerApi } from './api/designerApi'
 
 initI18n(i18n)
 
@@ -24,17 +25,17 @@ export class App extends React.Component {
     flyoutCount: 0
   }
 
+  designerApi = new DesignerApi()
+
   componentDidMount () {
     this.setState({ newConfig: window.newConfig ?? false },
       () => {
         if (!this.state.loaded && !this.state.newConfig) {
           this.setState({ id: window.id, previewUrl: window.previewUrl }, () => {
-            window.fetch(`${this.state.id}/api/data`)
-              .then(res => res.json())
-              .then(data => {
-                this.setFunctions(data)
-                this.setState({ loaded: true, data })
-              })
+            const dataPromise = this.designerApi.fetchData(this.state.id)
+            dataPromise.then(data => {
+              this.setState({ loaded: true, data })
+            })
           })
         }
       })
@@ -89,10 +90,17 @@ export class App extends React.Component {
     this.setState({ flyoutCount: --currentCount }, callback())
   }
 
-  render () {
-    const { previewUrl, id, flyoutCount, newConfig } = this.state
-    const flyoutContextProviderValue = { flyoutCount, increment: this.incrementFlyoutCounter, decrement: this.decrementFlyoutCounter }
+  saveData = async (toUpdate, callback = () => {}) => {
+    const { id } = this.state
+    const dataJson = await DesignerApi.save(id, toUpdate)
+    const data = new Data(dataJson)
+    this.setState({ data, updatedAt: (new Date().toLocaleTimeString()) }, callback())
+  }
 
+  render () {
+    const { previewUrl, id, flyoutCount, newConfig, data } = this.state
+    const flyoutContextProviderValue = { flyoutCount, increment: this.incrementFlyoutCounter, decrement: this.decrementFlyoutCounter }
+    const dataContextProviderValue = { data, save: this.saveData }
     if (newConfig) {
       return (
         <div id='app'>
@@ -101,14 +109,15 @@ export class App extends React.Component {
       )
     }
     if (this.state.loaded) {
-      const data = new Data(this.state.data)
       return (
-        <FlyoutContext.Provider value={flyoutContextProviderValue}>
-          <div id='app'>
-            <Menu data={data} id={this.state.id} updateDownloadedAt={this.updateDownloadedAt} updatePersona={this.updatePersona} />
-            <Visualisation data={data} downloadedAt={this.state.downloadedAt} updatedAt={this.state.updatedAt} persona={this.state.persona} id={id} previewUrl={previewUrl} />
-          </div>
-        </FlyoutContext.Provider>
+        <DataContext.Provider value={dataContextProviderValue}>
+          <FlyoutContext.Provider value={flyoutContextProviderValue}>
+            <div id='app'>
+              <Menu data={data} id={this.state.id} updateDownloadedAt={this.updateDownloadedAt} updatePersona={this.updatePersona} />
+              <Visualisation data={data} downloadedAt={this.state.downloadedAt} updatedAt={this.state.updatedAt} persona={this.state.persona} id={id} previewUrl={previewUrl} />
+            </div>
+          </FlyoutContext.Provider>
+        </DataContext.Provider>
       )
     } else {
       return <div>Loading...</div>

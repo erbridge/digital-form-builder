@@ -52,13 +52,11 @@ class SectionsEdit extends React.Component {
           <Flyout title={`${section?.name ? `Editing ${section.name}` : 'Add a new section'}`}
             show={isEditingSection}
             onHide={this.closeFlyout}>
-            <form>
-              <SectionEdit
-                section={section}
-                data={data}
-                closeFlyout={this.closeFlyout}
-              />
-            </form>
+            <SectionEdit
+              section={section}
+              data={data}
+              closeFlyout={this.closeFlyout}
+            />
           </Flyout>
         </RenderInPortal>
         }

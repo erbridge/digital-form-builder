@@ -50,7 +50,6 @@ export function ListItemEdit (props) {
           <ComponentCreate/>
         </Flyout>
       </RenderInPortal>
-
       }
     </div>
 

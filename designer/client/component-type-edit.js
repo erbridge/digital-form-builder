@@ -33,36 +33,45 @@ class FieldEdit extends React.Component {
   constructor (props) {
     super(props)
     const { component } = this.props
-    const options = component.options || {}
-    this.isFileUploadField = component.type === 'FileUploadField'
-
+    const { name, title, hint = '', options = {} } = component
+    const { hideTitle, optionalText, required = true } = options
+    const isFileUploadField = component.type === 'FileUploadField'
+    this.isFileUploadField = isFileUploadField
     this.state = {
-      hidden: options.required !== false,
-      name: component.name
+      name,
+      title,
+      hint,
+      hideTitle,
+      optionalText,
+      required: !isFileUploadField || required
     }
   }
 
-  checkOptionalBox () {
+  checkOptionalBox = () => {
     if (this.isFileUploadField) { return }
-    this.setState({ hidden: !this.state.hidden })
+    this.setState({ required: !this.state.required })
   }
 
-  onChangeName = (event) => {
-    const inputValue = event.target.value
-    this.setState({
-      name: inputValue,
-      nameHasError: (/\s/g).test(inputValue)
-    })
+  onTitleChange = (e) => {
+    this.setState({ title: e.target.value })
+  }
+
+  onHideTitleChange = () => {
+    this.setState({ hideTitle: !this.state.hideTitle })
+  }
+
+  onHideOptionalTextChange = () => {
+    this.setState({ hideOptional: !this.state.hideOptional })
+  }
+
+  onHelpChange = (e) => {
+    this.setState({ hint: e.target.value })
   }
 
   render () {
     // FIXME:- We need to refactor so this is not being driven off mutating the props.
     const { component, updateModel } = this.props
-    component.options = component.options || {}
-
-    if (this.isFileUploadField) {
-      component.options.required = false
-    }
+    const { name, title, hint, hideTitle, optionalText, required } = this.state
 
     return (
       <div>
@@ -75,8 +84,9 @@ class FieldEdit extends React.Component {
               id='field-title'
               name='title'
               type='text'
-              defaultValue={component.title} required
-              onBlur={e => updateComponent(component, component => { component.title = e.target.value }, updateModel)}
+              value={title}
+              required
+              onChange={this.onTitleChange}
             />
           </div>
 
@@ -96,8 +106,8 @@ class FieldEdit extends React.Component {
               ]
             }}
             required={false}
-            value={component.hint || ''}
-            onChange={e => updateComponent(component, component => { component.hint = e.target.value }, updateModel)}
+            value={hint}
+            onChange={this.onHelpChange}
             {...component.attrs}
           />
 
@@ -109,8 +119,8 @@ class FieldEdit extends React.Component {
                 name='options.hideTitle'
                 type='checkbox'
                 value
-                checked={component.options.hideTitle || false}
-                onChange={() => updateComponent(component, component => { component.options.hideTitle = !component.options.hideTitle }, updateModel)}
+                checked={hideTitle}
+                onChange={this.onHideTitleChange}
               />
               <label
                 className='govuk-label govuk-checkboxes__label'
@@ -121,7 +131,7 @@ class FieldEdit extends React.Component {
             </div>
           </div>
 
-          <Name component={component} id='field-name' labelText='Component name' updateComponent={updateComponent} updateModel={updateModel}/>
+          <Name component={{ name, title }} id='field-name' labelText='Component name' updateComponent={updateComponent} updateModel={updateModel}/>
 
           <div className='govuk-checkboxes govuk-form-group'>
             <div className='govuk-checkboxes__item'>
@@ -130,14 +140,8 @@ class FieldEdit extends React.Component {
                 id='field-options-required'
                 className={`govuk-checkboxes__input ${this.isFileUploadField ? 'disabled' : ''}`}
                 name='options.required'
-                checked={this.isFileUploadField || component.options.required === false}
-                onChange={(e) => {
-                  updateComponent(component, component => {
-                    if (this.isFileUploadField) { return }
-                    component.options.required = component.options.required === false ? undefined : false
-                  }, updateModel)
-                  this.checkOptionalBox(e)
-                }}
+                checked={!required}
+                onChange={this.checkOptionalBox}
               />
               <label
                 className='govuk-label govuk-checkboxes__label'
@@ -150,15 +154,15 @@ class FieldEdit extends React.Component {
             </div>
           </div>
 
-          <div className='govuk-checkboxes govuk-form-group' data-test-id='field-options.optionalText-wrapper' hidden={this.state.hidden}>
+          <div className='govuk-checkboxes govuk-form-group' data-test-id='field-options.optionalText-wrapper' hidden={required}>
             <div className='govuk-checkboxes__item'>
               <input
                 className='govuk-checkboxes__input'
                 id='field-options-optionalText'
                 name='options.optionalText'
                 type='checkbox'
-                checked={component.options.optionalText === false}
-                onChange={e => updateComponent(component, component => { component.options.optionalText = component.options.optionalText === false ? undefined : false }, updateModel)}
+                checked={optionalText}
+                onChange={this.onHideOptionalTextChange}
               />
               <label
                 className='govuk-label govuk-checkboxes__label'
