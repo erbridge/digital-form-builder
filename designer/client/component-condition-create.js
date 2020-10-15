@@ -1,7 +1,6 @@
 import React from 'react'
 import ComponentTypeEdit from './component-type-edit'
 import { ConditionalComponentTypes } from '@xgovformbuilder/model'
-
 class ComponentConditionCreate extends React.Component {
   constructor (props) {
     super(props)
@@ -36,7 +35,6 @@ class ComponentConditionCreate extends React.Component {
         {selectedType &&
           <div>
             <ComponentTypeEdit
-              data={{}}
               component={this.state.component}
               updateModel={component => this.setState({ component })}
             />

@@ -7,14 +7,16 @@ import { Hint } from '@govuk-jsx/hint'
 import { RenderInPortal } from '../components/render-in-portal'
 import Flyout from '../flyout'
 import ComponentCreate from '../component-create'
+import { ComponentTypes } from '@xgovformbuilder/model'
 
 export function ListItemEdit (props) {
   const [title, setTitle] = useState(props.title)
   const [helpText, setHelpText] = useState('')
   const [value, setValue] = useState('')
-  const [condition, setCondition] = useState('')
+  const [condition, setCondition] = useState()
   const [isEditingSubComponent, setIsEditingSubComponent] = useState(false)
   const { i18n, conditions } = props
+  const allowedTypes = ComponentTypes.filter(type => !['RadiosField', 'CheckboxesField', 'SelectField', 'AutocompleteField', 'YesNoField'].includes(type.name))
 
   const handleCreateSubComponent = (e) => {
     e.preventDefault()
@@ -35,9 +37,9 @@ export function ListItemEdit (props) {
 
         <Label>{i18n('list.item.conditions')}</Label>
         <Hint>{i18n('list.item.conditionsHint')}</Hint>
-        <select className='govuk-select' id='condition' name='options.condition' value={condition}>
+        <select className='govuk-select' id='condition' name='options.condition' value={condition} onChange={event => setCondition(event.target.value)}>
           <option value='' />
-          {conditions?.map((condition) => (<option key={condition.name} value={condition.name}>{condition.name}</option>))}
+          {conditions?.map((condition) => (<option key={condition.name} value={condition}>{condition.name}</option>))}
         </select>
       </form>
       <hr/>
@@ -47,7 +49,7 @@ export function ListItemEdit (props) {
       {isEditingSubComponent &&
       <RenderInPortal>
         <Flyout width={'xlarge'} show={isEditingSubComponent}>
-          <ComponentCreate/>
+          <ComponentCreate allowedTypes={allowedTypes}/>
         </Flyout>
       </RenderInPortal>
       }

@@ -1,16 +1,17 @@
 import React from 'react'
 import ComponentTypeEdit from './component-type-edit'
 import { clone, ComponentTypes } from '@xgovformbuilder/model'
+import { nanoid } from 'nanoid'
+import { DataContext } from './context'
 
 class ComponentCreate extends React.Component {
+  static contextType = DataContext
   state = {
     isSaving: false
   }
 
   async componentDidMount () {
-    const { data } = this.props
-    const id = await data.getId()
-    this.setState({ id })
+    this.setState({ name: nanoid(6) })
   }
 
   async onSubmit (e) {
@@ -22,14 +23,13 @@ class ComponentCreate extends React.Component {
 
     this.setState({ isSaving: true })
 
-    const { page, data } = this.props
+    const { page } = this.props
+    const { data, save } = this.context
     const { component } = this.state
-    const copy = clone(data)
-
+    const copy = clone(data.data)
     const updated = copy.addComponent(page.path, component)
-
-    const saved = await data.save(updated)
-    this.props.onCreate({ data: saved })
+    await save(updated)
+    this.setState({ isSaving: false })
   }
 
   storeComponent = (component) => {
@@ -37,8 +37,8 @@ class ComponentCreate extends React.Component {
   }
 
   render () {
-    const { page, data } = this.props
-    const { id, isSaving } = this.state
+    const { page, allowedTypes = ComponentTypes } = this.props
+    const { isSaving } = this.state
 
     return (
       <div>
@@ -47,10 +47,10 @@ class ComponentCreate extends React.Component {
             <label className='govuk-label govuk-label--s' htmlFor='type'>Type</label>
             <select
               className='govuk-select' id='type' name='type' required
-              onChange={e => this.setState({ component: { type: e.target.value, name: id } })}
+              onChange={e => this.setState({ component: { type: e.target.value } })}
             >
               <option />
-              {ComponentTypes.sort((a, b) => (a.title ?? '').localeCompare(b.title)).map(type => {
+              {allowedTypes.sort((a, b) => (a.title ?? '').localeCompare(b.title)).map(type => {
                 return <option key={type.name} value={type.name}>{type.title}</option>
               })}
             </select>
@@ -60,7 +60,6 @@ class ComponentCreate extends React.Component {
             <div>
               <ComponentTypeEdit
                 page={page}
-                data={data}
                 component={this.state.component}
                 updateModel={this.storeComponent}
               />

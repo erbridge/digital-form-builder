@@ -4,6 +4,7 @@ import { ComponentTypes } from '@xgovformbuilder/model'
 import ComponentValues from './components/component-values'
 import { Textarea } from '@govuk-jsx/textarea'
 import Name from './name'
+import { nanoid } from 'nanoid'
 
 function updateComponent (component, modifier, updateModel) {
   modifier(component)
@@ -33,8 +34,8 @@ class FieldEdit extends React.Component {
   constructor (props) {
     super(props)
     const { component } = this.props
-    const { name, title, hint = '', options = {} } = component
-    const { hideTitle, optionalText, required = true } = options
+    const { name = nanoid(6), title = '', hint = '', options = {} } = component
+    const { hideTitle = false, optionalText = false, required = true } = options
     const isFileUploadField = component.type === 'FileUploadField'
     this.isFileUploadField = isFileUploadField
     this.state = {
@@ -53,6 +54,7 @@ class FieldEdit extends React.Component {
   }
 
   onTitleChange = (e) => {
+    e.preventDefault()
     this.setState({ title: e.target.value })
   }
 
@@ -61,22 +63,27 @@ class FieldEdit extends React.Component {
   }
 
   onHideOptionalTextChange = () => {
-    this.setState({ hideOptional: !this.state.hideOptional })
+    this.setState({ hideOptional: !this.state.optionalText })
   }
 
   onHelpChange = (e) => {
     this.setState({ hint: e.target.value })
   }
 
+  onNameChange = (component) => {
+    this.setState({ ...component })
+  }
+
   render () {
     // FIXME:- We need to refactor so this is not being driven off mutating the props.
-    const { component, updateModel } = this.props
+    const { component } = this.props
     const { name, title, hint, hideTitle, optionalText, required } = this.state
 
     return (
       <div>
         <div data-test-id='standard-inputs'>
           <div className='govuk-form-group'>
+
             <label className='govuk-label govuk-label--s' htmlFor='field-title'>Title</label>
             <span className='govuk-hint'>This is the title text displayed on the page</span>
             <input
@@ -85,7 +92,6 @@ class FieldEdit extends React.Component {
               name='title'
               type='text'
               value={title}
-              required
               onChange={this.onTitleChange}
             />
           </div>
@@ -131,7 +137,7 @@ class FieldEdit extends React.Component {
             </div>
           </div>
 
-          <Name component={{ name, title }} id='field-name' labelText='Component name' updateComponent={updateComponent} updateModel={updateModel}/>
+          <Name component={{ name, title }} id='field-name' labelText='Component name' updateModel={this.onNameChange}/>
 
           <div className='govuk-checkboxes govuk-form-group'>
             <div className='govuk-checkboxes__item'>
