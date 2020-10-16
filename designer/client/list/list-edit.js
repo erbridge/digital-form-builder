@@ -4,71 +4,48 @@ import { clone } from '@xgovformbuilder/model'
 import { withI18n } from '../i18n'
 import { Hint } from '@govuk-jsx/hint'
 import { Label } from '@govuk-jsx/label'
+import { ErrorMessage } from '@govuk-jsx/error-message'
+import { nanoid } from 'nanoid'
+import { DataContext } from './../context'
+import { RenderInPortal } from '../components/render-in-portal'
+import Flyout from '../flyout'
+import ListItemEdit from './list-item-edit'
 
 class ListEdit extends React.Component {
+  static contextType = DataContext
+
   constructor (props) {
     super(props)
 
     this.state = {
-      type: props.list?.type,
-      list: props.list || {}
+      type: props.list?.type ?? 'string',
+      list: props.list || {
+        title: '',
+        name: nanoid(6),
+        type: 'string',
+        items: []
+      },
+      titleHasError: false,
+      isNew: !props.list?.name
     }
   }
 
   onSubmit = async (e) => {
     e.preventDefault()
-    const form = e.target
-    const formData = new window.FormData(form)
-    const newName = formData.get('name').trim()
-    const newTitle = formData.get('title').trim()
-    const newType = formData.get('type')
-    const { data } = this.props
-    const { list } = this.state
-
+    const { data, save } = this.context
+    const { list: updatedList } = this.state
+    console.log('data', data)
     const copy = clone(data)
-    const nameChanged = newName !== list.name
-    let copyList = copy.lists[data.lists.indexOf(list)]
+    const dataList = copy.lists?.find(list => list.name === updatedList.name) ?? {}
 
-    if (!copyList) {
-      copyList = {}
-      copy.lists.push(copyList)
+    if (!dataList.name) {
+      copy.lists.push(updatedList)
     }
 
-    if (nameChanged) {
-      copyList.name = newName
-
-      // Update any references to the list
-      copy.pages.forEach(p => {
-        p.components.forEach(c => {
-          if (c.values?.type === 'listRef' && c.values.list === list.name) {
-            c.values.list = newName
-          }
-        })
-      })
-    }
-
-    copyList.title = newTitle
-    copyList.type = newType
-
-    // Items
-    const texts = formData.getAll('text').map(t => t.trim())
-    const values = formData.getAll('value').map(t => t.trim())
-    const descriptions = formData.getAll('description').map(t => t.trim())
-    const conditions = formData.getAll('condition').map(t => t.trim())
-
-    copyList.items = texts.map((t, index) => ({
-      text: t,
-      value: values[index],
-      description: descriptions[index],
-      condition: conditions[index]
-    }))
-
-    console.log(copy)
-    data.save(copy)
-      .then(updatedData => {
-        console.log('updatedData', updatedData)
-        this.props.onEdit({ data: copy })
-      })
+    copy.lists.find(list => list.name === updatedList.name).title = updatedList.title
+    const updatedData = await save(copy)
+    this.setState({ isNew: false })
+    this.props.setSelectedList(updatedData.lists.find(list => list.name === updatedList.name))
   }
 
   onClickDelete = e => {
@@ -109,45 +86,49 @@ class ListEdit extends React.Component {
     }
   }
 
-  onBlurName = e => {
-    const input = e.target
-    const { data, list } = this.props
-    const newName = input.value.trim()
-
-    // Validate it is unique
-    if (data.lists.find(l => l !== list && l.name === newName)) {
-      input.setCustomValidity(`List '${newName}' already exists`)
-    } else {
-      input.setCustomValidity('')
-    }
+  onChangeTitle = (e) => {
+    const { list } = this.state
+    const title = e.target.value
+    this.setState({ list: { ...list, title }, titleHasError: title?.trim().length < 1 })
   }
 
   render () {
-    const state = this.state
-    const { list } = this.state
-    const { data, id, i18n, conditions } = this.props
+    const { type, list, titleHasError, isNew } = this.state
+    const { i18n, conditions } = this.props
     return (
-      <form onSubmit={e => this.onSubmit(e)} autoComplete='off'>
-        <a
-          className='govuk-back-link' href='#'
-          onClick={e => this.props.onCancel(e)}
-        >Back
-        </a>
+      <div>
+        <form onSubmit={this.onSubmit} autoComplete='off'>
+          <a
+            className='govuk-back-link' href='#'
+            onClick={e => this.props.onCancel(e)}
+          >Back
+          </a>
+          <div className={`govuk-form-group ${titleHasError ? 'govuk-form-group--error' : ''}`}>
+            <Label htmlFor='list-title'>{i18n('list.title')}</Label>
+            <Hint>{i18n('wontShow')}</Hint>
+            { titleHasError &&
+            <ErrorMessage>
+              {i18n('errors.required')}
+            </ErrorMessage>
+            }
+            <input
+              className={`govuk-input govuk-input--width-20 ${titleHasError ? 'govuk-input--error' : ''}`} id='list-title' name='title'
+              type='text' value={list.title}
+              onChange={this.onChangeTitle}
+            />
+          </div>
 
-        <div className='govuk-form-group'>
-          <Label htmlFor='list-title'>{i18n('list.title')}</Label>
-          <Hint>{i18n('wontShow')}</Hint>
-          <input
-            className='govuk-input govuk-input--width-20' id='list-title' name='title'
-            type='text' defaultValue={list.title} required
-          />
-        </div>
-
-        <ListItems items={list.items} type={state.type} conditions={conditions} />
-
-        <button className='govuk-button' type='submit'>Save</button>{' '}
-        <a href="#" className='govuk-link' onClick={this.onClickDelete}>{i18n('delete')}</a>
-      </form>
+          <ListItems list={list} items={list.items} type={type} conditions={conditions} isNew={isNew} />
+          {isNew}
+          {!isNew &&
+            <a className="disabled govuk-link govuk-body govuk-!-display-block govuk-!-margin-bottom-1" href="#" onClick={this.onCreateClick}>{i18n('list.createListItem')}</a>
+          }
+          <button className='govuk-button' type='submit' disabled={titleHasError || !list.title}>Save</button>{' '}
+          {!isNew &&
+          <a href="#" className='govuk-link' onClick={this.onClickDelete}>{i18n('delete')}</a>
+          }
+        </form>
+      </div>
     )
   }
 }

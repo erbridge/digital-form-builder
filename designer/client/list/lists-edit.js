@@ -3,7 +3,6 @@ import ListEdit from './list-edit'
 import { RenderInPortal } from '../components/render-in-portal'
 import Flyout from './../flyout'
 import { withI18n } from './../i18n'
-import { nanoid } from 'nanoid'
 
 export function ListsEdit (props) {
   const { i18n, data } = props
@@ -14,7 +13,7 @@ export function ListsEdit (props) {
   const handleListClick = (e, list) => {
     e.preventDefault()
     setIsEditingList(true)
-    if (list) {
+    if (list?.name) {
       setSelectedList(list)
     }
   }
@@ -24,6 +23,10 @@ export function ListsEdit (props) {
       setSelectedList(selectedList)
     }
     setIsEditingList(false)
+  }
+
+  const handleListChange = (list) => {
+    setSelectedList(list)
   }
 
   return (
@@ -43,10 +46,12 @@ export function ListsEdit (props) {
       </ul>
       {isEditingList &&
       <RenderInPortal>
-        <Flyout title={selectedList?.name ? i18n('list.editingTitle', { title: selectedList.title }) : i18n('list.newTitle')}
+        {selectedList?.title}
+        <Flyout title={selectedList?.title ? i18n('list.editingTitle', { title: selectedList.title }) : i18n('list.newTitle')}
           onHide={closeFlyout} width={'xlarge'} show={isEditingList}>
           <ListEdit
-            data={data}
+            list={selectedList}
+            setSelectedList={handleListChange}
           />
         </Flyout>
       </RenderInPortal>

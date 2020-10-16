@@ -92,9 +92,10 @@ export class App extends React.Component {
 
   saveData = async (toUpdate, callback = () => {}) => {
     const { id } = this.state
-    const dataJson = await DesignerApi.save(id, toUpdate)
+    const dataJson = await this.designerApi.save(id, toUpdate)
     const data = new Data(dataJson)
     this.setState({ data, updatedAt: (new Date().toLocaleTimeString()) }, callback())
+    return toUpdate
   }
 
   render () {

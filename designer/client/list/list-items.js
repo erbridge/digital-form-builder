@@ -50,7 +50,8 @@ class ListItems extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      items: clone(props.items) || []
+      list: props.list,
+      isNew: !!props.list
     }
   }
 
@@ -106,9 +107,8 @@ class ListItems extends React.Component {
   }
 
   render () {
-    const { items, isEditingListItem, selectedListItem } = this.state
-    const { type, conditions, i18n, data } = this.props
-
+    const { items, isEditingListItem, selectedListItem, isNew } = this.state
+    const { type, conditions, i18n } = this.props
     return (
       <div>
         <table className='govuk-table'>
@@ -125,15 +125,6 @@ class ListItems extends React.Component {
             helperClass='dragging' lockToContainerEdges useDragHandle
           />
         </table>
-        <a className="govuk-link" href="#" onClick={this.onCreateClick}>{i18n('list.createListItem')}</a>
-        {isEditingListItem &&
-          <RenderInPortal>
-            <Flyout title='Add Item' show={isEditingListItem} width={'xlarge'}
-              onHide={this.cancelAddItem}>
-              <ListItemEdit data={data} conditions={conditions}/>
-            </Flyout>
-          </RenderInPortal>
-        }
       </div>
 
     )
