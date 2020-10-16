@@ -26,7 +26,8 @@ class ListEdit extends React.Component {
         items: []
       },
       titleHasError: false,
-      isNew: !props.list?.name
+      isNew: !props.list?.name,
+      isEditingListItem: false
     }
   }
 
@@ -93,10 +94,20 @@ class ListEdit extends React.Component {
 
   onCreateClick = e => {
     e.preventDefault()
+    this.setState({ isEditingListItem: true })
+  }
+
+  cancelAddItem = (e, item) => {
+    e.preventDefault()
+    this.setState({ isEditingListItem: false })
+  }
+
+  selectListItem = (item) => {
+    this.setState({ isEditingListItem: true, selectedItem: item })
   }
 
   render () {
-    const { type, list, titleHasError, isNew } = this.state
+    const { type, list, titleHasError, isNew, isEditingListItem, selectedItem } = this.state
     const { i18n, conditions } = this.props
     return (
       <div>
@@ -120,8 +131,7 @@ class ListEdit extends React.Component {
               onChange={this.onChangeTitle}
             />
           </div>
-
-          <ListItems list={list} items={list.items} type={type} conditions={conditions} isNew={isNew} />
+          <ListItems list={list} type={type} conditions={conditions} isNew={isNew} selectListItem={this.selectListItem} />
           {!isNew &&
             <a className="disabled govuk-link govuk-body govuk-!-display-block govuk-!-margin-bottom-1" href="#" onClick={this.onCreateClick}>{i18n('list.createListItem')}</a>
           }
@@ -130,6 +140,14 @@ class ListEdit extends React.Component {
           <a href="#" className='govuk-link' onClick={this.onClickDelete}>{i18n('delete')}</a>
           }
         </form>
+        {isEditingListItem &&
+        <RenderInPortal>
+          <Flyout title='Add Item' show={isEditingListItem} width={'xlarge'}
+            onHide={this.cancelAddItem}>
+            <ListItemEdit list={list} selectedItem={selectedItem}/>
+          </Flyout>
+        </RenderInPortal>
+        }
       </div>
     )
   }

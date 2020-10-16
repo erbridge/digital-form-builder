@@ -18,16 +18,16 @@ function headDuplicate (arr) {
 
 const DragHandle = SortableHandle(() => <span className='drag-handle-list'>&#9776;</span>)
 
-const SortableItem = SortableElement(({ index, item, type, conditions, removeItem }) => {
+const SortableItem = SortableElement(({ index, item, type, removeItem, selectListItem }) => {
   return (<tr className='govuk-table__row' scope='row'>
-    <td className='govuk-table__cell'>
+    <td className='govuk-table__cell' width='20px'>
       <DragHandle />
     </td>
     <td className='govuk-table__cell'>
-      {item}
+      {item.text}
     </td>
-    <td className='govuk-table__cell'>
-      edit
+    <td className='govuk-table__cell' width='50px'>
+      <a href="#" onClick={() => selectListItem(item)}>Edit</a>
     </td>
     <td className='govuk-table__cell' width='20px'>
       <a className='list-item-delete' onClick={() => removeItem(index)}>&#128465;</a>
@@ -36,11 +36,11 @@ const SortableItem = SortableElement(({ index, item, type, conditions, removeIte
 }
 )
 
-const SortableList = SortableContainer(({ items, conditions, type, removeItem }) => {
+const SortableList = SortableContainer(({ items, selectListItem, removeItem }) => {
   return (
     <tbody className='govuk-table__body'>
       {items.map((item, index) => (
-        <SortableItem key={`item-${index}`} item={item} index={index} conditions={conditions} type={type} removeItem={removeItem} />
+        <SortableItem key={`item-${index}`} item={item} index={index} selectListItem={selectListItem} removeItem={removeItem} />
       ))}
     </tbody>
   )
@@ -51,7 +51,7 @@ class ListItems extends React.Component {
     super(props)
     this.state = {
       list: props.list,
-      isNew: !!props.list
+      items: props.list?.items ?? []
     }
   }
 
@@ -101,14 +101,10 @@ class ListItems extends React.Component {
       })
   }
 
-  onCreateClick = (e) => {
-    e.preventDefault()
-    this.setState({ isEditingListItem: true })
-  }
-
   render () {
-    const { items, isEditingListItem, selectedListItem, isNew } = this.state
-    const { type, conditions, i18n } = this.props
+    const { items } = this.state
+    const { type, conditions, selectListItem } = this.props
+    console.log('select list iteme', selectListItem)
     return (
       <div>
         <table className='govuk-table'>
@@ -120,7 +116,7 @@ class ListItems extends React.Component {
             </tr>
           </thead>
           <SortableList
-            type={type} items={items || []} conditions={conditions} removeItem={this.removeItem}
+            type={type} items={items || []} conditions={conditions} selectListItem={selectListItem} removeItem={this.removeItem}
             onBlur={this.onBlur} onSortEnd={this.onSortEnd}
             helperClass='dragging' lockToContainerEdges useDragHandle
           />
