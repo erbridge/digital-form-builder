@@ -34,7 +34,6 @@ class ListEdit extends React.Component {
     e.preventDefault()
     const { data, save } = this.context
     const { list: updatedList } = this.state
-    console.log('data', data)
     const copy = clone(data)
     const dataList = copy.lists?.find(list => list.name === updatedList.name) ?? {}
 
@@ -92,6 +91,10 @@ class ListEdit extends React.Component {
     this.setState({ list: { ...list, title }, titleHasError: title?.trim().length < 1 })
   }
 
+  onCreateClick = e => {
+    e.preventDefault()
+  }
+
   render () {
     const { type, list, titleHasError, isNew } = this.state
     const { i18n, conditions } = this.props
@@ -119,7 +122,6 @@ class ListEdit extends React.Component {
           </div>
 
           <ListItems list={list} items={list.items} type={type} conditions={conditions} isNew={isNew} />
-          {isNew}
           {!isNew &&
             <a className="disabled govuk-link govuk-body govuk-!-display-block govuk-!-margin-bottom-1" href="#" onClick={this.onCreateClick}>{i18n('list.createListItem')}</a>
           }
