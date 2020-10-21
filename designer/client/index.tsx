@@ -5,7 +5,7 @@ import Visualisation from "./visualisation";
 import NewConfig from "./new-config";
 import { Data } from "@xgovformbuilder/model";
 import { customAlphabet } from "nanoid";
-import { FlyoutContext, DataContext } from "./context";
+import { FlyoutContext, DataContext, PageContext } from "./context";
 import "./index.scss";
 import { initI18n, i18n } from "./i18n";
 import { DesignerApi } from "./api/designerApi";
@@ -110,14 +110,19 @@ export class App extends React.Component {
     return toUpdate;
   };
 
+  updatePageContext = (page) => {
+    this.setState({ page });
+  };
+
   render() {
-    const { previewUrl, id, flyoutCount, newConfig, data } = this.state;
+    const { previewUrl, id, flyoutCount, newConfig, data, page } = this.state;
     const flyoutContextProviderValue = {
       flyoutCount,
       increment: this.incrementFlyoutCounter,
       decrement: this.decrementFlyoutCounter,
     };
     const dataContextProviderValue = { data, save: this.saveData };
+    const pageContextProviderValue = { page, update: this.updatePageContext };
     if (newConfig) {
       return (
         <div id="app">
@@ -128,24 +133,26 @@ export class App extends React.Component {
     if (this.state.loaded) {
       return (
         <DataContext.Provider value={dataContextProviderValue}>
-          <FlyoutContext.Provider value={flyoutContextProviderValue}>
-            <div id="app">
-              <Menu
-                data={data}
-                id={this.state.id}
-                updateDownloadedAt={this.updateDownloadedAt}
-                updatePersona={this.updatePersona}
-              />
-              <Visualisation
-                data={data}
-                downloadedAt={this.state.downloadedAt}
-                updatedAt={this.state.updatedAt}
-                persona={this.state.persona}
-                id={id}
-                previewUrl={previewUrl}
-              />
-            </div>
-          </FlyoutContext.Provider>
+          <PageContext.Provider value={pageContextProviderValue}>
+            <FlyoutContext.Provider value={flyoutContextProviderValue}>
+              <div id="app">
+                <Menu
+                  data={data}
+                  id={this.state.id}
+                  updateDownloadedAt={this.updateDownloadedAt}
+                  updatePersona={this.updatePersona}
+                />
+                <Visualisation
+                  data={data}
+                  downloadedAt={this.state.downloadedAt}
+                  updatedAt={this.state.updatedAt}
+                  persona={this.state.persona}
+                  id={id}
+                  previewUrl={previewUrl}
+                />
+              </div>
+            </FlyoutContext.Provider>
+          </PageContext.Provider>
         </DataContext.Provider>
       );
     } else {

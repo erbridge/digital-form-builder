@@ -4,13 +4,13 @@ import { Input } from "@govuk-jsx/input";
 import { Textarea } from "@govuk-jsx/textarea";
 import { Label } from "@govuk-jsx/label";
 import { Hint } from "@govuk-jsx/hint";
-import { ErrorMessage } from "@govuk-jsx/error-message";
 import { RenderInPortal } from "../components/render-in-portal";
 import Flyout from "../flyout";
 import ComponentCreate from "../component-create";
+import ComponentCreateFn from "../component-create-fn";
 import { ComponentTypes } from "@xgovformbuilder/model";
 import { DataContext } from "../context";
-import { useRequiredInput } from "../handlers/required";
+import { useRequiredInput } from "../hooks/required";
 
 export function ListItemEdit(props) {
   const { data, save } = useContext(DataContext);
@@ -18,7 +18,6 @@ export function ListItemEdit(props) {
   const [helpText, setHelpText] = useState(
     props.selectedItem?.description ?? ""
   );
-  const [value, setValue] = useState(props.selectedItem?.value ?? "");
 
   const [condition, setCondition] = useState(
     props.selectedItem?.condition ?? ""
@@ -45,17 +44,17 @@ export function ListItemEdit(props) {
     setIsEditingSubComponent(true);
   };
 
-  const handleChangeValue = (e) => {
-    const value = e.target.value;
-    setValue(e.target.value);
-  };
+  const { fieldValue, hasError, handleFieldChange } = useRequiredInput(
+    props.selectedItem?.value
+  );
+  const error = hasError ? { children: [i18n("errors.required")] } : undefined;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const listItem = {
       text: title,
       description: helpText ?? "",
-      value,
+      value: fieldValue,
       condition: condition ?? "",
     };
 
@@ -75,9 +74,6 @@ export function ListItemEdit(props) {
 
     await save(data);
   };
-
-  const { fieldValue, hasError, handleFieldChange } = useRequiredInput();
-  const error = hasError ? { children: [i18n("errors.required")] } : undefined;
 
   return (
     <div>
@@ -130,7 +126,7 @@ export function ListItemEdit(props) {
         {isEditingSubComponent && (
           <RenderInPortal>
             <Flyout width={"xlarge"} show={isEditingSubComponent}>
-              <ComponentCreate allowedTypes={allowedTypes} />
+              <ComponentCreateFn allowedTypes={allowedTypes} />
             </Flyout>
           </RenderInPortal>
         )}

@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { createContext } from "react";
 
-export const FlyoutContext = React.createContext(
-  {
-    count: 0,
-    increment: () => {},
-    decrement: () => {}
-  }
-)
+export const FlyoutContext = createContext({
+  count: 0,
+  increment: () => {},
+  decrement: () => {},
+});
 
-export const DataContext = React.createContext({
+export const DataContext = createContext({
   data: {},
-  save: async () => {}
-})
+  save: async () => {},
+});
+
+export const PageContext = createContext({
+  page: {},
+  update: () => {},
+});
