@@ -6,7 +6,8 @@ import { nanoid } from "nanoid";
 
 function ComponentCreate(props) {
   const { data, save } = useContext(DataContext);
-  const { page } = useContext(PageContext);
+  // const { page } = useContext(PageContext);
+  const { page } = props;
   const name = nanoid(6);
   const [component, setComponent] = useState({ name });
   const [isSaving, setIsSaving] = useState(false);
@@ -18,10 +19,11 @@ function ComponentCreate(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSaving(true);
-    const copy = clone(data);
+
     if (page) {
-      copy.addComponent(page.path, component.name, component);
-      await save(copy);
+      console.log(data);
+      data.addComponent(page.path, component.name, component);
+      await save(data.toJson());
     } else {
       props.handleSubComponentCreate(component);
     }

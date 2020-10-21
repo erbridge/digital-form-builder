@@ -103,11 +103,10 @@ export class App extends React.Component {
     const { id } = this.state;
     const dataJson = await this.designerApi.save(id, toUpdate);
     this.setState(
-      { data: toUpdate, updatedAt: new Date().toLocaleTimeString() },
+      { data: new Data(toUpdate), updatedAt: new Date().toLocaleTimeString() },
       callback()
     );
-    console.log("to update", toUpdate);
-    return toUpdate;
+    return new Data(toUpdate);
   };
 
   updatePageContext = (page) => {
