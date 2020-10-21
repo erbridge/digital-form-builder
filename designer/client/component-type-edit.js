@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import Editor from "./editor";
 import { ComponentTypes } from "@xgovformbuilder/model";
 import ComponentValues from "./components/component-values";
@@ -1003,7 +1003,12 @@ function ComponentTypeEdit(props) {
   const type = ComponentTypes.find((t) => t.name === component.type);
   const TagName = componentTypeEditors[`${component.type}Edit`] || FieldEdit;
   const { update } = useContext(PageContext);
-  update(page);
+  useLayoutEffect(() => {
+    update(page);
+    return () => {
+      update({});
+    };
+  }, []);
 
   if (!type) {
     return "";

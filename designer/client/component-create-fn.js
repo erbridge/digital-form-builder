@@ -5,7 +5,6 @@ import { DataContext, PageContext } from "./context";
 import { nanoid } from "nanoid";
 
 function ComponentCreate(props) {
-  console.log("comp create");
   const { data, save } = useContext(DataContext);
   const { page } = useContext(PageContext);
   const name = nanoid(6);
@@ -20,8 +19,13 @@ function ComponentCreate(props) {
     e.preventDefault();
     setIsSaving(true);
     const copy = clone(data);
-    const updatedData = copy.addComponent(page.path, component.name, component);
-    await save(updatedData);
+    if (page) {
+      copy.addComponent(page.path, component.name, component);
+      await save(copy);
+    } else {
+      props.handleSubComponentCreate(component);
+    }
+    setIsSaving(false);
   };
 
   const handleUpdateComponent = (component) => {

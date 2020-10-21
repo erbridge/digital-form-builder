@@ -9,19 +9,23 @@ import Flyout from "../flyout";
 import ComponentCreate from "../component-create";
 import ComponentCreateFn from "../component-create-fn";
 import { ComponentTypes } from "@xgovformbuilder/model";
-import { DataContext } from "../context";
+import { DataContext, PageContext } from "../context";
 import { useRequiredInput } from "../hooks/required";
 
 export function ListItemEdit(props) {
   const { data, save } = useContext(DataContext);
+  const { page } = useContext(PageContext);
   const [title, setTitle] = useState(props.selectedItem?.text ?? "");
   const [helpText, setHelpText] = useState(
     props.selectedItem?.description ?? ""
   );
-
   const [condition, setCondition] = useState(
     props.selectedItem?.condition ?? ""
   );
+  const [subComponents] = useState(
+    props.selectedItem?.conditional?.components ?? []
+  );
+
   const [isEditingSubComponent, setIsEditingSubComponent] = useState(false);
   const { i18n, list: selectedList } = props;
   const editingItemAtIndex = selectedList.items?.findIndex(
@@ -49,8 +53,14 @@ export function ListItemEdit(props) {
   );
   const error = hasError ? { children: [i18n("errors.required")] } : undefined;
 
+  const [subComponent, setSubComponent] = useState();
+  const handleSubComponentCreate = (component) => {
+    setSubComponent(component);
+    handleSubmit();
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     const listItem = {
       text: title,
       description: helpText ?? "",
@@ -58,8 +68,11 @@ export function ListItemEdit(props) {
       condition: condition ?? "",
     };
 
+    if (subComponent) {
+      listItem.conditional = [...subComponents, subComponent];
+    }
+
     if (editingItemAtIndex === -1) {
-      console.log("editing at item", "section", selectedList);
       const items =
         data.lists.find((list) => list.name === selectedList.name)?.items ?? [];
       data.lists.find((list) => list.name === selectedList.name).items = [
@@ -116,17 +129,29 @@ export function ListItemEdit(props) {
           ))}
         </select>
         <hr />
-        <p className="govuk-body govuk-!-font-weight-bold govuk-!-margin-0">
-          {i18n("list.item.subComponent")}
-        </p>
-        <Hint>{i18n("list.item.subComponentHint")}</Hint>
-        <a href="#" className="govuk-link" onClick={handleCreateSubComponent}>
-          {i18n("list.item.createSubComponent")}
-        </a>
+        {!!page && (
+          <div>
+            <p className="govuk-body govuk-!-font-weight-bold govuk-!-margin-0">
+              {i18n("list.item.subComponent")}
+            </p>
+            <Hint>{i18n("list.item.subComponentHint")}</Hint>
+            <a
+              href="#"
+              className="govuk-link"
+              onClick={handleCreateSubComponent}
+            >
+              {i18n("list.item.createSubComponent")}
+            </a>
+          </div>
+        )}
+
         {isEditingSubComponent && (
           <RenderInPortal>
             <Flyout width={"xlarge"} show={isEditingSubComponent}>
-              <ComponentCreateFn allowedTypes={allowedTypes} />
+              <ComponentCreateFn
+                allowedTypes={allowedTypes}
+                handleSubComponentCreate={handleSubComponentCreate}
+              />
             </Flyout>
           </RenderInPortal>
         )}
