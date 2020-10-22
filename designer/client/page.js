@@ -80,7 +80,7 @@ export class Page extends React.Component {
     const { sections } = data;
     const formComponents = page?.components?.filter(
       (comp) =>
-        ComponentTypes.find((type) => type.name === comp.type).subType ===
+        ComponentTypes.find((type) => type.name === comp.type)?.subType ===
         "field"
     );
     const section =

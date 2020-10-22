@@ -36,7 +36,7 @@ export class App extends React.Component {
         this.setState({ id: window.id, previewUrl: window.previewUrl }, () => {
           const dataPromise = this.designerApi.fetchData(this.state.id);
           dataPromise.then((data) => {
-            this.setState({ loaded: true, data });
+            this.setState({ loaded: true, data: new Data(data) });
           });
         });
       }

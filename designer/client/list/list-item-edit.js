@@ -54,8 +54,8 @@ export function ListItemEdit(props) {
   const error = hasError ? { children: [i18n("errors.required")] } : undefined;
 
   const [subComponent, setSubComponent] = useState();
-  const handleSubComponentCreate = (component) => {
-    setSubComponent(component);
+  const handleSubComponentCreate = (update) => {
+    setSubComponent({ ...subComponent, ...update });
     handleSubmit();
   };
 
@@ -69,7 +69,8 @@ export function ListItemEdit(props) {
     };
 
     if (subComponent) {
-      listItem.conditional = [...subComponents, subComponent];
+      listItem.conditional = { components: [...subComponents, subComponent] };
+      console.log(listItem);
     }
 
     if (editingItemAtIndex === -1) {

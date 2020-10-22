@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import Editor from "./editor";
 import { ComponentTypes } from "@xgovformbuilder/model";
 import ComponentValues from "./components/component-values";
@@ -53,8 +53,14 @@ function Classes(props) {
 class FieldEdit extends React.Component {
   constructor(props) {
     super(props);
-    const { component } = this.props;
-    const { name = nanoid(6), title = "", hint = "", options = {} } = component;
+    const { component } = props;
+    const {
+      name = nanoid(6),
+      title = "",
+      hint = "",
+      options = {},
+      values,
+    } = component;
     const {
       hideTitle = false,
       optionalText = false,
@@ -62,6 +68,7 @@ class FieldEdit extends React.Component {
     } = options;
     const isFileUploadField = component.type === "FileUploadField";
     this.isFileUploadField = isFileUploadField;
+
     this.state = {
       name,
       title,
@@ -69,35 +76,68 @@ class FieldEdit extends React.Component {
       hideTitle,
       optionalText,
       required: !isFileUploadField || required,
+      values,
     };
   }
+
+  get component() {
+    const {
+      name,
+      title,
+      hint,
+      hideTitle,
+      optionalText,
+      required,
+      values,
+    } = this.state;
+    return {
+      name,
+      title,
+      hint,
+      options: {
+        hideTitle,
+        optionalText,
+        required,
+      },
+      values,
+    };
+  }
+
+  commitToParent = () => {
+    if (this.props.handleUpdateComponent) {
+      this.props.handleUpdateComponent(this.component);
+    }
+  };
 
   checkOptionalBox = () => {
     if (this.isFileUploadField) {
       return;
     }
-    this.setState({ required: !this.state.required });
+    this.setState({ required: !this.state.required }, this.commitToParent());
   };
 
   onTitleChange = (e) => {
     e.preventDefault();
-    this.setState({ title: e.target.value });
+    this.setState({ title: e.target.value }, this.commitToParent());
   };
 
   onHideTitleChange = () => {
-    this.setState({ hideTitle: !this.state.hideTitle });
+    this.setState({ hideTitle: !this.state.hideTitle }, this.commitToParent());
   };
 
   onHideOptionalTextChange = () => {
-    this.setState({ hideOptional: !this.state.optionalText });
+    this.setState(
+      { hideOptional: !this.state.optionalText },
+      this.commitToParent()
+    );
   };
 
   onHelpChange = (e) => {
-    this.setState({ hint: e.target.value });
+    this.setState({ hint: e.target.value }, this.commitToParent());
   };
 
   onNameChange = (component) => {
-    this.setState({ ...component });
+    this.setState({ name: component.name }, this.commitToParent());
   };
 
   render() {
@@ -697,51 +737,6 @@ function SelectFieldEdit(props) {
   );
 }
 
-function RadiosFieldEdit(props) {
-  const { component, data, updateModel, page } = props;
-  component.options = component.options || {};
-
-  return (
-    <FieldEdit component={component} updateModel={updateModel}>
-      <ComponentValues
-        data={data}
-        component={component}
-        updateModel={updateModel}
-        page={page}
-        EditComponentView={ComponentTypeEdit}
-      />
-
-      <div className="govuk-checkboxes govuk-form-group">
-        <div className="govuk-checkboxes__item">
-          <input
-            className="govuk-checkboxes__input"
-            id="field-options-bold"
-            data-cast="boolean"
-            name="options.bold"
-            type="checkbox"
-            checked={component.options.bold === true}
-            onChange={() =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.options.bold = !component.options.bold;
-                },
-                updateModel
-              )
-            }
-          />
-          <label
-            className="govuk-label govuk-checkboxes__label"
-            htmlFor="field-options-bold"
-          >
-            Bold labels
-          </label>
-        </div>
-      </div>
-    </FieldEdit>
-  );
-}
-
 function CheckboxesFieldEdit(props) {
   const { component, data, updateModel, page } = props;
   component.options = component.options || {};
@@ -848,6 +843,24 @@ function ParaEdit(props) {
           ))}
         </select>
       </div>
+    </div>
+  );
+}
+
+function RadiosFieldEdit(props) {
+  const { component, handleUpdateComponent, page } = props;
+  return (
+    <div>
+      <FieldEdit
+        component={component}
+        handleUpdateComponent={handleUpdateComponent}
+        page={page}
+      />
+      <ComponentValues
+        component={component}
+        handleUpdateComponent={handleUpdateComponent}
+        page={page}
+      />
     </div>
   );
 }
@@ -999,20 +1012,19 @@ const componentTypeEditors = {
 };
 
 function ComponentTypeEdit(props) {
-  const { component, data, updateModel, page } = props;
+  const { component, data, updateModel, page, handleUpdateComponent } = props;
   const type = ComponentTypes.find((t) => t.name === component.type);
+  if (!type) {
+    return;
+  }
   const TagName = componentTypeEditors[`${component.type}Edit`] || FieldEdit;
   const { update } = useContext(PageContext);
   useLayoutEffect(() => {
     update(page);
     return () => {
-      update({});
+      update();
     };
   }, []);
-
-  if (!type) {
-    return "";
-  }
 
   return (
     <TagName
@@ -1020,6 +1032,7 @@ function ComponentTypeEdit(props) {
       data={data}
       updateModel={updateModel}
       page={page}
+      handleUpdateComponent={handleUpdateComponent}
     />
   );
 }

@@ -6,8 +6,14 @@ import { nanoid } from "nanoid";
 
 function ComponentCreate(props) {
   const { data, save } = useContext(DataContext);
-  // const { page } = useContext(PageContext);
   const { page } = props;
+  const { update } = useContext(PageContext);
+  useLayoutEffect(() => {
+    update(page);
+    return () => {
+      update();
+    };
+  }, []);
   const name = nanoid(6);
   const [component, setComponent] = useState({ name });
   const [isSaving, setIsSaving] = useState(false);
@@ -21,17 +27,16 @@ function ComponentCreate(props) {
     setIsSaving(true);
 
     if (page) {
-      console.log(data);
-      data.addComponent(page.path, component.name, component);
-      await save(data.toJson());
+      data.addComponent(page.path, component);
+      await save(data.toJSON());
     } else {
       props.handleSubComponentCreate(component);
     }
     setIsSaving(false);
   };
 
-  const handleUpdateComponent = (component) => {
-    setComponent(component);
+  const handleUpdateComponent = (update) => {
+    setComponent({ ...component, ...update });
   };
 
   return (
@@ -66,6 +71,7 @@ function ComponentCreate(props) {
             data={data}
             component={component}
             handleUpdateComponent={handleUpdateComponent}
+            page={page}
           />
         )}
         <div>

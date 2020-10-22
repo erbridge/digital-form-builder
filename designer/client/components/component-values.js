@@ -9,11 +9,6 @@ import { DataContext } from "../context";
 import { withI18n } from "../i18n/i18n";
 import ListEdit from "../list/list-edit";
 
-function updateComponent(component, modifier, updateModel) {
-  modifier(component);
-  updateModel(component);
-}
-
 function addListValuesTo(component, data, listName) {
   const list = data.lists.find((list) => list.name === listName);
 
@@ -64,46 +59,25 @@ export class ComponentValues extends React.Component {
   static contextType = DataContext;
   constructor(props) {
     super(props);
-    const values = props.component.values;
+    const { component } = props;
+    const { values } = component;
     this.state = {
-      component: clone(props.component),
+      component,
       listName: values?.list,
     };
-
-    this.formAddItem = React.createRef();
-    this.formEditItem = React.createRef();
   }
 
-  removeItem = (index) => {
-    const { updateModel } = this.props;
-    const { component } = this.state;
-    updateComponent(
-      component,
-      (component) => component.values.items.splice(index, 1),
-      updateModel
-    );
-    this.setState(component);
-  };
-
-  addItem = (item) => {
-    const { updateModel } = this.props;
-    const { component } = this.state;
-    const isFormValid = this.formAddItem.current.reportValidity();
-
-    if (isFormValid) {
-      updateComponent(
-        component,
-        (component) => {
-          component.values.items = component.values.items || [];
-          component.values.items.push(item);
-        },
-        updateModel
-      );
-      this.setState({
-        showAddItem: false,
-      });
-    }
-  };
+  /*
+  *  values: {
+          type: 'static',
+          valueType: 'string',
+          items: [
+            { label: 'My item', value: '12', children: [] },
+            { label: 'Item 2', hint: 'My hint', value: '11', condition: 'Abcewdad', children: [] },
+            { label: 'Item 3', value: '11', children: [{ type: 'TextField' }] }
+          ]
+        }
+  * */
 
   initialiseValues = (e) => {
     const { component } = this.state;
@@ -111,49 +85,48 @@ export class ComponentValues extends React.Component {
     this.setState({ component });
   };
 
-  onCreateClick = (e) => {
+  onCreateClick = async (e) => {
     e.preventDefault();
-    this.setState({ isEditingList: true });
+    const { component, page } = this.props;
+    const newListTitle = component?.title ?? component?.name;
+    console.log("page?", page);
+
+    this.setState({
+      isEditingList: true,
+      selectedList: { title: newListTitle },
+    });
+  };
+
+  setSelectedList = (e) => {
+    this.setState({ listName: e.target.value });
   };
 
   render() {
-    const { updateModel, page, i18n } = this.props;
+    const { i18n, title } = this.props;
     const { data } = this.context;
     const { lists } = data;
     const { listName, component, isEditingList, selectedList } = this.state;
     const staticValues = data.valuesFor?.(component)?.toStaticValues();
     const type = component.values?.type;
 
-    const listSelectionOnChangeFunctions = {
-      listRef: (e) => {
-        updateComponent(
-          component,
-          (component) => addListValuesTo(component, data, e.target.value),
-          updateModel
-        );
-        this.setState({ listName: e.target.value });
-      },
-      static: (e) => {
-        updateComponent(
-          component,
-          (component) =>
-            initialiseStaticValuesFrom(component, data, e.target.value),
-          updateModel
-        );
-        this.setState({ listName: e.target.value });
-      },
+    const onChangeType = (e) => {
+      switch (type) {
+        case "listRef":
+        // addListValuesTo(component, data, e.target.value)
+        case "static":
+        // initialiseStaticValuesFrom(component, data, e.target.value)
+      }
     };
 
     return (
-      <div>
-        <Label htmlFor="field-options-list">Select list</Label>
+      <div className="govuk-form-group">
+        <Label htmlFor="field-options-list">{i18n("list.select")}</Label>
         <select
           className="govuk-select govuk-input--width-10"
           id="field-options-list"
           name="options.list"
-          value={listName}
-          required={type === "listRef"}
-          onChange={listSelectionOnChangeFunctions[type]}
+          value={selectedList}
+          onChange={this.setSelectedList}
         >
           <option />
           {lists.map((list) => {
@@ -164,13 +137,21 @@ export class ComponentValues extends React.Component {
             );
           })}
         </select>
-        <a href="#" onClick={this.onCreateClick}>
+
+        <a
+          href="#"
+          className="govuk-link govuk-!-display-block"
+          onClick={this.onCreateClick}
+        >
           {i18n("list.newTitle")}
         </a>
         {isEditingList && (
           <RenderInPortal>
             <Flyout title={"creating"} width={""} show={isEditingList}>
-              <ListEdit list={selectedList} />
+              <ListEdit
+                list={selectedList}
+                setSelectedList={this.setSelectedList}
+              />
             </Flyout>
           </RenderInPortal>
         )}
