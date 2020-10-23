@@ -87,10 +87,8 @@ export class ComponentValues extends React.Component {
 
   onCreateClick = async (e) => {
     e.preventDefault();
-    const { component, page } = this.props;
+    const { component } = this.props;
     const newListTitle = component?.title ?? component?.name;
-    console.log("page?", page);
-
     this.setState({
       isEditingList: true,
       selectedList: { title: newListTitle },
@@ -99,6 +97,14 @@ export class ComponentValues extends React.Component {
 
   setSelectedList = (e) => {
     this.setState({ listName: e.target.value });
+  };
+
+  onEditClick = async (e) => {
+    const { data } = this.context;
+    this.setState({
+      isEditingList: true,
+      selectedList: data.findList(this.state.listName),
+    });
   };
 
   render() {
@@ -137,6 +143,16 @@ export class ComponentValues extends React.Component {
             );
           })}
         </select>
+
+        {listName && (
+          <a
+            href="#"
+            className="govuk-link govuk-!-display-block"
+            onClick={this.onEditClick}
+          >
+            {i18n("list.edit")}
+          </a>
+        )}
 
         <a
           href="#"

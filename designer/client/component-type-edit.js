@@ -801,13 +801,11 @@ function ParaEdit(props) {
 function RadiosFieldEdit(props) {
   const { handleUpdateComponent, page, component } = props;
   return (
-    <div>
-      <ComponentValues
-        handleUpdateComponent={handleUpdateComponent}
-        page={page}
-        component={component}
-      />
-    </div>
+    <ComponentValues
+      handleUpdateComponent={handleUpdateComponent}
+      page={page}
+      component={component}
+    />
   );
 }
 

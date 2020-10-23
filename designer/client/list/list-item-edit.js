@@ -56,7 +56,7 @@ export function ListItemEdit(props) {
   const [subComponent, setSubComponent] = useState();
   const handleSubComponentCreate = (update) => {
     setSubComponent({ ...subComponent, ...update });
-    handleSubmit();
+    // handleSubmit();
   };
 
   const handleSubmit = async (e) => {
@@ -70,7 +70,6 @@ export function ListItemEdit(props) {
 
     if (subComponent) {
       listItem.conditional = { components: [...subComponents, subComponent] };
-      console.log(listItem);
     }
 
     if (editingItemAtIndex === -1) {

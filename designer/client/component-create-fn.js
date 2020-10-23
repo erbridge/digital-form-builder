@@ -12,19 +12,20 @@ function initComponent(type) {
     options: { required: true },
     type,
   };
-  // if (
-  //   [
-  //     "SelectField",
-  //     "RadiosField",
-  //     "CheckboxesField",
-  //     "AutocompleteField",
-  //   ].includes(type)
-  // ) {
-  //   initialFields.values = {
-  //     type: "static",
-  //     items: [],
-  //   };
-  // }
+  if (
+    [
+      "SelectField",
+      "RadiosField",
+      "CheckboxesField",
+      "AutocompleteField",
+    ].includes(type)
+  ) {
+    initialFields.values = {
+      type: "static",
+      valueType: "string",
+      items: [],
+    };
+  }
   return initialFields;
 }
 
@@ -48,7 +49,6 @@ function ComponentCreate(props) {
   useEffect(() => {
     if (type) {
       setComponent(initComponent(type));
-      console.log("setting component");
     }
   }, [type]);
 
@@ -67,7 +67,6 @@ function ComponentCreate(props) {
 
   const handleUpdateComponent = (update) => {
     setComponent({ ...component, ...update });
-    console.log("set comp", component);
   };
 
   return (

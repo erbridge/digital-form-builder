@@ -45,6 +45,7 @@
   "close": "Close",
   "list": {
     "select": "Select list",
+    "edit": "Edit list",
     "editingTitle": "Editing {{title}}",
     "newTitle": "Add a new list",
     "create": "Create list",

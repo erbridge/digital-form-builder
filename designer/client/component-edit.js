@@ -1,8 +1,10 @@
 import React from "react";
 import ComponentTypeEdit from "./component-type-edit";
 import { clone } from "@xgovformbuilder/model";
+import { DataContext } from "./context";
 
 class ComponentEdit extends React.Component {
+  static contextType = DataContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -12,16 +14,15 @@ class ComponentEdit extends React.Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    const { data, page, component, handleUpdateComponent } = this.props;
-    const copy = clone(data);
+    const { page, component, handleUpdateComponent } = this.props;
+    const { data, save } = this.context;
     const updatedComponent = this.state.component;
-
-    const updatedData = copy.updateComponent(
+    const updatedData = data.updateComponent(
       page.path,
       component.name,
       updatedComponent
     );
-    const savedData = await data.save(updatedData);
+    const savedData = await save(updatedData);
     this.props.onEdit({ data: savedData });
     if (handleUpdateComponent) {
       handleUpdateComponent(component);
