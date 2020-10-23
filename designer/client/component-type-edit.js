@@ -54,96 +54,65 @@ class FieldEdit extends React.Component {
   constructor(props) {
     super(props);
     const { component } = props;
-    const {
-      name = nanoid(6),
-      title = "",
-      hint = "",
-      options = {},
-      values,
-    } = component;
-    const {
-      hideTitle = false,
-      optionalText = false,
-      required = true,
-    } = options;
-    const isFileUploadField = component.type === "FileUploadField";
-    this.isFileUploadField = isFileUploadField;
-
-    this.state = {
-      name,
-      title,
-      hint,
-      hideTitle,
-      optionalText,
-      required: !isFileUploadField || required,
-      values,
-    };
+    // convenience vars
+    this.isFileUploadField = component.type === "FileUploadField";
   }
+
+  commitToParent = (update) => {
+    this.props.handleUpdateComponent(update);
+  };
+
+  onNameChange = (component) => {
+    this.commitToParent({ name: component.name });
+  };
+
+  onTitleChange = (e) => {
+    this.commitToParent({ title: e.target.value });
+  };
+
+  onHideOptionalTextChange = () => {
+    this.commitToParent({
+      ...this.options,
+      hideOptional: !this.component.options?.optionalText ?? false,
+    });
+  };
 
   get component() {
-    const {
-      name,
-      title,
-      hint,
-      hideTitle,
-      optionalText,
-      required,
-      values,
-    } = this.state;
-    return {
-      name,
-      title,
-      hint,
-      options: {
-        hideTitle,
-        optionalText,
-        required,
-      },
-      values,
-    };
+    return this.props.component;
   }
 
-  commitToParent = () => {
-    if (this.props.handleUpdateComponent) {
-      this.props.handleUpdateComponent(this.component);
-    }
+  get options() {
+    return this.component.options;
+  }
+
+  onHelpChange = (e) => {
+    this.commitToParent({ options: { ...this.options, hint: e.target.value } });
+  };
+
+  onHideTitleChange = () => {
+    this.commitToParent({
+      options: {
+        ...this.options,
+        hideTitle: !this.options?.hideTitle ?? false,
+      },
+    });
   };
 
   checkOptionalBox = () => {
     if (this.isFileUploadField) {
-      return;
+      this.commitToParent({ options: { ...this.options, required: false } });
     }
-    this.setState({ required: !this.state.required }, this.commitToParent());
-  };
-
-  onTitleChange = (e) => {
-    e.preventDefault();
-    this.setState({ title: e.target.value }, this.commitToParent());
-  };
-
-  onHideTitleChange = () => {
-    this.setState({ hideTitle: !this.state.hideTitle }, this.commitToParent());
-  };
-
-  onHideOptionalTextChange = () => {
-    this.setState(
-      { hideOptional: !this.state.optionalText },
-      this.commitToParent()
-    );
-  };
-
-  onHelpChange = (e) => {
-    this.setState({ hint: e.target.value }, this.commitToParent());
-  };
-
-  onNameChange = (component) => {
-    this.setState({ name: component.name }, this.commitToParent());
+    this.commitToParent({
+      options: {
+        ...this.options,
+        required: !this.component.options.required,
+      },
+    });
   };
 
   render() {
-    // FIXME:- We need to refactor so this is not being driven off mutating the props.
-    const { component } = this.props;
-    const { name, title, hint, hideTitle, optionalText, required } = this.state;
+    const { name, title, hint } = this.props.component;
+    const { hideTitle, optionalText, required } = this.props.component.options;
 
     return (
       <div>
@@ -160,7 +129,7 @@ class FieldEdit extends React.Component {
               id="field-title"
               name="title"
               type="text"
-              value={title}
+              value={title || ""}
               onChange={this.onTitleChange}
             />
           </div>
@@ -179,7 +148,7 @@ class FieldEdit extends React.Component {
             required={false}
             value={hint}
             onChange={this.onHelpChange}
-            {...component.attrs}
+            {...this.component.attrs}
           />
 
           <div className="govuk-checkboxes govuk-form-group">
@@ -229,8 +198,9 @@ class FieldEdit extends React.Component {
                 htmlFor="field-options-required"
               >
                 {`Make ${
-                  ComponentTypes.find((type) => type.name === component.type)
-                    ?.title ?? ""
+                  ComponentTypes.find(
+                    (type) => type.name === this.component.type
+                  )?.title ?? ""
                 } optional`}
               </label>
               {this.isFileUploadField && (
@@ -277,42 +247,40 @@ function FileUploadFieldEdit(props) {
   component.options = component.options || {};
 
   return (
-    <FieldEdit component={component} updateModel={updateModel}>
-      <details className="govuk-details">
-        <summary className="govuk-details__summary">
-          <span className="govuk-details__summary-text">more</span>
-        </summary>
+    <details className="govuk-details">
+      <summary className="govuk-details__summary">
+        <span className="govuk-details__summary-text">more</span>
+      </summary>
 
-        <div className="govuk-checkboxes govuk-form-group">
-          <div className="govuk-checkboxes__item">
-            <input
-              className="govuk-checkboxes__input"
-              id="field-options.multiple"
-              name="options.multiple"
-              type="checkbox"
-              checked={component.options.multiple === false}
-              onChange={() =>
-                updateComponent(
-                  component,
-                  (component) => {
-                    component.options.multiple = !component.options.multiple;
-                  },
-                  updateModel
-                )
-              }
-            />
-            <label
-              className="govuk-label govuk-checkboxes__label"
-              htmlFor="field-options.multiple"
-            >
-              Allow multiple
-            </label>
-          </div>
+      <div className="govuk-checkboxes govuk-form-group">
+        <div className="govuk-checkboxes__item">
+          <input
+            className="govuk-checkboxes__input"
+            id="field-options.multiple"
+            name="options.multiple"
+            type="checkbox"
+            checked={component.options.multiple === false}
+            onChange={() =>
+              updateComponent(
+                component,
+                (component) => {
+                  component.options.multiple = !component.options.multiple;
+                },
+                updateModel
+              )
+            }
+          />
+          <label
+            className="govuk-label govuk-checkboxes__label"
+            htmlFor="field-options.multiple"
+          >
+            Allow multiple
+          </label>
         </div>
+      </div>
 
-        <Classes component={component} updateModel={updateModel} />
-      </details>
-    </FieldEdit>
+      <Classes component={component} updateModel={updateModel} />
+    </details>
   );
 }
 
@@ -321,127 +289,125 @@ function TextFieldEdit(props) {
   component.schema = component.schema || {};
 
   return (
-    <FieldEdit component={component} updateModel={updateModel}>
-      <details className="govuk-details">
-        <summary className="govuk-details__summary">
-          <span className="govuk-details__summary-text">more</span>
-        </summary>
+    <details className="govuk-details">
+      <summary className="govuk-details__summary">
+        <span className="govuk-details__summary-text">more</span>
+      </summary>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-max"
-          >
-            Max length
-          </label>
-          <span className="govuk-hint">
-            Specifies the maximum number of characters
-          </span>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-schema-max"
-            name="schema.max"
-            defaultValue={component.schema.max}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.max = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-max"
+        >
+          Max length
+        </label>
+        <span className="govuk-hint">
+          Specifies the maximum number of characters
+        </span>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-schema-max"
+          name="schema.max"
+          defaultValue={component.schema.max}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.max = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-min"
-          >
-            Min length
-          </label>
-          <span className="govuk-hint">
-            Specifies the minimum number of characters
-          </span>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-schema-min"
-            name="schema.min"
-            defaultValue={component.schema.min}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.min = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-min"
+        >
+          Min length
+        </label>
+        <span className="govuk-hint">
+          Specifies the minimum number of characters
+        </span>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-schema-min"
+          name="schema.min"
+          defaultValue={component.schema.min}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.min = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-length"
-          >
-            Length
-          </label>
-          <span className="govuk-hint">Specifies the exact text length</span>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-schema-length"
-            name="schema.length"
-            defaultValue={component.schema.length}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.length = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-length"
+        >
+          Length
+        </label>
+        <span className="govuk-hint">Specifies the exact text length</span>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-schema-length"
+          name="schema.length"
+          defaultValue={component.schema.length}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.length = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-regex"
-          >
-            Regex
-          </label>
-          <span className="govuk-hint">
-            Specifies a regex against which input will be validated
-          </span>
-          <input
-            className="govuk-input"
-            id="field-schema-regex"
-            name="schema.regex"
-            defaultValue={component.schema.regex}
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.regex = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-regex"
+        >
+          Regex
+        </label>
+        <span className="govuk-hint">
+          Specifies a regex against which input will be validated
+        </span>
+        <input
+          className="govuk-input"
+          id="field-schema-regex"
+          name="schema.regex"
+          defaultValue={component.schema.regex}
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.regex = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <Classes component={component} updateModel={updateModel} />
-      </details>
-    </FieldEdit>
+      <Classes component={component} updateModel={updateModel} />
+    </details>
   );
 }
 
@@ -451,99 +417,97 @@ function MultilineTextFieldEdit(props) {
   component.options = component.options || {};
 
   return (
-    <FieldEdit component={component} updateModel={updateModel}>
-      <details className="govuk-details">
-        <summary className="govuk-details__summary">
-          <span className="govuk-details__summary-text">more</span>
-        </summary>
+    <details className="govuk-details">
+      <summary className="govuk-details__summary">
+        <span className="govuk-details__summary-text">more</span>
+      </summary>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-max"
-          >
-            Max length
-          </label>
-          <span className="govuk-hint">
-            Specifies the maximum number of characters
-          </span>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-schema-max"
-            name="schema.max"
-            defaultValue={component.schema.max}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.max = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-max"
+        >
+          Max length
+        </label>
+        <span className="govuk-hint">
+          Specifies the maximum number of characters
+        </span>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-schema-max"
+          name="schema.max"
+          defaultValue={component.schema.max}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.max = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-min"
-          >
-            Min length
-          </label>
-          <span className="govuk-hint">
-            Specifies the minimum number of characters
-          </span>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-schema-min"
-            name="schema.min"
-            defaultValue={component.schema.min}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.min = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-min"
+        >
+          Min length
+        </label>
+        <span className="govuk-hint">
+          Specifies the minimum number of characters
+        </span>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-schema-min"
+          name="schema.min"
+          defaultValue={component.schema.min}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.min = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-options-rows"
-          >
-            Rows
-          </label>
-          <input
-            className="govuk-input govuk-input--width-3"
-            id="field-options-rows"
-            name="options.rows"
-            type="text"
-            data-cast="number"
-            defaultValue={component.options.rows}
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.options.rows = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-options-rows"
+        >
+          Rows
+        </label>
+        <input
+          className="govuk-input govuk-input--width-3"
+          id="field-options-rows"
+          name="options.rows"
+          type="text"
+          data-cast="number"
+          defaultValue={component.options.rows}
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.options.rows = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <Classes component={component} updateModel={updateModel} />
-      </details>
-    </FieldEdit>
+      <Classes component={component} updateModel={updateModel} />
+    </details>
   );
 }
 
@@ -552,98 +516,96 @@ function NumberFieldEdit(props) {
   component.schema = component.schema || {};
 
   return (
-    <FieldEdit component={component} updateModel={updateModel}>
-      <details className="govuk-details">
-        <summary className="govuk-details__summary">
-          <span className="govuk-details__summary-text">more</span>
-        </summary>
+    <details className="govuk-details">
+      <summary className="govuk-details__summary">
+        <span className="govuk-details__summary-text">more</span>
+      </summary>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-min"
-          >
-            Min
-          </label>
-          <span className="govuk-hint">Specifies the minimum value</span>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-schema-min"
-            name="schema.min"
-            defaultValue={component.schema.min}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.min = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-min"
+        >
+          Min
+        </label>
+        <span className="govuk-hint">Specifies the minimum value</span>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-schema-min"
+          name="schema.min"
+          defaultValue={component.schema.min}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.min = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-max"
-          >
-            Max
-          </label>
-          <span className="govuk-hint">Specifies the maximum value</span>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-schema-max"
-            name="schema.max"
-            defaultValue={component.schema.max}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.max = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-max"
+        >
+          Max
+        </label>
+        <span className="govuk-hint">Specifies the maximum value</span>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-schema-max"
+          name="schema.max"
+          defaultValue={component.schema.max}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.max = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-schema-precision"
-          >
-            Precision
-          </label>
-          <span className="govuk-hint">
-            How many decimal places can users enter?
-          </span>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-schema-precision"
-            name="schema.precision"
-            defaultValue={component.schema.precision || 0}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.schema.precision = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-schema-precision"
+        >
+          Precision
+        </label>
+        <span className="govuk-hint">
+          How many decimal places can users enter?
+        </span>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-schema-precision"
+          name="schema.precision"
+          defaultValue={component.schema.precision || 0}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.schema.precision = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <Classes component={component} updateModel={updateModel} />
-      </details>
-    </FieldEdit>
+      <Classes component={component} updateModel={updateModel} />
+    </details>
   );
 }
 
@@ -652,67 +614,65 @@ function DateFieldEdit(props) {
   component.options = component.options || {};
 
   return (
-    <FieldEdit component={component} updateModel={updateModel}>
-      <details className="govuk-details">
-        <summary className="govuk-details__summary">
-          <span className="govuk-details__summary-text">more</span>
-        </summary>
+    <details className="govuk-details">
+      <summary className="govuk-details__summary">
+        <span className="govuk-details__summary-text">more</span>
+      </summary>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-options-maxDaysInPast"
-          >
-            Maximum days in the past
-          </label>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-options-maxDaysInPast"
-            name="options.maxDaysInPast"
-            defaultValue={component.options.maxDaysInPast}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.options.maxDaysInPast = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-options-maxDaysInPast"
+        >
+          Maximum days in the past
+        </label>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-options-maxDaysInPast"
+          name="options.maxDaysInPast"
+          defaultValue={component.options.maxDaysInPast}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.options.maxDaysInPast = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <div className="govuk-form-group">
-          <label
-            className="govuk-label govuk-label--s"
-            htmlFor="field-options-maxDaysInFuture"
-          >
-            Maximum days in the future
-          </label>
-          <input
-            className="govuk-input govuk-input--width-3"
-            data-cast="number"
-            id="field-options-maxDaysInFuture"
-            name="options.maxDaysInFuture"
-            defaultValue={component.options.maxDaysInFuture}
-            type="number"
-            onBlur={(e) =>
-              updateComponent(
-                component,
-                (component) => {
-                  component.options.maxDaysInFuture = e.target.value;
-                },
-                updateModel
-              )
-            }
-          />
-        </div>
+      <div className="govuk-form-group">
+        <label
+          className="govuk-label govuk-label--s"
+          htmlFor="field-options-maxDaysInFuture"
+        >
+          Maximum days in the future
+        </label>
+        <input
+          className="govuk-input govuk-input--width-3"
+          data-cast="number"
+          id="field-options-maxDaysInFuture"
+          name="options.maxDaysInFuture"
+          defaultValue={component.options.maxDaysInFuture}
+          type="number"
+          onBlur={(e) =>
+            updateComponent(
+              component,
+              (component) => {
+                component.options.maxDaysInFuture = e.target.value;
+              },
+              updateModel
+            )
+          }
+        />
+      </div>
 
-        <Classes component={component} updateModel={updateModel} />
-      </details>
-    </FieldEdit>
+      <Classes component={component} updateModel={updateModel} />
+    </details>
   );
 }
 
@@ -721,19 +681,17 @@ function SelectFieldEdit(props) {
   component.options = component.options || {};
 
   return (
-    <FieldEdit component={component} updateModel={updateModel}>
-      <div>
-        <ComponentValues
-          data={data}
-          component={component}
-          updateModel={updateModel}
-          page={page}
-          EditComponentView={ComponentTypeEdit}
-        />
+    <div>
+      <ComponentValues
+        data={data}
+        component={component}
+        updateModel={updateModel}
+        page={page}
+        EditComponentView={ComponentTypeEdit}
+      />
 
-        <Classes component={component} updateModel={updateModel} />
-      </div>
-    </FieldEdit>
+      <Classes component={component} updateModel={updateModel} />
+    </div>
   );
 }
 
@@ -742,13 +700,12 @@ function CheckboxesFieldEdit(props) {
   component.options = component.options || {};
 
   return (
-    <FieldEdit component={component} updateModel={updateModel}>
+    <div>
       <ComponentValues
         data={data}
         component={component}
         updateModel={updateModel}
         page={page}
-        EditComponentView={ComponentTypeEdit}
       />
 
       <div className="govuk-checkboxes govuk-form-group">
@@ -770,15 +727,9 @@ function CheckboxesFieldEdit(props) {
               )
             }
           />
-          <label
-            className="govuk-label govuk-checkboxes__label"
-            htmlFor="field-options-bold"
-          >
-            Bold labels
-          </label>
         </div>
       </div>
-    </FieldEdit>
+    </div>
   );
 }
 
@@ -848,18 +799,13 @@ function ParaEdit(props) {
 }
 
 function RadiosFieldEdit(props) {
-  const { component, handleUpdateComponent, page } = props;
+  const { handleUpdateComponent, page, component } = props;
   return (
     <div>
-      <FieldEdit
-        component={component}
-        handleUpdateComponent={handleUpdateComponent}
-        page={page}
-      />
       <ComponentValues
-        component={component}
         handleUpdateComponent={handleUpdateComponent}
         page={page}
+        component={component}
       />
     </div>
   );
@@ -1017,6 +963,7 @@ function ComponentTypeEdit(props) {
   if (!type) {
     return;
   }
+  const needsFieldInputs = type.subType !== "content";
   const TagName = componentTypeEditors[`${component.type}Edit`] || FieldEdit;
   const { update } = useContext(PageContext);
   useLayoutEffect(() => {
@@ -1027,13 +974,24 @@ function ComponentTypeEdit(props) {
   }, []);
 
   return (
-    <TagName
-      component={component}
-      data={data}
-      updateModel={updateModel}
-      page={page}
-      handleUpdateComponent={handleUpdateComponent}
-    />
+    <div>
+      {needsFieldInputs && (
+        <FieldEdit
+          component={component}
+          data={data}
+          updateModel={updateModel}
+          page={page}
+          handleUpdateComponent={handleUpdateComponent}
+        />
+      )}
+      <TagName
+        component={component}
+        data={data}
+        updateModel={updateModel}
+        page={page}
+        handleUpdateComponent={handleUpdateComponent}
+      />
+    </div>
   );
 }
 

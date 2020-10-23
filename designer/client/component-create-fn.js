@@ -4,6 +4,30 @@ import { clone, ComponentTypes } from "@xgovformbuilder/model";
 import { DataContext, PageContext } from "./context";
 import { nanoid } from "nanoid";
 
+function initComponent(type) {
+  const initialFields = {
+    name: nanoid(6),
+    title: "",
+    schema: {},
+    options: { required: true },
+    type,
+  };
+  // if (
+  //   [
+  //     "SelectField",
+  //     "RadiosField",
+  //     "CheckboxesField",
+  //     "AutocompleteField",
+  //   ].includes(type)
+  // ) {
+  //   initialFields.values = {
+  //     type: "static",
+  //     items: [],
+  //   };
+  // }
+  return initialFields;
+}
+
 function ComponentCreate(props) {
   const { data, save } = useContext(DataContext);
   const { page } = props;
@@ -14,13 +38,19 @@ function ComponentCreate(props) {
       update();
     };
   }, []);
-  const name = nanoid(6);
-  const [component, setComponent] = useState({ name });
+  const [component, setComponent] = useState();
   const [isSaving, setIsSaving] = useState(false);
-
+  const [type, setType] = useState("");
   const handleTypeChange = (e) => {
-    setComponent({ ...component, type: e.target.value });
+    setType(e.target.value);
   };
+
+  useEffect(() => {
+    if (type) {
+      setComponent(initComponent(type));
+      console.log("setting component");
+    }
+  }, [type]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +67,7 @@ function ComponentCreate(props) {
 
   const handleUpdateComponent = (update) => {
     setComponent({ ...component, ...update });
+    console.log("set comp", component);
   };
 
   return (
@@ -66,7 +97,7 @@ function ComponentCreate(props) {
           </select>
         </div>
 
-        {component.type && (
+        {component?.type && (
           <ComponentTypeEdit
             data={data}
             component={component}

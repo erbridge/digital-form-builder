@@ -148,7 +148,7 @@ export function ListItemEdit(props) {
 
         {isEditingSubComponent && (
           <RenderInPortal>
-            <Flyout width={"xlarge"} show={isEditingSubComponent}>
+            <Flyout width={""} show={isEditingSubComponent}>
               <ComponentCreateFn
                 allowedTypes={allowedTypes}
                 handleSubComponentCreate={handleSubComponentCreate}

@@ -187,7 +187,7 @@ class ListEdit extends React.Component {
             <Flyout
               title="Add Item"
               show={isEditingListItem}
-              width={"xlarge"}
+              width={""}
               onHide={this.cancelAddItem}
             >
               <ListItemEdit list={list} selectedItem={selectedItem} />

@@ -129,9 +129,9 @@ export class ComponentValues extends React.Component {
           onChange={this.setSelectedList}
         >
           <option />
-          {lists.map((list) => {
+          {lists.map((list, index) => {
             return (
-              <option key={list.name} value={list.name}>
+              <option key={`${list.name}-${index}`} value={list.name}>
                 {list.title}
               </option>
             );
