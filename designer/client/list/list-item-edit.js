@@ -43,20 +43,15 @@ export function ListItemEdit(props) {
       ].includes(type.name)
   );
 
-  const handleCreateSubComponent = (e) => {
-    e.preventDefault();
-    setIsEditingSubComponent(true);
-  };
-
   const { fieldValue, hasError, handleFieldChange } = useRequiredInput(
-    props.selectedItem?.value
+    props.selectedItem?.value ?? ""
   );
   const error = hasError ? { children: [i18n("errors.required")] } : undefined;
-
   const [subComponent, setSubComponent] = useState();
   const handleSubComponentCreate = (update) => {
+    setIsEditingSubComponent(true);
     setSubComponent({ ...subComponent, ...update });
-    // handleSubmit();
+    handleSubmit();
   };
 
   const handleSubmit = async (e) => {
@@ -107,7 +102,7 @@ export function ListItemEdit(props) {
         <Input
           label={{ children: [i18n("list.item.value")] }}
           hint={{ children: [i18n("list.item.valueHint")] }}
-          value={fieldValue}
+          value={fieldValue || ""}
           errorMessage={error}
           onChange={(e) => handleFieldChange(e)}
         />
@@ -138,7 +133,7 @@ export function ListItemEdit(props) {
             <a
               href="#"
               className="govuk-link"
-              onClick={handleCreateSubComponent}
+              onClick={handleSubComponentCreate}
             >
               {i18n("list.item.createSubComponent")}
             </a>
@@ -147,7 +142,11 @@ export function ListItemEdit(props) {
 
         {isEditingSubComponent && (
           <RenderInPortal>
-            <Flyout width={""} show={isEditingSubComponent}>
+            <Flyout
+              onHide={(e) => setIsEditingSubComponent(false)}
+              width={""}
+              show={isEditingSubComponent}
+            >
               <ComponentCreateFn
                 allowedTypes={allowedTypes}
                 handleSubComponentCreate={handleSubComponentCreate}

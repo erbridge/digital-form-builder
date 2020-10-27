@@ -36,6 +36,14 @@ class ListEdit extends React.Component {
     const { data, save } = this.context;
     const { list: updatedList } = this.state;
     const copy = clone(data);
+
+  };
+
+  // TODO:- move this to a reducer
+  submitToLists = async (e) => {
+    const { data, save } = this.context;
+    const { list: updatedList } = this.state;
+    const copy = clone(data);
     const dataList =
       copy.lists?.find((list) => list.name === updatedList.name) ?? {};
 
@@ -50,6 +58,14 @@ class ListEdit extends React.Component {
     this.props.setSelectedList(
       updatedData.lists.find((list) => list.name === updatedList.name)
     );
+  };
+
+  // TODO:- move this to a reducer
+  submitToComponent = async (e) => {
+    e.preventDefault();
+    const { data, save } = this.context;
+    const { list: updatedList } = this.state;
+    const copy = clone(data);
   };
 
   onClickDelete = (e) => {
@@ -111,8 +127,8 @@ class ListEdit extends React.Component {
   };
 
   cancelAddItem = (e, item) => {
-    e.preventDefault();
-    this.setState({ isEditingListItem: false });
+    e?.preventDefault();
+    // this.setState({ isEditingListItem: false });
   };
 
   selectListItem = (item) => {

@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import Wreck from "@hapi/wreck";
 import pkg from "../../package.json";
 import config from "../../config";
-import newFormJson from "../../new-form.json";
+import newFormJson from "./../../new-form.json";
 
 const publish = async function (id, configuration) {
   try {

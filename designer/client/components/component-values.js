@@ -95,8 +95,8 @@ export class ComponentValues extends React.Component {
     });
   };
 
-  setSelectedList = (e) => {
-    this.setState({ listName: e.target.value });
+  setSelectedList = (list) => {
+    this.setState({ listName: list });
   };
 
   onEditClick = async (e) => {

@@ -54,7 +54,6 @@ class FieldEdit extends React.Component {
   constructor(props) {
     super(props);
     const { component } = props;
-    // convenience vars
     this.isFileUploadField = component.type === "FileUploadField";
   }
 
@@ -111,7 +110,7 @@ class FieldEdit extends React.Component {
   };
 
   render() {
-    const { name, title, hint } = this.props.component;
+    const { name, title, hint, attrs, type } = this.props.component;
     const { hideTitle, optionalText, required } = this.props.component.options;
 
     return (
@@ -148,7 +147,7 @@ class FieldEdit extends React.Component {
             required={false}
             value={hint}
             onChange={this.onHelpChange}
-            {...this.component.attrs}
+            {...attrs}
           />
 
           <div className="govuk-checkboxes govuk-form-group">
@@ -199,7 +198,7 @@ class FieldEdit extends React.Component {
               >
                 {`Make ${
                   ComponentTypes.find(
-                    (type) => type.name === this.component.type
+                    (componentType) => componentType.name === type
                   )?.title ?? ""
                 } optional`}
               </label>
