@@ -55,6 +55,7 @@ export function componentReducer(
         optionalText: false,
         classes: "",
       },
+      hint: "",
       schema: {},
     },
     selectedListItem = {},
@@ -141,7 +142,7 @@ export function componentReducer(
   }
 }
 
-const initComponentState = (props) => {
+export const initComponentState = (props) => {
   const selectedComponent = props?.component;
   const newName = nanoid(6);
   const init = {
@@ -149,7 +150,7 @@ const initComponentState = (props) => {
     initialName: selectedComponent?.name ?? newName,
     selectedListName: undefined,
     pagePath: props?.pagePath,
-    isNew: props.isNew || ((selectedComponent?.name && false) ?? true),
+    isNew: props?.isNew || ((selectedComponent?.name && false) ?? true),
     listItemErrors: {},
   };
   if (!!selectedComponent) {

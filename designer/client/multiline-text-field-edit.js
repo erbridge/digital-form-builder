@@ -8,31 +8,23 @@ export function MultilineTextFieldEdit({ context }) {
   const [{ selectedComponent }, dispatch] = useContext(
     !!context ? context : ComponentContext
   );
-  const { schema = {}, options = {} } = selectedComponent;
+  const { options = {} } = selectedComponent;
   return (
     <TextFieldEdit>
-      <div className="govuk-form-group">
-        <label
-          className="govuk-label govuk-label--s"
-          htmlFor="field-options-rows"
-        >
-          Rows
-        </label>
-        <input
-          className="govuk-input govuk-input--width-3"
-          id="field-options-rows"
-          name="options.rows"
-          type="text"
-          data-cast="number"
-          value={options?.rows}
-          onChange={(e) =>
-            dispatch({
-              type: Actions.EDIT_SCHEMA_ROWS,
-              payload: e.target.value,
-            })
-          }
-        />
-      </div>
+      <input
+        className="govuk-input govuk-input--width-3"
+        id="field-options-rows"
+        name="options.rows"
+        type="text"
+        data-cast="number"
+        value={options.rows || ""}
+        onChange={(e) =>
+          dispatch({
+            type: Actions.EDIT_OPTIONS_ROWS,
+            payload: e.target.value,
+          })
+        }
+      />
     </TextFieldEdit>
   );
 }

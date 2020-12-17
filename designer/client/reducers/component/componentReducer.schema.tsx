@@ -32,15 +32,6 @@ export function schemaReducer(
         },
       };
 
-    case Schema.EDIT_SCHEMA_ROWS:
-      return {
-        ...state,
-        selectedComponent: {
-          ...selectedComponent,
-          schema: { ...schema, rows: payload },
-        },
-      };
-
     case Schema.EDIT_SCHEMA_PRECISION:
       return {
         ...state,

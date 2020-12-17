@@ -11,6 +11,28 @@ export function optionsReducer(
   const { selectedComponent } = state;
   const { options } = state;
   switch (type) {
+    case Options.EDIT_OPTIONS_HIDE_TITLE:
+      return {
+        selectedComponent: {
+          ...selectedComponent,
+          options: { ...options, hideTitle: payload },
+        },
+      };
+    case Options.EDIT_OPTIONS_REQUIRED:
+      return {
+        selectedComponent: {
+          ...selectedComponent,
+          options: { ...options, required: payload },
+        },
+      };
+    case Options.EDIT_OPTIONS_ROWS:
+      return {
+        selectedComponent: {
+          ...selectedComponent,
+          options: { ...options, rows: payload },
+        },
+      };
+
     case Options.EDIT_OPTIONS_HIDE_OPTIONAL:
       return {
         selectedComponent: {

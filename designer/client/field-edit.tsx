@@ -12,7 +12,7 @@ function FieldEdit({ i18n, context = ComponentContext }) {
   const {
     name,
     title = "",
-    hint = "",
+    hint,
     attrs,
     type,
     options = {},
@@ -188,4 +188,4 @@ function FieldEdit({ i18n, context = ComponentContext }) {
   );
 }
 
-export default memo(withI18n(FieldEdit));
+export default withI18n(FieldEdit);
