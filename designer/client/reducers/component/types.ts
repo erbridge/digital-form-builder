@@ -6,6 +6,7 @@ export enum Meta {
   SUBMIT = "SUBMIT",
   DELETE = "DELETE",
   VALIDATE = "VALIDATE",
+  ADD_STATIC_LIST = "ADD_STATIC_LIST",
 }
 
 export enum Schema {

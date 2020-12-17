@@ -10,10 +10,6 @@ import { Meta, Schema, Fields, Options } from "./types";
 
 export const ComponentContext = createContext({});
 
-enum List {
-  ADD_STATIC_LIST = "ADD_STATIC_LIST",
-}
-
 const ActionsArr = [
   [Meta, metaReducer],
   [Options, optionsReducer],
