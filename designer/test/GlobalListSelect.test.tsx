@@ -22,8 +22,7 @@ const lab = Lab.script();
 exports.lab = lab;
 const { test, suite } = lab;
 
-suite("Lists (global)", () => {
-  const sandbox = sinon.createSandbox();
+suite("GlobalListSelect", () => {
   const i18n = sinon.stub().returns("mockTranslation");
   const data = new Data({
     lists: [
@@ -33,59 +32,37 @@ suite("Lists (global)", () => {
         type: "number",
         items: [{ text: "An item", description: "A hint", value: 12 }],
       },
+      {
+        name: "myOtherList",
+        title: "",
+        type: "string",
+        items: [{ text: "An item", description: "A hint", value: 12 }],
+      },
     ],
   });
   const dataValue = { data, save: sinon.spy() };
-  let spied;
 
   const TestComponentContextProvider = ({ children, dataValue }) => {
     const [state, dispatch] = useReducer(
       listsEditorReducer,
       initListsEditingState()
     );
-    spied = sandbox.spy(dispatch);
     return (
       <DataContext.Provider value={dataValue}>
-        <ListsEditorContext.Provider value={[state, spied]}>
+        <ListsEditorContext.Provider value={[state, dispatch]}>
           <ListContextProvider>{children}</ListContextProvider>
         </ListsEditorContext.Provider>
       </DataContext.Provider>
     );
   };
 
-  test("GlobalListSelect shows when not editing from component", () => {
+  test("Lists all available lists", () => {
     const wrapper = mount(
       <TestComponentContextProvider dataValue={dataValue}>
-        <ListsEdit i18n={i18n} isEditingFromComponent={false} />
+        <GlobalListSelect i18n={i18n} />
       </TestComponentContextProvider>
     );
-
-    expect(
-      wrapper.find(GlobalListSelect).first().isEmptyRender()
-    ).to.be.false();
-  });
-
-  test("Opens correct editors", () => {
-    const wrapper = mount(
-      <TestComponentContextProvider dataValue={dataValue}>
-        <ListsEdit i18n={i18n} />
-      </TestComponentContextProvider>
-    );
-    const listsEdit = () => wrapper.find(ListsEdit).first();
-    const globalListSelect = () => listsEdit().find(GlobalListSelect).first();
-    const listEdit = () => listsEdit().find(ListEdit).first();
-    const itemEdit = () => listsEdit().find(ListItemEdit).first();
-
-    expect(globalListSelect().isEmptyRender()).to.be.false();
-
-    listsEdit().find("ul a").first().simulate("click");
-    expect(globalListSelect().isEmptyRender()).to.be.false();
-    expect(listEdit().isEmptyRender()).to.be.false();
-    expect(itemEdit().exists()).to.be.false();
-
-    listEdit().find({ children: "Edit" }).first().simulate("click");
-    expect(globalListSelect().isEmptyRender()).to.be.false();
-    expect(listEdit().isEmptyRender()).to.be.false();
-    expect(itemEdit().isEmptyRender()).to.be.false();
+    const lists = wrapper.find("li");
+    expect(lists.length).to.equal(data.lists.length + 1);
   });
 });
