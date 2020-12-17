@@ -24,7 +24,7 @@ const { test, suite, beforeEach } = lab;
 suite("GlobalListSelect", () => {
   let i18n;
 
-  const data = new Data({
+  let data = new Data({
     pages: [
       {
         title: "First page",
@@ -82,10 +82,18 @@ suite("GlobalListSelect", () => {
     i18n = sinon.spy();
   });
 
-  const TestComponentContextProvider = ({ children, dataValue }) => {
+  const TestComponentContextProvider = ({
+    children,
+    dataValue,
+    componentValue,
+  }) => {
+    const initComponentValue = (initialState) => {
+      return !!componentValue ? componentValue : initialState;
+    };
     const [state, dispatch] = useReducer(
       componentReducer,
-      initComponentState({ component: dataValue.data.pages[0].components[0] })
+      initComponentState({ component: dataValue.data.pages[0].components[0] }),
+      initComponentValue
     );
     return (
       <DataContext.Provider value={dataValue}>
@@ -131,5 +139,49 @@ suite("GlobalListSelect", () => {
     select().simulate("change", { target: { value: "myList" } });
     expect(select().props().value).to.equal("myList");
     expect(i18n.lastCall.args).to.equal(["list.edit", { title: "My list" }]);
+  });
+
+  test("Create new static list shows when values is empty", () => {
+    const data = new Data({
+      pages: [
+        {
+          title: "First page",
+          path: "/first-page",
+          components: [,],
+        },
+      ],
+    });
+    const dataValue = { data, save: sinon.spy() };
+    const wrapper = mount(
+      <TestComponentContextProvider dataValue={dataValue}>
+        <ComponentListSelect i18n={i18n} />
+      </TestComponentContextProvider>
+    );
+    expect(wrapper.find("list.static.newTitle")).to.exist();
+  });
+
+  test("Force user to save for new components before allowing to create a static list", () => {
+    const componentValue = {
+      selectedComponent: {
+        name: "IDDQl4",
+        title: "abc",
+        schema: {},
+        options: {
+          required: true,
+        },
+        type: "RadiosField",
+        isNew: true,
+      },
+    };
+    const wrapper = mount(
+      <TestComponentContextProvider
+        dataValue={dataValue}
+        componentValue={componentValue}
+      >
+        <ComponentListSelect i18n={i18n} />
+      </TestComponentContextProvider>
+    );
+
+    expect(wrapper.find("list.static.saveFirst")).to.exist();
   });
 });
