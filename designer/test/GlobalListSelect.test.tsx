@@ -11,11 +11,8 @@ import {
   ListsEditorContext,
   listsEditorReducer,
 } from "../client/reducers/list/listsEditorReducer";
-import { ListsEdit } from "../client/list/lists-edit";
 import { ListContextProvider } from "../client/reducers/listReducer";
 import { GlobalListSelect } from "../client/list/global-list-select";
-import { ListEdit } from "../client/list/list-edit-fn";
-import { ListItemEdit } from "../client/list/list-item-edit";
 
 const { expect } = Code;
 const lab = Lab.script();
@@ -64,5 +61,10 @@ suite("GlobalListSelect", () => {
     );
     const lists = wrapper.find("li");
     expect(lists.length).to.equal(data.lists.length + 1);
+    expect(lists.find("li a").get(0).props.children).to.equal("My list");
+    expect(lists.find("li a").get(1).props.children).to.equal("myOtherList");
+    expect(lists.find("li a").get(2).props.children).to.equal(
+      "mockTranslation"
+    );
   });
 });
