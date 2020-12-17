@@ -30,7 +30,7 @@ export function TextFieldEdit({ children, context }) {
           data-cast="number"
           id="field-schema-max"
           name="schema.max"
-          value={schema.max}
+          value={schema.max || ""}
           type="number"
           onChange={(e) =>
             dispatch({
@@ -56,7 +56,7 @@ export function TextFieldEdit({ children, context }) {
           data-cast="number"
           id="field-schema-min"
           name="schema.min"
-          value={schema.min}
+          value={schema.min || ""}
           type="number"
           onChange={(e) =>
             dispatch({
@@ -80,7 +80,7 @@ export function TextFieldEdit({ children, context }) {
           data-cast="number"
           id="field-schema-length"
           name="schema.length"
-          value={schema.length}
+          value={schema.length || ""}
           type="number"
           onChange={(e) =>
             dispatch({
@@ -105,7 +105,7 @@ export function TextFieldEdit({ children, context }) {
           className="govuk-input"
           id="field-schema-regex"
           name="schema.regex"
-          value={schema.regex}
+          value={schema.regex || ""}
           onChange={(e) =>
             dispatch({
               type: Actions.EDIT_SCHEMA_REGEX,
