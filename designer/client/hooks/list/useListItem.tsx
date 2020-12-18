@@ -1,12 +1,8 @@
 import { StaticListItemActions } from "../../reducers/staticListItemReducer";
 import { ListActions } from "../../reducers/listActions";
-import {
-  ListsEditorContext,
-  ListsEditorStateActions,
-} from "../../reducers/list/listsEditorReducer";
+import { ListsEditorContext } from "../../reducers/list/listsEditorReducer";
 import { useContext } from "react";
 import { clone } from "@xgovformbuilder/model";
-import { DataContext } from "../../context";
 import { hasValidationErrors, validateTitle } from "../../validations";
 
 export type ListItemHook = {
