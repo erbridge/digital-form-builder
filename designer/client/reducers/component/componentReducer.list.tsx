@@ -19,7 +19,6 @@ export function componentListReducer(
   const { type, payload } = action;
   const { selectedComponent } = state;
   let staticListItems = selectedComponent.values?.items;
-  const { selectedListItem = {}, selectedListItemIndex } = selectedComponent;
 
   switch (type) {
     case ComponentList.EDIT_LIST_ITEM_CONDITION:
@@ -64,7 +63,6 @@ export function componentListReducer(
           listItemErrors: {},
         };
       } else {
-        // this is not changing component.values right now, since we don't want to "lose" static values.
         return {
           ...state,
           selectedListName: payload,
