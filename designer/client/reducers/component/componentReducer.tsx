@@ -45,8 +45,9 @@ export function componentReducer(
   }
 ) {
   const { type } = action;
-  const {
-    selectedComponent = {
+
+  if (!!state.selectedComponent) {
+    state.selectedComponent = {
       options: {
         required: true,
         hideTitle: false,
@@ -55,9 +56,10 @@ export function componentReducer(
       },
       hint: "",
       schema: {},
-    },
-  } = state;
+    };
+  }
 
+  const { selectedComponent } = state;
   if (type !== Meta.VALIDATE) {
     state.hasValidated = false;
   }

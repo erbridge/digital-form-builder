@@ -20,7 +20,7 @@ const lab = Lab.script();
 exports.lab = lab;
 const { test, suite, beforeEach } = lab;
 
-suite("GlobalListSelect", () => {
+suite("ComponentListSelect", () => {
   let i18n;
 
   let data = new Data({
@@ -151,6 +151,17 @@ suite("GlobalListSelect", () => {
             required: true,
           },
           type: "RadiosField",
+          components: [
+            {
+              name: "IDDQl4",
+              title: "abc",
+              schema: {},
+              options: {
+                required: true,
+              },
+              type: "RadiosField",
+            },
+          ],
         },
       ],
     });

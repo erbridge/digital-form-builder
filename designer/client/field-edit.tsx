@@ -1,4 +1,4 @@
-import React, { memo, useContext, useLayoutEffect, useState } from "react";
+import React, { useContext } from "react";
 import { ComponentTypes } from "@xgovformbuilder/model";
 import { ComponentContext } from "./reducers/component/componentReducer";
 import { Actions } from "./reducers/component/types";
@@ -6,17 +6,10 @@ import { Textarea } from "@govuk-jsx/textarea";
 import { Input } from "@govuk-jsx/input";
 import { withI18n } from "./i18n";
 
-function FieldEdit({ i18n, context = ComponentContext }) {
+export function FieldEdit({ i18n, context = ComponentContext }) {
   const [{ selectedComponent, errors }, dispatch] = useContext(context);
 
-  const {
-    name,
-    title = "",
-    hint,
-    attrs,
-    type,
-    options = {},
-  } = selectedComponent;
+  const { name, title, hint, attrs, type, options = {} } = selectedComponent;
   const { hideTitle = false, optionalText = false, required = true } = options;
   const isFileUploadField = selectedComponent.type === "FileUploadField";
   return (
@@ -32,7 +25,7 @@ function FieldEdit({ i18n, context = ComponentContext }) {
           hint={{
             children: ["This is the title text displayed on the page"],
           }}
-          value={title}
+          value={title || ""}
           onChange={(e) => {
             dispatch({
               type: Actions.EDIT_TITLE,
@@ -112,7 +105,7 @@ function FieldEdit({ i18n, context = ComponentContext }) {
             id="field-name"
             name="name"
             type="text"
-            value={name}
+            value={name || ""}
             onChange={(e) => {
               dispatch({
                 type: Actions.EDIT_NAME,
