@@ -4,8 +4,17 @@ import { schemaReducer } from "./componentReducer.schema";
 import { optionsReducer } from "./componentReducer.options";
 import { metaReducer } from "./componentReducer.meta";
 import { fieldsReducer } from "./componentReducer.fields";
+import { componentListItemReducer } from "./componentReducer.listItem";
+
 import type { ComponentActions } from "./types";
-import { Meta, Schema, Fields, Options, ComponentList } from "./types";
+import {
+  Meta,
+  Schema,
+  Fields,
+  Options,
+  ComponentList,
+  StaticListItem,
+} from "./types";
 
 export const ComponentContext = createContext({});
 
@@ -15,6 +24,7 @@ const ActionsReducerCollection = [
   [Fields, fieldsReducer],
   [Schema, schemaReducer],
   [ComponentList, componentReducer],
+  [StaticListItem, componentListItemReducer],
 ];
 
 export function valueIsInEnum<T>(value: string, enumType: T) {
@@ -45,8 +55,6 @@ export function componentReducer(
       hint: "",
       schema: {},
     },
-    selectedListItem = {},
-    selectedListItemIndex,
   } = state;
 
   if (type !== Meta.VALIDATE) {

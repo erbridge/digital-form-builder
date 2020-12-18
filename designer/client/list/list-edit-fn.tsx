@@ -8,7 +8,7 @@ import {
   ListsEditorStateActions,
   useSetListEditorContext,
 } from "../reducers/list/listsEditorReducer";
-import { StaticListItemActions } from "../reducers/staticListItemReducer";
+import { StaticListItemActions } from "../reducers/component/componentReducer.listItem";
 import { DataContext } from "../context";
 import { clone } from "@xgovformbuilder/model";
 import { hasValidationErrors, validateTitle } from "../validations";

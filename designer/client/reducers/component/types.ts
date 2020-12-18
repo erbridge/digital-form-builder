@@ -1,4 +1,4 @@
-//TODO:- this was designed to be a namespace but.. babel issues
+//TODO:- this was designed to be a namespace but requires babel setup.
 export enum Meta {
   NEW_COMPONENT = "NEW_COMPONENT",
   SET_COMPONENT = "SET_COMPONENT",
@@ -49,11 +49,21 @@ export enum ComponentList {
   LIST_ITEM_VALIDATION_ERRORS = "LIST_ITEM_VALIDATION_ERRORS",
 }
 
+export enum StaticListItem {
+  EDIT_LABEL = "STATIC_LIST_ITEM_EDIT_LABEL",
+  EDIT_VALUE = "STATIC_LIST_ITEM_EDIT_VALUE",
+  EDIT_HINT = "STATIC_LIST_ITEM_EDIT_HINT",
+  EDIT_CONDITION = "STATIC_LIST_ITEM_EDIT_CONDITION",
+  SUBMIT = "STATIC_LIST_ITEM_SUBMIT",
+  DELETE = "STATIC_LIST_ITEM_DELETE",
+}
+
 export const Actions = {
   ...Meta,
   ...Schema,
   ...Fields,
   ...Options,
   ...ComponentList,
+  ...StaticListItem,
 };
 export type ComponentActions = typeof Actions;

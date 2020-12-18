@@ -1,24 +1,15 @@
 import sinon from "sinon";
-import React, { useReducer } from "react";
+import React from "react";
 import { mount, shallow } from "enzyme";
 import * as Code from "@hapi/code";
 import * as Lab from "@hapi/lab";
 
 import { DataContext } from "../client/context";
 import { Data } from "@xgovformbuilder/model";
-import {
-  ComponentContext,
-  componentReducer,
-  initComponentState,
-} from "../client/reducers/component/componentReducer";
+import { ComponentContext } from "../client/reducers/component/componentReducer";
 import { ListsEditorContext } from "../client/reducers/list/listsEditorReducer";
-import {
-  ListContext,
-  ListContextProvider,
-} from "../client/reducers/listReducer";
+import { ListContext } from "../client/reducers/listReducer";
 import { ListEdit } from "../client/list/list-edit-fn";
-import { before } from "webdriverio/build/constants";
-import { ListItemEdit } from "../client/list/list-item-edit";
 
 const { expect } = Code;
 const lab = Lab.script();

@@ -1,4 +1,4 @@
-import { StaticListItemActions } from "../../reducers/staticListItemReducer";
+import { StaticListItem as StaticListItemActions } from "../../reducers/component/types";
 import { ListActions } from "../../reducers/listActions";
 import { ListsEditorContext } from "../../reducers/list/listsEditorReducer";
 import { useContext } from "react";

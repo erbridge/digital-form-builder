@@ -6,7 +6,6 @@ import * as Lab from "@hapi/lab";
 
 import { DataContext } from "../client/context";
 import { Data } from "@xgovformbuilder/model";
-import { GlobalListSelect } from "../client/list/global-list-select";
 import { ComponentListSelect } from "../client/list/component-list-select";
 import {
   ComponentContext,
@@ -145,9 +144,18 @@ suite("GlobalListSelect", () => {
     const data = new Data({
       pages: [
         {
-          title: "First page",
-          path: "/first-page",
-          components: [,],
+          name: "IDDQl4",
+          title: "abc",
+          schema: {},
+          options: {
+            required: true,
+          },
+          type: "RadiosField",
+          values: {
+            type: "static",
+            valueType: "string",
+            items: [],
+          },
         },
       ],
     });
