@@ -1,6 +1,5 @@
 import React from "react";
-import sinon from "sinon";
-import { shallow, mount } from "enzyme";
+import { mount } from "enzyme";
 import * as Code from "@hapi/code";
 import * as Lab from "@hapi/lab";
 import { ComponentContextProvider } from "../client/reducers/component/componentReducer";

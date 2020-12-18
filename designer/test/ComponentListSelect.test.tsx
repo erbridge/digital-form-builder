@@ -151,11 +151,6 @@ suite("GlobalListSelect", () => {
             required: true,
           },
           type: "RadiosField",
-          values: {
-            type: "static",
-            valueType: "string",
-            items: [],
-          },
         },
       ],
     });

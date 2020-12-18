@@ -2,7 +2,7 @@ import { ListActions } from "../reducers/listActions";
 import { DataContext } from "../context";
 import React, { useContext, useEffect, useState } from "react";
 import { ComponentContext } from "../reducers/component/componentReducer";
-import { Actions } from "./../reducers/component/types";
+import { Actions } from "../reducers/component/types";
 import { Label } from "@govuk-jsx/label";
 import { withI18n } from "../i18n";
 import { ListContext } from "../reducers/listReducer";

@@ -15,6 +15,7 @@ import {
   ComponentList,
   StaticListItem,
 } from "./types";
+import { componentListReducer } from "./componentReducer.list";
 
 export const ComponentContext = createContext({});
 
@@ -23,7 +24,7 @@ const ActionsReducerCollection = [
   [Options, optionsReducer],
   [Fields, fieldsReducer],
   [Schema, schemaReducer],
-  [ComponentList, componentReducer],
+  [ComponentList, componentListReducer],
   [StaticListItem, componentListItemReducer],
 ];
 
