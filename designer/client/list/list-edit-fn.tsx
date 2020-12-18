@@ -72,7 +72,7 @@ function useListEdit(i18n) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e?.preventDefault();
     const { selectedList, initialName } = state;
     const errors = validate();
     if (hasValidationErrors(errors)) {

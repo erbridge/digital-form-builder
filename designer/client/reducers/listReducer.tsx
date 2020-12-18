@@ -153,7 +153,6 @@ export const ListContextProvider = (props) => {
     };
   }
   const [state, dispatch] = useReducer(listReducer, { ...init });
-  console.info("ListContextProvider state:", state);
   return (
     <ListContext.Provider value={[state, dispatch]}>
       {props.children}

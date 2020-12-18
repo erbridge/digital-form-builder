@@ -1,48 +1,39 @@
 import React, { useReducer, createContext } from "react";
-import { ListActions } from "../listActions";
 import { nanoid } from "nanoid";
 import { schemaReducer } from "./componentReducer.schema";
 import { optionsReducer } from "./componentReducer.options";
 import { metaReducer } from "./componentReducer.meta";
 import { fieldsReducer } from "./componentReducer.fields";
 import type { ComponentActions } from "./types";
-import { Meta, Schema, Fields, Options } from "./types";
+import { Meta, Schema, Fields, Options, ComponentList } from "./types";
 
 export const ComponentContext = createContext({});
 
-const ActionsArr = [
+const ActionsReducerCollection = [
   [Meta, metaReducer],
   [Options, optionsReducer],
   [Fields, fieldsReducer],
   [Schema, schemaReducer],
+  [ComponentList, componentReducer],
 ];
 
 export function valueIsInEnum<T>(value: string, enumType: T) {
   return Object.values(enumType).indexOf(value) !== -1;
 }
 
-const initStaticItem = () => {
-  return {
-    isNew: true,
-    label: "",
-    hint: "",
-    condition: "",
-  };
-};
-
-const getSubReducer = (type) => {
-  const tuple = ActionsArr.find((a) => valueIsInEnum(type, a[0]));
+export const getSubReducer = (type) => {
+  const tuple = ActionsReducerCollection.find((a) => valueIsInEnum(type, a[0]));
   return tuple?.[1];
 };
 
 export function componentReducer(
   state,
   action: {
-    type: ComponentActions | ListActions;
+    type: ComponentActions;
     payload: any;
   }
 ) {
-  const { type, payload } = action;
+  const { type } = action;
   const {
     selectedComponent = {
       options: {
@@ -57,16 +48,12 @@ export function componentReducer(
     selectedListItem = {},
     selectedListItemIndex,
   } = state;
-  let staticListItems = selectedComponent.values?.items;
-
-  const { options, schema = {} } = selectedComponent;
 
   if (type !== Meta.VALIDATE) {
     state.hasValidated = false;
   }
 
   const subReducer = getSubReducer(type);
-  console.log("subreducer is ", subReducer);
 
   if (subReducer) {
     return {
@@ -74,67 +61,8 @@ export function componentReducer(
       ...subReducer(state, action),
     };
   } else {
-    switch (type) {
-      case ListActions.EDIT_LIST_ITEM_CONDITION:
-        break;
-      case ListActions.SUBMIT_LIST_ITEM:
-        return { ...state, selectedComponent };
-      case ListActions.ADD_LIST_ITEM:
-        return { ...state, selectedItem: initStaticItem() };
-
-      case ListActions.EDIT_LIST_ITEM:
-        let selectedItem, selectedItemIndex;
-        if (typeof payload === "number") {
-          selectedItem = staticListItems[payload];
-        } else {
-          selectedItem = payload;
-          selectedItemIndex = staticListItems.findIndex(
-            (item) => item === payload
-          );
-        }
-        return {
-          ...state,
-          selectedItem,
-          selectedItemIndex,
-        };
-      case ListActions.EDIT_LIST:
-        return {
-          ...state,
-          isEditingList: payload,
-        };
-      case ListActions.SET_SELECTED_LIST:
-        if (state.isNew) {
-          return {
-            ...state,
-            selectedComponent: {
-              values: {
-                type: "listRef",
-                list: payload,
-              },
-              ...selectedComponent,
-            },
-            selectedListName: payload,
-            listItemErrors: {},
-          };
-        } else {
-          // this is not changing component.values right now, since we don't want to "lose" static values.
-          return {
-            ...state,
-            selectedListName: payload,
-            listItemErrors: {},
-          };
-        }
-
-      case ListActions.LIST_ITEM_VALIDATION_ERRORS: {
-        return {
-          ...state,
-          listItemErrors: payload,
-        };
-      }
-
-      default:
-        return { ...state, selectedComponent };
-    }
+    console.error("Unrecognised action");
+    return { ...state, selectedComponent };
   }
 }
 
@@ -163,7 +91,6 @@ export const ComponentContextProvider = (props) => {
     componentReducer,
     initComponentState(props)
   );
-  // console.log("component context", state);
 
   return (
     <ComponentContext.Provider value={[state, dispatch]}>

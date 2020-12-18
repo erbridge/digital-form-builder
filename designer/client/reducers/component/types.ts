@@ -39,5 +39,21 @@ export enum Options {
   EDIT_OPTIONS_ROWS = "EDIT_OPTIONS_ROWS",
 }
 
-export const Actions = { ...Meta, ...Schema, ...Fields, ...Options };
+export enum ComponentList {
+  EDIT_LIST_ITEM_CONDITION = "EDIT_LIST_ITEM_CONDITION",
+  SUBMIT_LIST_ITEM = "SUBMIT_LIST_ITEM",
+  ADD_LIST_ITEM = "ADD_LIST_ITEM",
+  EDIT_LIST_ITEM = "EDIT_LIST_ITEM",
+  EDIT_LIST = "EDIT_LIST",
+  SET_SELECTED_LIST = "SET_SELECTED_LIST",
+  LIST_ITEM_VALIDATION_ERRORS = "LIST_ITEM_VALIDATION_ERRORS",
+}
+
+export const Actions = {
+  ...Meta,
+  ...Schema,
+  ...Fields,
+  ...Options,
+  ...ComponentList,
+};
 export type ComponentActions = typeof Actions;

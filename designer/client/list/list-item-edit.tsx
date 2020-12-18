@@ -11,14 +11,7 @@ import {
   useSetListEditorContext,
 } from "../reducers/list/listsEditorReducer";
 import { clone } from "@xgovformbuilder/model";
-import {
-  ListItemHook,
-  useDeleteStaticListItem,
-  useGlobalListItem,
-  useListItemAdapter,
-  useStaticListItem,
-} from "../hooks/list/useListItem";
-import { ListActions } from "../reducers/listActions";
+import { useListItemAdapter } from "../hooks/list/useListItem";
 
 type Props = {
   i18n: (string: string, interpolation?: any) => any;
@@ -65,7 +58,7 @@ export function ListItemEdit(props: Props) {
   };
 
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit}>
         <Input
           id="title"
@@ -122,7 +115,7 @@ export function ListItemEdit(props: Props) {
           </a>
         </div>
       </form>
-    </div>
+    </>
   );
 }
 
