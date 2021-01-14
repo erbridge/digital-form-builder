@@ -11,12 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      tag:  ${{ steps.set-matrix.outputs.tag }}
     steps:
       - uses: actions/checkout@v2
       - id: set-matrix
         run: |
           JSON=$(cat .github/workflows/notifications.json)
+          TAG_REF=${{contains(github.ref, 'refs/tags/') && github.ref}}
           echo ::set-output name=matrix::${JSON//'%'/'%25'}
+          echo ::set-output name=tag::${TAG_REF/refs\/tags\/}
   notify:
     runs-on: ubuntu-latest
     needs: parse
@@ -33,4 +36,4 @@ jobs:
         inputs: '{ "sha": "${{github.sha}}", "tag": "${{env.TAG}}" }'
       env:
         GITHUB_TOKEN: ${{ secrets.GHCR_PAT }}
-        TAG: ${{contains(github.ref, 'refs/tags/') && github.ref}}
+        TAG: ${{contains(github.ref, 'refs/tags/') && matrix.tag}}
